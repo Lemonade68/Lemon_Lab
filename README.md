@@ -5,10 +5,10 @@
 参考：moer-lite; ray-tracing series; moer; mitsuba; pbrt
 
 - [ ] main
-- [ ] ray
+- [x] ray
 - [ ] camera
 - [ ] light
-- [ ] math(vec/matrix)     考虑其他库？
+- [x] math(vec/matrix)     考虑其他库？
 - [ ] transform
 - [ ] shape
 - [ ] bounding box 

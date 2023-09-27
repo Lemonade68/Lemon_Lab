@@ -1,6 +1,7 @@
 #pragma once
 
 #include<iostream>
+#include<algorithm>
 #include<external/glm/glm.hpp>
 #include<external/glm/gtc/matrix_transform.hpp>
 #include<external/glm/gtc/type_ptr.hpp>
@@ -91,12 +92,15 @@ inline Vector3f operator-(const Vector3f &v) { return Vector3f() - v; }
 //向量单位化
 inline Vector3f normalize(const Vector3f &v) { return glm::normalize(v.xyz); }
 
+//标量*向量
+inline Vector3f operator*(float f, const Vector3f &v) { return v * f; }
+
 
 //============================================================================
 
-
-//空间的点
-struct Point3f{
+// 空间的点
+struct Point3f
+{
     Point3f(float f = .0f) { xyz = glm::vec3(.0f); }   //充当默认构造函数
     Point3f(float x, float y, float z) : xyz(x, y, z) {}
 
