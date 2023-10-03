@@ -2,9 +2,9 @@
 
 #include<iostream>
 #include<algorithm>
-#include<external/glm/glm.hpp>
-#include<external/glm/gtc/matrix_transform.hpp>
-#include<external/glm/gtc/type_ptr.hpp>
+#include<glm/glm.hpp>
+#include<glm/gtc/matrix_transform.hpp>
+#include<glm/gtc/type_ptr.hpp>
 
 //空间向量：对glm库进行一个封装
 struct Vector3f{

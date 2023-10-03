@@ -53,16 +53,19 @@ int main(){
             int ib = static_cast<int>(li.z() * 255.999);
             std::cout << ir << ' ' << ig << ' ' << ib << '\n';
             
-            int finished_num = x + y * image_width;
-            if(finished_num % 5 == 0)
-                printProgress((float)finished_num / (image_height * image_width));
+            //暂时不能使用：因为目前是直接输出到ppm文件里的
+            // int finished_num = x + y * image_width;
+            // if(finished_num % 5 == 0)
+            //     printProgress((float)finished_num / (image_height * image_width));
         }
+        std::cerr << "\r"<< image_height - y << " lines remains";
+        fflush(stdout);
     }
 
-    printProgress(1.0f);    //防止最后到不了100%
+    // printProgress(1.0f);    //防止最后到不了100%
+    // auto end = std::chrono::system_clock::now();
+    // printf("\nRendering costs %.2fs\n", (std::chrono::duration_cast<std::chrono::milliseconds>(end - start))
+    //                                         .count() / 1000.f);
 
-    auto end = std::chrono::system_clock::now();
-
-    printf("\bRendering costs %.2fs\n", (std::chrono::duration_cast<std::chrono::milliseconds>(end - start))
-                                            .count() / 1000.f);
+    std::cerr << "\nDone!" << std::endl;
 }
