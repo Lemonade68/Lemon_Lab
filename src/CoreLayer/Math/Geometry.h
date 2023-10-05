@@ -78,11 +78,11 @@ private:
     glm::vec3 xyz;      //针对这个进行封装
 };
 
-float dot(const Vector3f &v1, const Vector3f &v2){
+inline float dot(const Vector3f &v1, const Vector3f &v2){
     return glm::dot(v1.xyz, v2.xyz);
 }
 
-Vector3f cross(const Vector3f &v1, const Vector3f &v2){
+inline Vector3f cross(const Vector3f &v1, const Vector3f &v2){
     return glm::cross(v1.xyz, v2.xyz);
 }
 
@@ -151,6 +151,9 @@ private:
     glm::vec3 xyz;      //针对这个进行封装
 };
 
+using Matrix4f = glm::mat4x4;
 using Vector2f = glm::vec2;
 using Vector2i = glm::vec2;     //暂时存疑
-using Matrix4f = glm::mat4x4;
+using Vector4f = glm::vec4;
+
+// using namespace glm;

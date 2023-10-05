@@ -7,30 +7,27 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 project(Lemon_Lab LANGUAGES CXX)
 
-# if(MSVC)
-#   add_compile_options("/MP")
-#   add_compile_options("$<$<C_COMPILER_ID:MSVC>:/utf-8>")
-#   add_compile_options("$<$<CXX_COMPILER_ID:MSVC>:/utf-8>")
-#   add_definitions(-D_USE_MATH_DEFINES)
-# endif(MSVC)
-
-# if(WIN32)
-#   add_definitions(-DUNICODE -D_UNICODE)
-#   add_definitions(-DNOMINMAX)
-# endif()
-
 # set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/target/lib)    # 设置默认存放静态库的位置
-# set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/target/lib)    # 设置默认存放动态库的位置
+# set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/target/bin)    # 设置默认存放动态库的位置(和exe放在一起，这样exe运行时可以找到)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/target/bin)    # 可执行文件位置
 
 # add_subdirectory(./src/CoreLayer/Math)
 # add_subdirectory(./externals/glm)
+# add_subdirectory(./src/CoreLayer/Math)    #这个加了会出错  不知道为啥
+
+# file(GLOB_RECURSE ALL_INCLUDE CONFIGURE_DEPENDS "*.h")
+# file(GLOB_RECURSE ALL_SOURCES CONFIGURE_DEPENDS "*.cpp")
+
+# add_executable(Lemon_Lab ${ALL_INCLUDE} ${ALL_SOURCES})
 
 # 第一个参数是exe的名字，后面为参与编译的文件(中间使用空格或者;分隔)
 add_executable(Lemon_Lab 
- src/main.cpp)
+    src/main.cpp
+    src/CoreLayer/Math/Transform.cpp)
 
-target_include_directories(Lemon_Lab PUBLIC ./externals)
+target_include_directories(Lemon_Lab PUBLIC 
+                                ${PROJECT_SOURCE_DIR}/externals  
+                                ${PROJECT_SOURCE_DIR}/src)
 
 # 链接上glm库
 # find_package(glm REQUIRED)

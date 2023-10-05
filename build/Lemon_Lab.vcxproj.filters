@@ -4,6 +4,9 @@
     <ClCompile Include="C:\Users\Lemonade\Desktop\Lemon_Lab\src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="C:\Users\Lemonade\Desktop\Lemon_Lab\src\CoreLayer\Math\Transform.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="C:\Users\Lemonade\Desktop\Lemon_Lab\CMakeLists.txt" />

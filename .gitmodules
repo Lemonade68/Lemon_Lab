@@ -1,0 +1,12 @@
+# [submodule "externals/FastMath"]
+# 	path = externals/FastMath
+# 	url = https://github.com/NJUCG/FastMath.git
+# [submodule "externals/stb"]
+# 	path = externals/stb
+# 	url = https://github.com/nothings/stb.git
+# [submodule "externals/json"]
+# 	path = externals/json
+# 	url = https://github.com/nlohmann/json.git
+# [submodule "externals/tinyobjloader"]
+# 	path = externals/tinyobjloader
+# 	url = https://github.com/tinyobjloader/tinyobjloader.git

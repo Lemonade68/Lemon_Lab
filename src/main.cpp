@@ -36,7 +36,7 @@ int main(){
 	const double fuzz = 0.0;
 	const double fov = 45;
 
-    auto start = std::chrono::system_clock::now();
+    // auto start = std::chrono::system_clock::now();
 
     std::cout << "P3\n" << image_width << " " << image_height << "\n255\n";
 
