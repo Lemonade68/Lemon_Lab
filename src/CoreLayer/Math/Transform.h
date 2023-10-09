@@ -1,5 +1,6 @@
 #pragma once
 #include "Geometry.h"
+#include "FunctionLayer/Ray/Ray.h"
 
 struct Transform{
 public:
@@ -18,6 +19,9 @@ public:
 
     //TODO：对包围盒进行变化
 
+    //将世界空间下的ray转化为物体空间的ray
+    Ray RayToLocal(const Ray &ray) const;
+
 public:
     Matrix4f translate, invTranslate;
     Matrix4f rotate, invRotate;
@@ -31,6 +35,6 @@ public:
     Transformable() = default;
     Transformable(const Transform &trans) : transform(trans) {}
 
-protected:
-    Transform transform;
+// protected:
+    Transform transform;    //记录从物体空间到世界空间的变化(inv是逆变换)
 };

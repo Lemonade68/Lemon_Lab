@@ -1,9 +1,15 @@
-#include"FunctionLayer/Ray/Ray.h"
 #include"CoreLayer/Math/Math.h"
+#include"CoreLayer/ColorSpace/Spectrum.h"
+#include"FunctionLayer/Ray/Ray.h"
+#include"FunctionLayer/Camera/Pinhole.h"
+#include"FunctionLayer/Shape/Sphere.h"
+#include"FunctionLayer/Sampler/IndependentSampler.h"
 
 #include<iostream>
 #include<stdio.h>
 #include<chrono>
+#include<vector>
+#include<memory>
 
 #define SCR_WIDTH 1200
 #define SCR_HEIGHT 800
@@ -33,32 +39,56 @@ int main(){
 	const auto aspect_ratio = double(image_width) / image_height;
 	const int samples_per_pixel = SPP;		//采样数，用于抗锯齿
 	const int max_depth = MAX_DEPTH;
-	const double fuzz = 0.0;
-	const double fov = 45;
+	// const double fuzz = 0.0;
+	float fov = 80.f;
 
-    // auto start = std::chrono::system_clock::now();
+    auto camera = PinholeCamera(aspect_ratio, fov);     //其他参数使用默认参数
+
+    IndependentSampler sampler;
+    Sphere sphere1;
+    std::vector<std::shared_ptr<Shape>> scene;
+    scene.push_back(std::make_shared<Sphere>(sphere1));        //添加一个默认球体
+
+    // // auto start = std::chrono::system_clock::now();
 
     std::cout << "P3\n" << image_width << " " << image_height << "\n255\n";
 
     for (int y = 0; y < image_height; ++y){
         for (int x = 0; x < image_width; ++x){
-            Vector3f li(.0f);
-            //颜色映射到0-1，最后输出时再返回
-            li.x() = float(x) / image_width;
-            li.y() = float(y) / image_height;
-            li.z() = .2f;
+            // Spectrum li(.0f);
+            Vector2f NDC((float)x / image_width, (float)y / image_height);
 
-            int ir = static_cast<int>(li.x() * 255.999);
-            int ig = static_cast<int>(li.y() * 255.999);
-            int ib = static_cast<int>(li.z() * 255.999);
-            std::cout << ir << ' ' << ig << ' ' << ib << '\n';
-            
+            Ray ray = camera.sampleRay(CameraSample{sampler.sampler2D()}, NDC);     //struct对象可以使用{}的方式初始化，未指定的属性默认初始化
+
+            bool hit = false;
+            Intersection intersection;
+
+            //光线与场景中所有物体求交
+            // for (auto it = scene.begin(); it != scene.end(); ++it){
+            //     result = (*it)->rayIntersectShape(ray, intersection);
+            //     if(result)
+            //         hit = result;
+            // }
+
+            hit = sphere1.rayIntersectShape(ray, intersection);
+
+            //先输出法线进行测试(记得对法线进行处理)
+            if(hit){
+                Vector3f normal = (intersection.normal + Vector3f(1.f)) * .5f;  //处理，防止负的法线数值
+                int ir = static_cast<int>(normal.x() * 255.99f);
+                int ig = static_cast<int>(normal.y() * 255.99f);
+                int ib = static_cast<int>(normal.z() * 255.99f);
+                std::cout << ir << ' ' << ig << ' ' << ib << '\n';
+            }
+            else
+                std::cout << 0 << ' ' << 0 << ' ' << 0 << '\n';
+
             //暂时不能使用：因为目前是直接输出到ppm文件里的
             // int finished_num = x + y * image_width;
             // if(finished_num % 5 == 0)
             //     printProgress((float)finished_num / (image_height * image_width));
         }
-        std::cerr << "\r"<< image_height - y << " lines remains";
+        std::cerr << "\r"<< image_height - y - 1 << " lines remains";
         fflush(stdout);
     }
 

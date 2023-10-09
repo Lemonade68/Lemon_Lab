@@ -315,6 +315,11 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
   <ItemGroup>
     <ClCompile Include="C:\Users\Lemonade\Desktop\Lemon_Lab\src\main.cpp" />
     <ClCompile Include="C:\Users\Lemonade\Desktop\Lemon_Lab\src\CoreLayer\Math\Transform.cpp" />
+    <ClCompile Include="C:\Users\Lemonade\Desktop\Lemon_Lab\src\FunctionLayer\Shape\Shape.cpp" />
+    <ClCompile Include="C:\Users\Lemonade\Desktop\Lemon_Lab\src\FunctionLayer\Shape\Sphere.cpp" />
+    <ClCompile Include="C:\Users\Lemonade\Desktop\Lemon_Lab\src\FunctionLayer\Sampler\IndependentSampler.cpp" />
+    <ClCompile Include="C:\Users\Lemonade\Desktop\Lemon_Lab\src\FunctionLayer\Camera\Camera.cpp" />
+    <ClCompile Include="C:\Users\Lemonade\Desktop\Lemon_Lab\src\FunctionLayer\Camera\Pinhole.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="C:\Users\Lemonade\Desktop\Lemon_Lab\build\ZERO_CHECK.proj">

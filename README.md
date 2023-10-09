@@ -6,20 +6,60 @@
 
 - [ ] main
 - [x] ray
-- [ ] camera
+- [x] camera
+  - [ ] pinhole
+  - [ ] thin lens
+
 - [ ] light
-- [x] math(vec/matrix)     考虑其他库？
-- [ ] transform
+  - [ ] AreaLight
+  - [ ] EnvironmentLight
+  - [ ] SpotLight
+
+- [ ] math(vec/matrix)     考虑其他库？
+  - [x] glm库
+  - [ ] fastmath？
+
+- [x] transform
+  - [ ] TODO：包围盒部分
+  - [ ] 
+
 - [ ] shape
+  - [ ] 材质部分初始化
+  - [ ] Intersection
+  - [ ] sphere
+  - [ ] triangle
+  - [ ] cube
+
 - [ ] bounding box 
+  - [ ] AABB
+
 - [ ] acceleration
+  - [ ] BVH
+
 - [ ] integrator
-- [ ] random
-- [ ] sampler
+  - [ ] normal (for testing)
+  - [ ] directIntegrator
+  - [ ] whittedIntegrator
+  - [ ] pathIntegrator
+
+- [x] sampler
+  - [x] random
+  - [x] IndependentSampler
+
 - [ ] material
+  - [ ] Matte
+  - [ ] Mirror
+  - [ ] Blinn_Phong
+  - [ ] conductor
+  - [ ] dielectric
+  - [ ] BXDF
+
 - [ ] texture
-- [ ] scene(shape_list)
-- [ ] intersection
+  - [ ] constantTexture
+  - [ ] imageTexture
+  - [ ] normalTexture
+
+- [ ] scene(写好加速结构后写)
 - [ ] filter
 - [ ] medium
 

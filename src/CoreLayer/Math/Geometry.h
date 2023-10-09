@@ -8,7 +8,7 @@
 
 //空间向量：对glm库进行一个封装
 struct Vector3f{
-    Vector3f(float f = .0f) { xyz = glm::vec3(.0f); }   //充当默认构造函数
+    Vector3f(float f = .0f) { xyz = glm::vec3(f); }   //充当默认构造函数
     Vector3f(float x, float y, float z) : xyz(x, y, z) {}
 
 public:
@@ -40,8 +40,25 @@ public:
         return *this;
     }
 
-    //按位相乘（待考虑为什么要写）
+    //按位相乘（为什么要写：颜色相乘是按位相乘）
+    Vector3f operator*(const Vector3f &rhs) const{
+        return Vector3f(rhs[0] * xyz[0], rhs[1] * xyz[1], rhs[2] * xyz[2]);
+    }
+
+    Vector3f &operator*=(const Vector3f &rhs){
+        xyz = Vector3f(rhs[0] * xyz[0], rhs[1] * xyz[1], rhs[2] * xyz[2]).xyz;
+        return *this;
+    }
+    
     //按位相除同
+    Vector3f operator/(const Vector3f &rhs) const{
+        return Vector3f(xyz[0] / rhs[0], xyz[1] / rhs[1], xyz[2] / rhs[2]);
+    }
+
+    Vector3f &operator/=(const Vector3f &rhs){
+        xyz = Vector3f(xyz[0] / rhs[0], xyz[1] / rhs[1], xyz[2] / rhs[2]).xyz;
+        return *this;
+    }
 
     //访问xyz
     float operator[](int i) const { return xyz[i]; }    //这里要用const来区分
@@ -54,6 +71,11 @@ public:
     float &y() { return xyz.y; }
     float &z() { return xyz.z; }
 
+    //若该向量各个维度上都是0，则返回true
+    bool isZero() const {
+        return (xyz[0] == 0.f) && (xyz[1] == 0.f) && (xyz[2] == 0.f);
+    }
+
     //返回向量长度
     float length() const { return xyz.length(); }
 
@@ -64,6 +86,10 @@ public:
             std::cout << (i == 0 ? '\0' : ',') << xyz[i];
         printf(")%c", '\n');
         fflush(stdout);
+    }
+
+    float squared_length() const{
+        return xyz.x * xyz.x + xyz.y * xyz.y + xyz.z * xyz.z;
     }
 
 //友函数声明
@@ -101,7 +127,7 @@ inline Vector3f operator*(float f, const Vector3f &v) { return v * f; }
 // 空间的点
 struct Point3f
 {
-    Point3f(float f = .0f) { xyz = glm::vec3(.0f); }   //充当默认构造函数
+    Point3f(float f = .0f) { xyz = glm::vec3(f); }   //充当默认构造函数
     Point3f(float x, float y, float z) : xyz(x, y, z) {}
 
 public:
@@ -151,9 +177,35 @@ private:
     glm::vec3 xyz;      //针对这个进行封装
 };
 
-using Matrix4f = glm::mat4x4;
+
+//点到向量的转换
+inline Vector3f p2v(const Point3f &p){
+    return Vector3f(p.x(), p.y(), p.z());
+}
+
+//向量到点的转换
+inline Point3f v2p(const Vector3f &v){
+    return Point3f(v[0], v[1], v[2]);
+}
+
+
+using Matrix4f = glm::mat4;
 using Vector2f = glm::vec2;
 using Vector2i = glm::vec2;     //暂时存疑
 using Vector4f = glm::vec4;
 
-// using namespace glm;
+using namespace glm;
+
+//以行主序顺序打印矩阵：
+inline void PrintMat(const Matrix4f &mat){
+    for (int i = 0; i < 4; ++i){
+        for (int j = 0; j < 4; ++j){
+            std::cout << mat[j][i] << ' ';      //glm库的矩阵是列主序
+        }
+        std::cout << std::endl;
+    }
+}
+
+inline void PrintVec4(const Vector4f &v4){
+    std::cout <<"vec4: "<< v4[0] << ' ' << v4[1] << ' ' << v4[2] << ' ' << v4[3] << '\n';
+}

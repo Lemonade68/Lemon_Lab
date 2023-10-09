@@ -24,6 +24,15 @@ struct Ray{
         return origin + distance * direction;
     }
 
+    void debugPrint() const{
+        std::cout << "<Ray>  origin:\n";
+        origin.debugPrint();
+        std::cout << "direction:\n";
+        direction.debugPrint();
+        std::cout << "tFar: " << tFar << "; "
+                  << "tNear: " << tNear << "\n";
+    }
+
 public:
     //基本参数
     Point3f origin;

@@ -7,6 +7,21 @@
     <ClCompile Include="C:\Users\Lemonade\Desktop\Lemon_Lab\src\CoreLayer\Math\Transform.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="C:\Users\Lemonade\Desktop\Lemon_Lab\src\FunctionLayer\Shape\Shape.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Lemonade\Desktop\Lemon_Lab\src\FunctionLayer\Shape\Sphere.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Lemonade\Desktop\Lemon_Lab\src\FunctionLayer\Sampler\IndependentSampler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Lemonade\Desktop\Lemon_Lab\src\FunctionLayer\Camera\Camera.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Lemonade\Desktop\Lemon_Lab\src\FunctionLayer\Camera\Pinhole.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="C:\Users\Lemonade\Desktop\Lemon_Lab\CMakeLists.txt" />

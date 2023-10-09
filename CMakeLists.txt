@@ -23,13 +23,18 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/target/bin)    # 可执行
 # 第一个参数是exe的名字，后面为参与编译的文件(中间使用空格或者;分隔)
 add_executable(Lemon_Lab 
     src/main.cpp
-    src/CoreLayer/Math/Transform.cpp)
+    src/CoreLayer/Math/Transform.cpp
+    src/FunctionLayer/Shape/Shape.cpp
+    src/FunctionLayer/Shape/Sphere.cpp
+    src/FunctionLayer/Sampler/IndependentSampler.cpp
+    src/FunctionLayer/Camera/Camera.cpp
+    src/FunctionLayer/Camera/Pinhole.cpp)
 
 target_include_directories(Lemon_Lab PUBLIC 
                                 ${PROJECT_SOURCE_DIR}/externals  
                                 ${PROJECT_SOURCE_DIR}/src)
 
-# 链接上glm库
+# 链接上glm库(将其变成库形式链接)
 # find_package(glm REQUIRED)
 # target_link_libraries(Lemon_Lab glm::glm_shared)
 
