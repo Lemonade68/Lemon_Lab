@@ -11,7 +11,7 @@
   - [ ] thin lens
 
 - [ ] light
-  - [ ] AreaLight
+  - [x] AreaLight
   - [ ] EnvironmentLight
   - [ ] SpotLight
 
@@ -56,15 +56,28 @@
   - [ ] conductor
   - [ ] dielectric
   - [ ] BXDF
-
+    - [ ] Lambert
+    - [ ] Phong
+    - [ ] Conductor
+    - [ ] Dielectric
+  
 - [ ] texture
   - [ ] constantTexture
   - [ ] imageTexture
   - [ ] normalTexture
 
 - [ ] scene(写好加速结构后写)
+  - [ ] 加速结构
+
 - [ ] filter
 - [ ] medium
 
 待做：思考为什么原来的sphere那里有问题
 
+TODO：DirectIntegrator、Matt材质、Lambert
+
+看材质返回的BSDF是不是已经计算过cos项
+
+Mipmap相关事宜
+
+构造函数添加上材质，明天写直接光照积分器

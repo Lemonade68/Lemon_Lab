@@ -13,7 +13,7 @@
 //暂时未考虑加速结构
 class Scene {
 public:
-    Scene() = default;
+    Scene() = default;  
 
     Scene(std::vector<std::shared_ptr<Shape>> _shape_list) : shape_list(_shape_list) {}
 
@@ -27,4 +27,6 @@ public:
 
 private:
     std::vector<std::shared_ptr<Shape>> shape_list;
+
+    //TODO：考虑acceleration
 };

@@ -47,7 +47,7 @@ bool Sphere::rayIntersectShape(Ray &ray, Intersection &intersection) const{
     // return hit;
 
 
-    //待查看上面的问题在哪里
+    //待查看上面的问题在哪里===================================================
 
     Vector3f oc = ray.origin - center;
 	auto a = ray.direction.squared_length();	//a大于0
@@ -67,10 +67,19 @@ bool Sphere::rayIntersectShape(Ray &ray, Intersection &intersection) const{
             intersection.t = temp;                      //交点处对应t
             intersection.position = ray.at(ray.tFar);   //交点位置
             intersection.shape = this;                  //指向该物体
-
+            
             //TODO计算纹理坐标
             get_sphere_uv(normal, intersection.texCoord);   //再看对不对
-			return true;
+		
+            //添加切线和副切线
+            Vector3f tangent(1.f, .0f, .0f);
+            Vector3f bitangent;
+            if(std::abs(dot(tangent, normal)) > .9f)
+                tangent = Vector3f(.0f, 1.f, .0f);                  //防止两者平行导致的无法进行叉积
+            bitangent = normalize(cross(tangent, normal));
+            tangent = normalize(cross(normal, bitangent));
+
+            return true;
 		}
         
 		temp = (-half_b + root) / a;
@@ -84,6 +93,15 @@ bool Sphere::rayIntersectShape(Ray &ray, Intersection &intersection) const{
 
             //TODO计算纹理坐标
             get_sphere_uv(normal, intersection.texCoord);   //再看对不对
+
+            //添加切线和副切线
+            Vector3f tangent(1.f, .0f, .0f);
+            Vector3f bitangent;
+            if(std::abs(dot(tangent, normal)) > .9f)
+                tangent = Vector3f(.0f, 1.f, .0f);                  //防止两者平行导致的无法进行叉积
+            bitangent = normalize(cross(tangent, normal));
+            tangent = normalize(cross(normal, bitangent));
+
 			return true;
 		}
 	}

@@ -8,6 +8,8 @@
 #include"FunctionLayer/Shape/Parallelogram.h"
 #include"FunctionLayer/Scene/Scene.h"
 
+#include"FunctionLayer/Material/BxDF/Lambert.h"
+
 #include<iostream>
 #include<stdio.h>
 #include<chrono>
@@ -54,6 +56,7 @@ int main(){
     Scene scene;
     Sphere sphere1;
     Parallelogram paral1(Point3f(-10.f, -1.f, 10.f), Vector3f(20.f, .0f, .0f), Vector3f(.0f, .0f, -20.f));
+    
     scene.add(std::make_shared<Sphere>(sphere1));
     scene.add(std::make_shared<Parallelogram>(paral1));
     //================================================================

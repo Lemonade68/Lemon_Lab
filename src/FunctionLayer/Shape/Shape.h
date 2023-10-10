@@ -3,6 +3,8 @@
 #include"Intersection.h"
 #include"CoreLayer/Math/Transform.h"
 #include"FunctionLayer/Ray/Ray.h"
+
+#include"FunctionLayer/Material/Matte.h"
 #include<optional>
 
 class Light;

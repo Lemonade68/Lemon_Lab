@@ -8,3 +8,5 @@ C:\Users\Lemonade\Desktop\Lemon_Lab\src\FunctionLayer\Camera\Pinhole.cpp;C:\User
 C:\Users\Lemonade\Desktop\Lemon_Lab\src\FunctionLayer\Integrator\NormalIntegrator.cpp;C:\Users\Lemonade\Desktop\Lemon_Lab\build\Lemon_Lab.dir\Release\NormalIntegrator.obj
 C:\Users\Lemonade\Desktop\Lemon_Lab\src\FunctionLayer\Shape\Parallelogram.cpp;C:\Users\Lemonade\Desktop\Lemon_Lab\build\Lemon_Lab.dir\Release\Parallelogram.obj
 C:\Users\Lemonade\Desktop\Lemon_Lab\src\FunctionLayer\Scene\Scene.cpp;C:\Users\Lemonade\Desktop\Lemon_Lab\build\Lemon_Lab.dir\Release\Scene.obj
+C:\Users\Lemonade\Desktop\Lemon_Lab\src\FunctionLayer\Light\AreaLight.cpp;C:\Users\Lemonade\Desktop\Lemon_Lab\build\Lemon_Lab.dir\Release\AreaLight.obj
+C:\Users\Lemonade\Desktop\Lemon_Lab\src\FunctionLayer\Material\Material.cpp;C:\Users\Lemonade\Desktop\Lemon_Lab\build\Lemon_Lab.dir\Release\Material.obj

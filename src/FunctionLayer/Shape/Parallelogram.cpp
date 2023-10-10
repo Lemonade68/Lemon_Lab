@@ -37,5 +37,9 @@ bool Parallelogram::rayIntersectShape(Ray &ray, Intersection &intersection) cons
     //纹理坐标再说(待完善)
     intersection.texCoord = Vector2f(.0f);
     
+    //添加切线与副切线
+    intersection.tangent = normalize(edge0);
+    intersection.bitangent = normalize(cross(edge0, Paral_normal));
+
     return true;
 }
