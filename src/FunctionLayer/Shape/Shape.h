@@ -1,3 +1,5 @@
+#pragma once
+
 #include"Intersection.h"
 #include"CoreLayer/Math/Transform.h"
 #include"FunctionLayer/Ray/Ray.h"

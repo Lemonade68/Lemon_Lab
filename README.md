@@ -4,10 +4,10 @@
 
 参考：moer-lite; ray-tracing series; moer; mitsuba; pbrt
 
-- [ ] main
+- [x] main
 - [x] ray
 - [x] camera
-  - [ ] pinhole
+  - [x] pinhole
   - [ ] thin lens
 
 - [ ] light
@@ -16,7 +16,7 @@
   - [ ] SpotLight
 
 - [ ] math(vec/matrix)     考虑其他库？
-  - [x] glm库
+  - [x] glm库(注意矩阵是列主序)
   - [ ] fastmath？
 
 - [x] transform
@@ -25,11 +25,12 @@
 
 - [ ] shape
   - [ ] 材质部分初始化
-  - [ ] Intersection
-  - [ ] sphere
+  - [x] Intersection
+  - [x] sphere
+  - [ ] parallelogram（可用作地面和光源）
   - [ ] triangle
   - [ ] cube
-
+  
 - [ ] bounding box 
   - [ ] AABB
 
@@ -37,7 +38,7 @@
   - [ ] BVH
 
 - [ ] integrator
-  - [ ] normal (for testing)
+  - [x] normal (for testing)
   - [ ] directIntegrator
   - [ ] whittedIntegrator
   - [ ] pathIntegrator
@@ -62,4 +63,6 @@
 - [ ] scene(写好加速结构后写)
 - [ ] filter
 - [ ] medium
+
+待做：思考为什么原来的sphere那里有问题
 

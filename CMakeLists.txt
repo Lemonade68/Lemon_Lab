@@ -28,7 +28,9 @@ add_executable(Lemon_Lab
     src/FunctionLayer/Shape/Sphere.cpp
     src/FunctionLayer/Sampler/IndependentSampler.cpp
     src/FunctionLayer/Camera/Camera.cpp
-    src/FunctionLayer/Camera/Pinhole.cpp)
+    src/FunctionLayer/Camera/Pinhole.cpp
+    src/FunctionLayer/Integrator/NormalIntegrator.cpp
+    src/FunctionLayer/Shape/Parallelogram.cpp)
 
 target_include_directories(Lemon_Lab PUBLIC 
                                 ${PROJECT_SOURCE_DIR}/externals  

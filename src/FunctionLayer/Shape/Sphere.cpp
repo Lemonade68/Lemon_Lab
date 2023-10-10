@@ -16,12 +16,8 @@ bool Sphere::rayIntersectShape(Ray &ray, Intersection &intersection) const{
     // float c = o2c.length() * o2c.length() - radius * radius;
     // float delta = b * b - c;
 
-    // std::cout << "yes？" << std::endl;  //debug用
-
     // if(delta <= 0)
     //     return false;   //不相交
-
-    // std::cout << "yes" << std::endl;    //debug用
 
     // float sqrtDelta = std::sqrt(delta);
     // float t1 = b - sqrtDelta;
@@ -38,8 +34,6 @@ bool Sphere::rayIntersectShape(Ray &ray, Intersection &intersection) const{
     //     hit = true;
     // }
 
-
-    //击中，则开始填充intersection
     // if(hit){
     //     Vector3f normal = normalize(ray.at(ray.tFar) - center);
     //     intersection.normal = normal;               //交点处法线
