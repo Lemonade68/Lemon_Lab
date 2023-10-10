@@ -5,7 +5,7 @@
 //平行四边形
 class Parallelogram : public Shape{
 public:
-    Parallelogram() = delete;       //必须指定一个平行四边形
+    Parallelogram() = delete;       //必须指定一个平行四边形(交点和两条边)
 
     Parallelogram(const Point3f &p, const Vector3f &e1, const Vector3f &e2,
                   const Vector3f &translate = Vector3f(.0f, .0f, .0f),

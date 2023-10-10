@@ -6,6 +6,7 @@
 #include"FunctionLayer/Sampler/IndependentSampler.h"
 #include"FunctionLayer/Integrator/NormalIntegrator.h"
 #include"FunctionLayer/Shape/Parallelogram.h"
+#include"FunctionLayer/Scene/Scene.h"
 
 #include<iostream>
 #include<stdio.h>
@@ -49,13 +50,15 @@ int main(){
     auto sampler = std::make_shared<IndependentSampler>();
     auto integrator = std::make_shared<NormalIntegrator>();
 
+    //添加物体的区域===================================================
+    Scene scene;
     Sphere sphere1;
     Parallelogram paral1(Point3f(-10.f, -1.f, 10.f), Vector3f(20.f, .0f, .0f), Vector3f(.0f, .0f, -20.f));
-    std::vector<std::shared_ptr<Shape>> scene;
-    scene.push_back(std::make_shared<Sphere>(sphere1));
-    scene.push_back(std::make_shared<Parallelogram>(paral1));
+    scene.add(std::make_shared<Sphere>(sphere1));
+    scene.add(std::make_shared<Parallelogram>(paral1));
+    //================================================================
 
-    // // auto start = std::chrono::system_clock::now();
+    auto start = std::chrono::system_clock::now();
 
     std::cout << "P3\n" << image_width << " " << image_height << "\n255\n";
 
@@ -85,10 +88,9 @@ int main(){
         fflush(stdout);
     }
 
-    // printProgress(1.0f);    //防止最后到不了100%
-    // auto end = std::chrono::system_clock::now();
-    // printf("\nRendering costs %.2fs\n", (std::chrono::duration_cast<std::chrono::milliseconds>(end - start))
-    //                                         .count() / 1000.f);
-
     std::cerr << "\nDone!" << std::endl;
+
+    // printProgress(1.0f);    //防止最后到不了100%
+    auto end = std::chrono::system_clock::now();
+    std::cerr << "Rendering costs " << (std::chrono::duration_cast<std::chrono::milliseconds>(end - start)).count() / 1000.f << "s\n";
 }

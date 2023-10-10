@@ -23,7 +23,7 @@ bool Parallelogram::rayIntersectShape(Ray &ray, Intersection &intersection) cons
     if (b == .0f)
         return false; // miss
     float t = -a / b;
-    //================================================
+    //=================================================
 
     if(t < ray.tNear || t > ray.tFar)       //²»ÔÙ·¶Î§ÄÚ
         return false;

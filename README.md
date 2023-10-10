@@ -16,7 +16,7 @@
   - [ ] SpotLight
 
 - [ ] math(vec/matrix)     考虑其他库？
-  - [x] glm库(注意矩阵是列主序)
+  - [x] glm库 (**注意矩阵是列主序**)
   - [ ] fastmath？
 
 - [x] transform
@@ -27,7 +27,8 @@
   - [ ] 材质部分初始化
   - [x] Intersection
   - [x] sphere
-  - [ ] parallelogram（可用作地面和光源）
+  - [x] parallelogram（可用作地面和光源）
+    - [ ] 光源设置未完成
   - [ ] triangle
   - [ ] cube
   
@@ -36,7 +37,8 @@
 
 - [ ] acceleration
   - [ ] BVH
-
+  - [ ] EmbreeBVH
+  
 - [ ] integrator
   - [x] normal (for testing)
   - [ ] directIntegrator

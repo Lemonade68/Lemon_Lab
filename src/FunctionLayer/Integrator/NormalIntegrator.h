@@ -8,6 +8,6 @@ public:
     NormalIntegrator() = default;
     virtual ~NormalIntegrator() = default;
 
-    virtual Spectrum li(Ray &ray, const std::vector<std::shared_ptr<Shape>> &scene,
+    virtual Spectrum li(Ray &ray, const Scene &scene,
                         std::shared_ptr<Sampler> sampler) const override;
 };

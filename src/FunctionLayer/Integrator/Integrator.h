@@ -4,6 +4,7 @@
 #include"FunctionLayer/Ray/Ray.h"
 #include"FunctionLayer/Shape/Shape.h"
 #include"FunctionLayer/Sampler/Sampler.h"
+#include"FunctionLayer/Scene/Scene.h"
 #include<vector>
 #include<memory>
 
@@ -13,7 +14,7 @@ public:
     virtual ~Integrator() = default;
 
     //计算给定scene下，摄像机发出的光线返回的最终结果值
-    virtual Spectrum li(Ray &ray, const std::vector<std::shared_ptr<Shape>> &scene,
+    virtual Spectrum li(Ray &ray, const Scene &scene,
                         std::shared_ptr<Sampler> sampler) const = 0;
 };
 
