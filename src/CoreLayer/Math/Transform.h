@@ -14,7 +14,7 @@ public:
               const Matrix4f &_scalation);
 
     //局部空间坐标变回世界空间坐标
-    Vector3f toWorld(const Vector3f &vector) const;     
+    Vector3f toWorld(const Vector3f &vector) const;   
     Point3f toWorld(const Point3f &point) const;
 
     //TODO：对包围盒进行变化

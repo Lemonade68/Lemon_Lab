@@ -3,7 +3,7 @@
 #include<algorithm>  //geometry中包含
 
 //限制范围在[lower到upper]内
-template<typename T> T clamp (T t, T lower, T upper){
+template<typename T> T Clamp (T t, T lower, T upper){
     t = (t < lower) ? lower : (t > upper ? upper : t);
     return t;
 }

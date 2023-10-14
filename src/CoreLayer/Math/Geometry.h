@@ -60,6 +60,14 @@ public:
         return *this;
     }
 
+    //浮点有精度问题，大致相等即可
+    bool operator==(const Vector3f &rhs) const{
+        return (abs(rhs.xyz[0] - xyz[0]) < 1e-4f) &&
+               (abs(rhs.xyz[1] - xyz[1]) < 1e-4f) &&
+               (abs(rhs.xyz[2] - xyz[2]) < 1e-4f);
+    }
+
+
     //访问xyz
     float operator[](int i) const { return xyz[i]; }    //这里要用const来区分
     float &operator[](int i) { return xyz[i]; }
@@ -76,8 +84,8 @@ public:
         return (xyz[0] == 0.f) && (xyz[1] == 0.f) && (xyz[2] == 0.f);
     }
 
-    //返回向量长度
-    float length() const { return xyz.length(); }
+    //返回向量长度    直接xyz.length有问题！这个length返回的是向量的元素个数！
+    float length() const { return sqrt(xyz.x * xyz.x + xyz.y * xyz.y + xyz.z * xyz.z); }
 
     //打印向量的值
     void debugPrint() const {
@@ -147,6 +155,13 @@ public:
 
     //减点(不需要-=)
     Vector3f operator-(const Point3f &rhs) const { return xyz - rhs.xyz; }
+
+    //浮点有精度问题，大致相等即可
+    bool operator==(const Point3f &rhs) const{
+        return (abs(rhs.xyz[0] - xyz[0]) < 1e-4f) &&
+               (abs(rhs.xyz[1] - xyz[1]) < 1e-4f) &&
+               (abs(rhs.xyz[2] - xyz[2]) < 1e-4f);
+    }
 
     //访问xyz
     float operator[](int i) const { return xyz[i]; }    //这里要用const来区分

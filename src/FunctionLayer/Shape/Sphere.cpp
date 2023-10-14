@@ -1,6 +1,7 @@
 #include"Sphere.h"
 
-Sphere::Sphere(Point3f o, float r, const Vector3f &translate, const Vector3f &scale):Shape(translate, scale){
+Sphere::Sphere(Point3f o, float r, const std::shared_ptr<Material> &_material, const std::shared_ptr<Light> &_light, const Vector3f &translate, const Vector3f &scale)
+       : Shape(_material, _light, translate, scale){
     center = o;
     radius = r;
 

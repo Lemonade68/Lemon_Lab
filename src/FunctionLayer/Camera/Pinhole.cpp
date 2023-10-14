@@ -19,7 +19,7 @@ Ray PinholeCamera::sampleRay(const CameraSample &sample, const Vector2f &NDC) co
     //----------变换到世界空间下----------
 
     direction = normalize(transform.toWorld(direction));
-    Point3f origin = transform.toWorld(Point3f(0.0f));       //光线起点就是摄像机的位置
+    Point3f origin = transform.toWorld(Point3f(.0f));       //光线起点就是摄像机的位置
 
     return Ray(origin, direction, tNear, tFar, startTime);
 }

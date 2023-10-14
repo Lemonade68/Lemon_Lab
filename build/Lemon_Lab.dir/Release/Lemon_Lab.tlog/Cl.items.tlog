@@ -10,3 +10,5 @@ C:\Users\Lemonade\Desktop\Lemon_Lab\src\FunctionLayer\Shape\Parallelogram.cpp;C:
 C:\Users\Lemonade\Desktop\Lemon_Lab\src\FunctionLayer\Scene\Scene.cpp;C:\Users\Lemonade\Desktop\Lemon_Lab\build\Lemon_Lab.dir\Release\Scene.obj
 C:\Users\Lemonade\Desktop\Lemon_Lab\src\FunctionLayer\Light\AreaLight.cpp;C:\Users\Lemonade\Desktop\Lemon_Lab\build\Lemon_Lab.dir\Release\AreaLight.obj
 C:\Users\Lemonade\Desktop\Lemon_Lab\src\FunctionLayer\Material\Material.cpp;C:\Users\Lemonade\Desktop\Lemon_Lab\build\Lemon_Lab.dir\Release\Material.obj
+C:\Users\Lemonade\Desktop\Lemon_Lab\src\FunctionLayer\Material\Matte.cpp;C:\Users\Lemonade\Desktop\Lemon_Lab\build\Lemon_Lab.dir\Release\Matte.obj
+C:\Users\Lemonade\Desktop\Lemon_Lab\src\FunctionLayer\Integrator\DirectIntegrator.cpp;C:\Users\Lemonade\Desktop\Lemon_Lab\build\Lemon_Lab.dir\Release\DirectIntegrator.obj

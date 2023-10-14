@@ -12,6 +12,16 @@ enum class LightType {
 };
 
 //TODO：思考为什么需要LightSampleResult？
+//光源上采样一个点，供BSDF采样光源使用
+struct LightSampleResult{
+    Spectrum energy;        //光源能量
+    Vector3f direction;     //采样点相对于shading point的方向
+    float distance;         //采样点相对于shading point的距离
+    float pdf;              //采样到该点的pdf
+    LightType type;         //光源类型
+    bool isDelta;           //采样是否是一个delta分布
+    Vector3f normal;        //采样点的法线（可选）
+};
 
 class Light{
 public:
@@ -21,6 +31,10 @@ public:
     //这里是按照实际光线走的顺序来命名的，因此是出射光线wo的方向
     virtual Spectrum evaluateEmission(const Intersection &intersection, const Vector3f &wo) const = 0;
 
+    //从光源上采样一个点，返回采样的信息
+    virtual LightSampleResult sample(const Intersection &shadingPoint, const Vector2f &sampler) const = 0;
+
+    virtual void debugPrint() const = 0;
 
 public:
     LightType type;

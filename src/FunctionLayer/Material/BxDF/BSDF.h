@@ -7,6 +7,12 @@ enum class BSDFType {
     Specular
 };
 
+struct BSDFSampleResult{
+    Spectrum weight;        //反射率、折射率等权重
+    Vector3f wi;            //采样得到的实际的入射方向
+    float pdf;              //该shading point的概率密度函数
+    BSDFType type;
+};
 
 class BSDF{
 public:
@@ -18,10 +24,10 @@ public:
     }
 
     //计算wi和wo对应的BSDF值(公式中的F项)
-    virtual Spectrum F(const Vector3f &wo, const Vector3f &wi) const = 0;
+    virtual Spectrum f(const Vector3f &wo, const Vector3f &wi) const = 0;
 
     //TODO：在BSDF上采样的方法
-    
+    virtual BSDFSampleResult sampleShadingPoint(const Vector3f &wo, const Vector2f &sample) const = 0;
 
 public:
     //构成该点下的局部坐标系(这三是世界坐标系下的值)(应该是单位基向量)
