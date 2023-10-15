@@ -24,7 +24,8 @@ public:
         //Lambert材质出射方向与入射方向无关，因此传入的wo可以不用
         
         //Cosine权重采样
-        Vector3f wi = squareToCosineHemisphere(sample);
+        Vector3f wi = squareToCosineHemisphere(sample);     //返回的是局部坐标下的
+
         float pdf = squareToCosineHemispherePdf(wi);
         
         //均匀采样

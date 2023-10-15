@@ -51,21 +51,21 @@ int main(){
 	// const double fuzz = 0.0;
 	float fov = 80.f;
 
-    auto camera = PinholeCamera(aspect_ratio, fov);     //其他参数使用默认参数
+    auto camera = PinholeCamera(aspect_ratio, fov);                     //其他参数使用默认参数
 
     auto sampler = std::make_shared<IndependentSampler>();
     // auto integrator = std::make_shared<NormalIntegrator>();
-    // auto integrator = std::make_shared<DirectIntegrator_SampleBSDF>();  //对bsdf采样的直接积分器
-    auto integrator = std::make_shared<DirectIntegrator_SampleLight>();  //对光源采样的直接积分器；目前会出现segmentation fault
+    auto integrator = std::make_shared<DirectIntegrator_SampleBSDF>();  //对bsdf采样的直接积分器，光强调低一点会舒服不少
+    // auto integrator = std::make_shared<DirectIntegrator_SampleLight>();  //对光源采样的直接积分器；目前会出现segmentation fault
 
 
     //添加物体的区域===================================================
     Scene scene;
-    Sphere sphere1;
-    scene.addObject(std::make_shared<Sphere>(sphere1));
+    // Sphere sphere1;
+    // scene.addObject(std::make_shared<Sphere>(sphere1));
 
-    // Parallelogram obj1(Point3f(-1.f, 1.f, 1.f), Vector3f(2.f, -2.f, .0f), Vector3f(.5f, 0.f, -2.f));
-    // scene.addObject(std::make_shared<Parallelogram>(obj1));
+    Parallelogram obj1(Point3f(-1.f, 1.f, 1.f), Vector3f(2.f, -2.f, .0f), Vector3f(.5f, 0.f, -2.f));
+    scene.addObject(std::make_shared<Parallelogram>(obj1));
 
     //平行四边形问题（用自己的算法修复了无限大平行四边形的问题）
     Parallelogram paral1(Point3f(-80.f, -1.f, 80.f), Vector3f(160.f, .0f, .0f), Vector3f(.0f, 0.f, -160.f));
@@ -117,7 +117,7 @@ int main(){
                 }
                 li = li / samples_per_pixel;        //求均值
 
-                //注意限制在特定范围内
+                //注意限制在特定范围[0,1]内（hdr图片再说）
                 int ir = static_cast<int>(Clamp(li.x(), .0f, 1.f) * 255.99f);
                 int ig = static_cast<int>(Clamp(li.y(), .0f, 1.f) * 255.99f);
                 int ib = static_cast<int>(Clamp(li.z(), .0f, 1.f) * 255.99f);

@@ -41,6 +41,6 @@ protected:
 
     //局部空间向量变回世界空间：乘上基向量在世界空间的表示
     Vector3f toWorld(const Vector3f &local) const{
-        return local.x() * tangent + local.y() * normal + local.z() * bitangent;
+        return local[0] * tangent + local[1] * normal + local[2] * bitangent;
     }
 };

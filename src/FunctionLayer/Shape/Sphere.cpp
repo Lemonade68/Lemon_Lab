@@ -79,6 +79,10 @@ bool Sphere::rayIntersectShape(Ray &ray, Intersection &intersection) const{
                 tangent = Vector3f(.0f, 1.f, .0f);                  //防止两者平行导致的无法进行叉积
             bitangent = normalize(cross(tangent, normal));
             tangent = normalize(cross(normal, bitangent));
+            
+            //忘记加上赋值给intesection了
+            intersection.bitangent = bitangent;
+            intersection.tangent = tangent;
 
             return true;
 		}
@@ -103,6 +107,10 @@ bool Sphere::rayIntersectShape(Ray &ray, Intersection &intersection) const{
             bitangent = normalize(cross(tangent, normal));
             tangent = normalize(cross(normal, bitangent));
 
+            //忘记加上赋值给intesection了
+            intersection.bitangent = bitangent;
+            intersection.tangent = tangent;
+            
 			return true;
 		}
 	}
