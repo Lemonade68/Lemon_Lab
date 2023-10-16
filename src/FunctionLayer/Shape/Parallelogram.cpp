@@ -121,7 +121,6 @@ void Parallelogram::uniformSampleOnSurface(Vector2f sample, Intersection &inters
     intersection.normal = normalize(cross(edge0, edge1));
     intersection.position = base + sample.x * edge0 + sample.y * edge1;
 
-    
     intersection.shape = this;
     intersection.t = 0;
     intersection.tangent = Vector3f(.0f);

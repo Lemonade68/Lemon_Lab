@@ -12,3 +12,4 @@ C:\Users\Lemonade\Desktop\Lemon_Lab\src\FunctionLayer\Light\AreaLight.cpp;C:\Use
 C:\Users\Lemonade\Desktop\Lemon_Lab\src\FunctionLayer\Material\Material.cpp;C:\Users\Lemonade\Desktop\Lemon_Lab\build\Lemon_Lab.dir\Release\Material.obj
 C:\Users\Lemonade\Desktop\Lemon_Lab\src\FunctionLayer\Material\Matte.cpp;C:\Users\Lemonade\Desktop\Lemon_Lab\build\Lemon_Lab.dir\Release\Matte.obj
 C:\Users\Lemonade\Desktop\Lemon_Lab\src\FunctionLayer\Integrator\DirectIntegrator.cpp;C:\Users\Lemonade\Desktop\Lemon_Lab\build\Lemon_Lab.dir\Release\DirectIntegrator.obj
+C:\Users\Lemonade\Desktop\Lemon_Lab\src\FunctionLayer\Material\Mirror.cpp;C:\Users\Lemonade\Desktop\Lemon_Lab\build\Lemon_Lab.dir\Release\Mirror.obj

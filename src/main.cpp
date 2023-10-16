@@ -13,6 +13,7 @@
 #include"FunctionLayer/Integrator/DirectIntegrator.h"
 
 #include"FunctionLayer/Film/Film.h"
+#include"FunctionLayer/Material/Mirror.h"
 
 #include<iostream>
 #include<stdio.h>
@@ -22,7 +23,7 @@
 
 #define SCR_WIDTH 1200
 #define SCR_HEIGHT 800
-#define SPP 50
+#define SPP 10
 #define MAX_DEPTH 10
 
 #define PBSTR "||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||"
@@ -61,13 +62,16 @@ int main(){
 
     //添加物体的区域===================================================
     Scene scene;
-    // Sphere sphere1;
-    // scene.addObject(std::make_shared<Sphere>(sphere1));
+    Sphere sphere1(Point3f(-1.f, 0.f, .0f), 1.f);
+    scene.addObject(std::make_shared<Sphere>(sphere1));
 
-    Parallelogram obj1(Point3f(-1.f, 1.f, 1.f), Vector3f(2.f, -2.f, .0f), Vector3f(.5f, 0.f, -2.f));
-    scene.addObject(std::make_shared<Parallelogram>(obj1));
+    Sphere sphere2(Point3f(1.f, 0.f, .0f), 1.f, std::make_shared<Mirror_Material>());
+    scene.addObject(std::make_shared<Sphere>(sphere2));
 
-    //平行四边形问题（用自己的算法修复了无限大平行四边形的问题）
+    // Parallelogram obj1(Point3f(-1.f, 0.f, 1.f), Vector3f(2.f, -1.f, .0f), Vector3f(.0f, .0f, -2.f));
+    // scene.addObject(std::make_shared<Parallelogram>(obj1));
+
+    //平面  
     Parallelogram paral1(Point3f(-80.f, -1.f, 80.f), Vector3f(160.f, .0f, .0f), Vector3f(.0f, 0.f, -160.f));
     scene.addObject(std::make_shared<Parallelogram>(paral1));
 
@@ -76,16 +80,16 @@ int main(){
     scene.addLight(std::make_shared<AreaLight>(std::make_shared<Parallelogram>(light1)));
 
     //右方
-    Parallelogram light2(Point3f(2.f, 1.f, 1.f), Vector3f(.0f, .0f, -2.f), Vector3f(.0f, -2.f, .0f), std::make_shared<AreaLight>());
-    scene.addLight(std::make_shared<AreaLight>(std::make_shared<Parallelogram>(light2)));
+    // Parallelogram light2(Point3f(2.f, 1.f, 1.f), Vector3f(.0f, .0f, -2.f), Vector3f(.0f, -2.f, .0f), std::make_shared<AreaLight>());
+    // scene.addLight(std::make_shared<AreaLight>(std::make_shared<Parallelogram>(light2)));
 
     //后方
-    Parallelogram light3(Point3f(2.f, 1.f, -2.f), Vector3f(-4.f, .0f, .0f), Vector3f(.0f, -2.f, .0f), std::make_shared<AreaLight>());
-    scene.addLight(std::make_shared<AreaLight>(std::make_shared<Parallelogram>(light3)));
+    // Parallelogram light3(Point3f(2.f, 1.f, -2.f), Vector3f(-4.f, .0f, .0f), Vector3f(.0f, -2.f, .0f), std::make_shared<AreaLight>());
+    // scene.addLight(std::make_shared<AreaLight>(std::make_shared<Parallelogram>(light3)));
 
     //左方
-    Parallelogram light4(Point3f(-2.f, 1.f, 1.f), Vector3f(.0f, .0f, -2.f), Vector3f(.0f, -2.f, .0f), std::make_shared<AreaLight>());
-    scene.addLight(std::make_shared<AreaLight>(std::make_shared<Parallelogram>(light4)));
+    // Parallelogram light4(Point3f(-2.f, 1.f, 1.f), Vector3f(.0f, .0f, -2.f), Vector3f(.0f, -2.f, .0f), std::make_shared<AreaLight>());
+    // scene.addLight(std::make_shared<AreaLight>(std::make_shared<Parallelogram>(light4)));
 
     //场景debug打印信息
     // scene.debugPrintLight();
@@ -128,7 +132,7 @@ int main(){
                 // if(finished_num % 5 == 0)
                 //     printProgress((float)finished_num / (image_height * image_width));
             }
-            std::cerr << "\r"<< image_height - y - 1 << " lines remains";
+            std::cerr << "\r"<< image_height - y - 1 << " lines remains ";      //最后添加空格防止s多打印
             fflush(stdout);
         }
 

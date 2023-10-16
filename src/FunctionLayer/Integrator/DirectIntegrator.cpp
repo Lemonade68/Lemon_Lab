@@ -73,15 +73,19 @@ Spectrum DirectIntegrator_SampleLight::li(Ray &ray, const Scene &scene, std::sha
     //计算除了场景光源外其他范围内所有无限远光源（环境光），TODO(这里的模拟有问题)
     // spectrum += background;              //加上之后可以看到光源照亮了哪些部分
 
+    //下面开始可能会出现segmentation fault
+
     //均匀随机采样场景中的一个光源
     float pdfLight = .0f;
+
+    // segmentation问题出在这里
     auto light = scene.sampleLight(sampler->sampler1D(), pdfLight);
 
     //如果有光源且可以被采样：
     if(light && pdfLight != 0){
         //在光源上采样一个点，并连接shading point和该点，生成一条光线
         auto lightSampleResult = light->sample(intersection, sampler->sampler2D());
-        Ray shadowRay(intersection.position, lightSampleResult.direction, 1e-10f, lightSampleResult.distance);
+        Ray shadowRay(intersection.position, lightSampleResult.direction, EPSILON, lightSampleResult.distance);
         //测试这条光线是否被阻挡
         auto occlude = scene.rayIntersect(shadowRay);
         if(!occlude.has_value()){

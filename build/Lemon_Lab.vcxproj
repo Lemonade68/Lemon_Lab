@@ -327,6 +327,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClCompile Include="C:\Users\Lemonade\Desktop\Lemon_Lab\src\FunctionLayer\Material\Material.cpp" />
     <ClCompile Include="C:\Users\Lemonade\Desktop\Lemon_Lab\src\FunctionLayer\Material\Matte.cpp" />
     <ClCompile Include="C:\Users\Lemonade\Desktop\Lemon_Lab\src\FunctionLayer\Integrator\DirectIntegrator.cpp" />
+    <ClCompile Include="C:\Users\Lemonade\Desktop\Lemon_Lab\src\FunctionLayer\Material\Mirror.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="C:\Users\Lemonade\Desktop\Lemon_Lab\build\ZERO_CHECK.proj">
