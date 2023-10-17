@@ -9,6 +9,12 @@
 
 #include<optional>
 
+//如果这边在头文件中使用include来包含对应的头文件时，会形成头文件闭环，从而不能pragma 第二次，造成头文件无法展开
+//从而出现识别不出来的问题（未定义基类等等）
+// class Light;
+// class Material;
+// extern class Matte_Material;
+
 class Shape : public Transformable{
 public:
     //默认构造函数：不平移，不缩放，不旋转

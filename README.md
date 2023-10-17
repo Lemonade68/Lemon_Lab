@@ -87,4 +87,4 @@ Matte材质中为什么需要重新算出新的albedo？
 
 TODO：Texture(物体颜色)，Film，WhittedIntegrator，BVH，
 
-先写texture（常量颜色），再写whittedIntegrator
+先写texture（常量颜色），然后写个imageTexture，使用stbi_image.h头文件，地球纹理尝试，再写whittedIntegrator

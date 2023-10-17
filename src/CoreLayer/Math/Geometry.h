@@ -206,10 +206,11 @@ inline Point3f v2p(const Vector3f &v){
 
 using Matrix4f = glm::mat4;
 using Vector2f = glm::vec2;
-using Vector2i = glm::vec2;     //暂时存疑
+// using Vector2i = glm::vec2;     //下面重新定义
 using Vector4f = glm::vec4;
 
 using namespace glm;
+
 
 //以行主序顺序打印矩阵：
 inline void PrintMat(const Matrix4f &mat){
@@ -224,3 +225,25 @@ inline void PrintMat(const Matrix4f &mat){
 inline void PrintVec4(const Vector4f &v4){
     std::cout <<"vec4: "<< v4[0] << ' ' << v4[1] << ' ' << v4[2] << ' ' << v4[3] << '\n';
 }
+
+
+//纹理中需要（整数坐标）
+struct Vector2i{
+public:
+    Vector2i(int a = 0) : X(a), Y(a) {}
+    Vector2i(int _x, int _y) : X(_x), Y(_y) {}
+
+    int x() const { return X; }
+    int y() const { return Y; }
+    int &x() { return X; }
+    int &y() { return Y; }
+
+    //暂时不检查，当做知道下标为0或1
+    int operator[](int a) const { return (a == 0) ? X : Y; }
+    int &operator[](int a) { return (a = 0) ? X : Y; }
+
+    //后续需要再进行添加
+
+private:
+    int X, Y;
+};

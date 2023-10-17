@@ -13,3 +13,5 @@ C:\Users\Lemonade\Desktop\Lemon_Lab\src\FunctionLayer\Material\Material.cpp;C:\U
 C:\Users\Lemonade\Desktop\Lemon_Lab\src\FunctionLayer\Material\Matte.cpp;C:\Users\Lemonade\Desktop\Lemon_Lab\build\Lemon_Lab.dir\Release\Matte.obj
 C:\Users\Lemonade\Desktop\Lemon_Lab\src\FunctionLayer\Integrator\DirectIntegrator.cpp;C:\Users\Lemonade\Desktop\Lemon_Lab\build\Lemon_Lab.dir\Release\DirectIntegrator.obj
 C:\Users\Lemonade\Desktop\Lemon_Lab\src\FunctionLayer\Material\Mirror.cpp;C:\Users\Lemonade\Desktop\Lemon_Lab\build\Lemon_Lab.dir\Release\Mirror.obj
+C:\Users\Lemonade\Desktop\Lemon_Lab\src\FunctionLayer\Texture\Texture.cpp;C:\Users\Lemonade\Desktop\Lemon_Lab\build\Lemon_Lab.dir\Release\Texture.obj
+C:\Users\Lemonade\Desktop\Lemon_Lab\src\FunctionLayer\Texture\ImageTexture.cpp;C:\Users\Lemonade\Desktop\Lemon_Lab\build\Lemon_Lab.dir\Release\ImageTexture.obj

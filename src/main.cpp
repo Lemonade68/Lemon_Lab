@@ -14,6 +14,8 @@
 
 #include"FunctionLayer/Film/Film.h"
 #include"FunctionLayer/Material/Mirror.h"
+// #include"FunctionLayer/Texture/ConstantTexture.h"        //Matte中已经定义
+#include"FunctionLayer/Texture/ImageTexture.h"
 
 #include<iostream>
 #include<stdio.h>
@@ -21,9 +23,13 @@
 #include<vector>
 #include<memory>
 
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb/stb_image.h"
+
+
 #define SCR_WIDTH 1200
 #define SCR_HEIGHT 800
-#define SPP 10
+#define SPP 200
 #define MAX_DEPTH 10
 
 #define PBSTR "||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||"
@@ -56,20 +62,39 @@ int main(){
 
     auto sampler = std::make_shared<IndependentSampler>();
     // auto integrator = std::make_shared<NormalIntegrator>();
-    auto integrator = std::make_shared<DirectIntegrator_SampleBSDF>();  //对bsdf采样的直接积分器，光强调低一点会舒服不少
-    // auto integrator = std::make_shared<DirectIntegrator_SampleLight>();  //对光源采样的直接积分器；目前会出现segmentation fault
+    // auto integrator = std::make_shared<DirectIntegrator_SampleBSDF>();  //对bsdf采样的直接积分器，光强调低一点会舒服不少
+    auto integrator = std::make_shared<DirectIntegrator_SampleLight>();  //对光源采样的直接积分器；目前会出现segmentation fault
 
 
     //添加物体的区域===================================================
     Scene scene;
-    Sphere sphere1(Point3f(-1.f, 0.f, .0f), 1.f);
-    scene.addObject(std::make_shared<Sphere>(sphere1));
 
-    Sphere sphere2(Point3f(1.f, 0.f, .0f), 1.f, std::make_shared<Mirror_Material>());
-    scene.addObject(std::make_shared<Sphere>(sphere2));
+    // Sphere sphere();     //这样写无法区分是声明的函数方法还是定义对象
+    // Sphere sphere;
+    // scene.addObject(std::make_shared<Sphere>(sphere));
+
+    // Sphere sphere(Point3f(.0f, .0f, .0f), 1.f, std::make_shared<Matte_Material>(std::make_shared<ConstantTexture<Spectrum>>(Spectrum(.1f, .5f, .6f))));
+    // scene.addObject(std::make_shared<Sphere>(sphere));
+
+    // Sphere sphere1(Point3f(-1.f, 0.f, .0f), 1.f, std::make_shared<Matte_Material>(std::make_shared<ConstantTexture<Spectrum>>(Spectrum(.5f, .1f, .1f))));       //红色小球
+    // scene.addObject(std::make_shared<Sphere>(sphere1));
+
+    // Sphere sphere2(Point3f(1.f, 0.f, .0f), 1.f, std::make_shared<Mirror_Material>());
+    // scene.addObject(std::make_shared<Sphere>(sphere2));
+
+    // Sphere sphere3(Point3f(1.f, 0.f, .0f), 1.f);
+    // scene.addObject(std::make_shared<Sphere>(sphere3));
 
     // Parallelogram obj1(Point3f(-1.f, 0.f, 1.f), Vector3f(2.f, -1.f, .0f), Vector3f(.0f, .0f, -2.f));
     // scene.addObject(std::make_shared<Parallelogram>(obj1));
+
+    //图片纹理球
+    int nx, ny, nrChannels;
+    unsigned char *data = stbi_load("C:/Users/Lemonade/Desktop/Lemon_Lab/src/ResourceLayer/Textures/earth.jpg", &nx, &ny, &nrChannels, 0);
+    if(!data)
+        std::cerr << "Failed to load image!" << std::endl;
+    Sphere sphere_image(Point3f(.0f), 1.f, std::make_shared<Matte_Material>(std::make_shared<ImageTexture>(data, nx, ny)));
+    scene.addObject(std::make_shared<Sphere>(sphere_image));
 
     //平面  
     Parallelogram paral1(Point3f(-80.f, -1.f, 80.f), Vector3f(160.f, .0f, .0f), Vector3f(.0f, 0.f, -160.f));
@@ -80,16 +105,20 @@ int main(){
     scene.addLight(std::make_shared<AreaLight>(std::make_shared<Parallelogram>(light1)));
 
     //右方
-    // Parallelogram light2(Point3f(2.f, 1.f, 1.f), Vector3f(.0f, .0f, -2.f), Vector3f(.0f, -2.f, .0f), std::make_shared<AreaLight>());
-    // scene.addLight(std::make_shared<AreaLight>(std::make_shared<Parallelogram>(light2)));
+    Parallelogram light2(Point3f(2.f, 1.f, 1.f), Vector3f(.0f, .0f, -2.f), Vector3f(.0f, -2.f, .0f), std::make_shared<AreaLight>());
+    scene.addLight(std::make_shared<AreaLight>(std::make_shared<Parallelogram>(light2)));
 
     //后方
     // Parallelogram light3(Point3f(2.f, 1.f, -2.f), Vector3f(-4.f, .0f, .0f), Vector3f(.0f, -2.f, .0f), std::make_shared<AreaLight>());
     // scene.addLight(std::make_shared<AreaLight>(std::make_shared<Parallelogram>(light3)));
 
     //左方
-    // Parallelogram light4(Point3f(-2.f, 1.f, 1.f), Vector3f(.0f, .0f, -2.f), Vector3f(.0f, -2.f, .0f), std::make_shared<AreaLight>());
-    // scene.addLight(std::make_shared<AreaLight>(std::make_shared<Parallelogram>(light4)));
+    Parallelogram light4(Point3f(-2.f, 1.f, 1.f), Vector3f(.0f, .0f, -2.f), Vector3f(.0f, -2.f, .0f), std::make_shared<AreaLight>());
+    scene.addLight(std::make_shared<AreaLight>(std::make_shared<Parallelogram>(light4)));
+
+    //前方(补光使用)
+    Parallelogram light5(Point3f(-1.f, 0.f, 6.f), Vector3f(2.f, .0f, .0f), Vector3f(.0f, -1.f, .0f), std::make_shared<AreaLight>());
+    scene.addLight(std::make_shared<AreaLight>(std::make_shared<Parallelogram>(light5)));
 
     //场景debug打印信息
     // scene.debugPrintLight();

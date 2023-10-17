@@ -79,7 +79,7 @@ bool Parallelogram::rayIntersectShape(Ray &ray, Intersection &intersection) cons
     return false;
 
     //以下算法仍需理解===================================
-    //下面的算法有问题：会沿着边无限延长，很奇怪
+    //下面的算法有问题：会沿着边无限延长，很奇怪  ——  length函数有问题，sphere同理
 
     // // hitpoint = base + u * e0 + v * e1, 0 <= u, v <= 1
     // Vector3f v1 = cross(hitpoint - base, edge1), v2 = cross(edge0, edge1);

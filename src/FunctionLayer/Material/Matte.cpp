@@ -7,7 +7,8 @@ std::shared_ptr<BSDF> Matte_Material::computeBSDF(const Intersection &intersecti
              tangent = intersection.tangent,
              bitangent = intersection.bitangent;
 
-    // 为什么Moer-lite里要重新计算新的反射率？
-    // 是不是因为多次反射导致的实际上的反射率要指数次方计算？
-    return std::make_shared<Lambert_Reflection>(normal, tangent, bitangent, albedo);
+    //计算物体该点处材质颜色信息，存到bsdf材质中
+    Spectrum s = albedo->evaluate(intersection);
+
+    return std::make_shared<Lambert_Reflection>(normal, tangent, bitangent, s);
 }

@@ -36,7 +36,9 @@ add_executable(Lemon_Lab
     src/FunctionLayer/Material/Material.cpp
     src/FunctionLayer/Material/Matte.cpp
     src/FunctionLayer/Integrator/DirectIntegrator.cpp
-    src/FunctionLayer/Material/Mirror.cpp)
+    src/FunctionLayer/Material/Mirror.cpp
+    src/FunctionLayer/Texture/Texture.cpp
+    src/FunctionLayer/Texture/ImageTexture.cpp)
 
 target_include_directories(Lemon_Lab PUBLIC 
                                 ${PROJECT_SOURCE_DIR}/externals  

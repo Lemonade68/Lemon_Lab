@@ -2,7 +2,7 @@
 
 #include"CoreLayer/ColorSpace/Spectrum.h"
 #include"FunctionLayer/Ray/Ray.h"
-#include"FunctionLayer/Shape/Shape.h"
+// #include"FunctionLayer/Shape/Shape.h"
 #include"FunctionLayer/Sampler/Sampler.h"
 #include"FunctionLayer/Scene/Scene.h"
 #include<vector>

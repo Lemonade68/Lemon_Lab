@@ -37,5 +37,5 @@ public:
     }
 
 private:
-    Spectrum albedo;    //反射率
+    Spectrum albedo;    //反射率(包含纹理颜色信息)
 };
