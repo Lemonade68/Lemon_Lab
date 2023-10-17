@@ -70,6 +70,7 @@ int main(){
     Scene scene;
 
     // Sphere sphere();     //这样写无法区分是声明的函数方法还是定义对象
+
     // Sphere sphere;
     // scene.addObject(std::make_shared<Sphere>(sphere));
 
@@ -88,13 +89,18 @@ int main(){
     // Parallelogram obj1(Point3f(-1.f, 0.f, 1.f), Vector3f(2.f, -1.f, .0f), Vector3f(.0f, .0f, -2.f));
     // scene.addObject(std::make_shared<Parallelogram>(obj1));
 
-    //图片纹理球
+    //图片纹理球/平面
     int nx, ny, nrChannels;
+    //使用相对路径好像有点问题
     unsigned char *data = stbi_load("C:/Users/Lemonade/Desktop/Lemon_Lab/src/ResourceLayer/Textures/earth.jpg", &nx, &ny, &nrChannels, 0);
     if(!data)
         std::cerr << "Failed to load image!" << std::endl;
-    Sphere sphere_image(Point3f(.0f), 1.f, std::make_shared<Matte_Material>(std::make_shared<ImageTexture>(data, nx, ny)));
-    scene.addObject(std::make_shared<Sphere>(sphere_image));
+    // Sphere sphere_image(Point3f(.0f), 1.f,
+                        // std::make_shared<Matte_Material>(std::make_shared<ImageTexture>(data, nx, ny)));
+    // scene.addObject(std::make_shared<Sphere>(sphere_image));
+    Parallelogram para_image(Point3f(-1.f, .5f, 1.f), Vector3f(2.f, .0f, .0f), Vector3f(.0f, -1.f, .0f), nullptr,
+                             std::make_shared<Matte_Material>(std::make_shared<ImageTexture>(data, nx, ny)));
+    scene.addObject(std::make_shared<Parallelogram>(para_image));
 
     //平面  
     Parallelogram paral1(Point3f(-80.f, -1.f, 80.f), Vector3f(160.f, .0f, .0f), Vector3f(.0f, 0.f, -160.f));

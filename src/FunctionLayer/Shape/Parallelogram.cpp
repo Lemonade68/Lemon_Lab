@@ -72,7 +72,14 @@ bool Parallelogram::rayIntersectShape(Ray &ray, Intersection &intersection) cons
         intersection.position = hitpoint;
         intersection.tangent = normalize(edge0);
         intersection.bitangent = normalize(cross(intersection.tangent, intersection.normal));
-        intersection.texCoord = Vector2f(.0f);      //纹理坐标再说(待完善)
+
+        Vector3f e0_norm = normalize(edge0),
+                 e1_norm = normalize(edge1),
+                 hitpoint2base = hitpoint - base;
+        float u = dot(hitpoint2base, e0_norm) / edge0.length(),
+              v = dot(hitpoint2base, e1_norm) / edge1.length();
+        intersection.texCoord = Vector2f(u, v);     // 纹理坐标再说(待完善)
+
         return true;
     }
 
