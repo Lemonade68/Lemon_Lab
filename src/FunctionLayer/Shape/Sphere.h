@@ -1,6 +1,6 @@
 #pragma once
 #include"Shape.h"
-#include"FunctionLayer/Material/Matte.h"
+// #include"FunctionLayer/Material/Matte.h"     //Shape.h中已经包含
 #include"FunctionLayer/Light/AreaLight.h"
 
 class Sphere : public Shape{
@@ -17,7 +17,7 @@ public:
     virtual bool rayIntersectShape(Ray &ray, Intersection &intersection) const override;
 
     //获取p点位置处的纹理坐标
-    //问题：实现时默认是局部坐标，这里sphere的实现是在世界坐标下的      ——    传入法线可以解决？
+    //问题：实现时默认是局部坐标，这里sphere的实现是在世界坐标下的      ——    传入法线可以解决(对)
     void get_sphere_uv(const Vector3f &normal, Vector2f &texCoord) const;
 
     virtual void debugPrint() const override{

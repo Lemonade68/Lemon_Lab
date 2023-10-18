@@ -19,7 +19,7 @@ public:
 
     //TODO：对包围盒进行变化
 
-    //将世界空间下的ray转化为物体空间的ray
+    //返回将世界空间下的ray转化为物体空间的ray（不改变原来的ray）
     Ray RayToLocal(const Ray &ray) const;
 
 public:

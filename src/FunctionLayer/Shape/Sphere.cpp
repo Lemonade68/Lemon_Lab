@@ -44,11 +44,23 @@ bool Sphere::rayIntersectShape(Ray &ray, Intersection &intersection) const{
 
     //     //TODO计算纹理坐标
     //     get_sphere_uv(normal, intersection.texCoord);   //再看对不对
+
+    //     Vector3f tangent(1.f, .0f, .0f);
+    //     Vector3f bitangent;
+    //     if(std::abs(dot(tangent, normal)) > .9f)
+    //         tangent = Vector3f(.0f, 1.f, .0f);                  //防止两者平行导致的无法进行叉积
+    //     bitangent = normalize(cross(tangent, normal));
+    //     tangent = normalize(cross(normal, bitangent));
+        
+    //     //忘记加上赋值给intesection了
+    //     intersection.bitangent = bitangent;
+    //     intersection.tangent = tangent;
     // }
     // return hit;
 
 
     //待查看上面的问题在哪里===================================================
+    //没问题(之前是Vector3f的length函数调用了glm库的length长度返回成向量的元素个数了)
 
     Vector3f oc = ray.origin - center;
 	auto a = ray.direction.squared_length();	//a大于0
@@ -56,8 +68,9 @@ bool Sphere::rayIntersectShape(Ray &ray, Intersection &intersection) const{
 	auto c = oc.squared_length() - radius * radius;
 	auto discriminant = half_b * half_b - a * c;
 
-
-    if (discriminant > 0) {
+    //欠考虑等于0的情况？相切的情况 (浮点数精确等于0的情况约等于没有)
+    //添加=后whittedIntegrator中mirror可能出现的死循环问题暂时解决？  ——   没有解决，后面再说吧
+    if (discriminant >= 0) {
 		auto root = sqrt(discriminant);
 		auto temp = (-half_b - root) / a;
 		//如果近处交点能被光线（射线）射中：直接记录近处交点信息

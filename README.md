@@ -5,7 +5,9 @@
 参考：moer-lite; ray-tracing series; moer; mitsuba; pbrt
 
 - [x] main
+
 - [x] ray
+
 - [x] camera
   - [x] pinhole
   - [ ] thin lens
@@ -46,8 +48,9 @@
   - [x] directIntegrator（环境光部分等待完善 —— environment map等）
     - [x] sampleBSDF(球那里有点实现上的问题 —— 已解决)
     - [x] sampleLight
-  - [ ] whittedIntegrator
-  - [ ] pathIntegrator
+  - [x] whittedIntegrator（不限制反射上限的话可能会进入死循环，看日志）
+  - [ ] pathIntegrator（蒙特卡洛积分器）
+  - [ ] BDPT
   
 - [x] sampler
   - [x] random
@@ -67,24 +70,21 @@
     - [ ] Dielectric
   
 - [ ] texture
-  - [ ] constantTexture
-  - [ ] imageTexture
+  - [x] constantTexture
+  - [x] imageTexture
   - [ ] normalTexture
 
 - [ ] scene(目前使用的是std::vector\<std::shared_ptr\<Shape>> Shape_list 的Scene类)
   - [ ] 加速结构（后续改进为该结构的Scene）
 
 - [ ] filter
-- [ ] medium
-- [ ] Json文件录入支持
-- [ ] 
 
-看材质返回的BSDF是不是已经计算过cos项
+- [ ] medium
+
+- [ ] Json文件录入支持
+
 
 Mipmap相关事宜
 
-Matte材质中为什么需要重新算出新的albedo？
+TODO：Sphere的旋转（应该是在构造函数添加即可），Cube，Triangle，Film，PathIntegrator，BVH，Blinn_Phong材质，Conductor/Dielectric(NDF)，JPG图片写入（stb_image_write.h），动态模糊（在写好AABB+BVH后写），实现Cornell Box
 
-TODO：Texture(物体颜色)，Film，WhittedIntegrator，BVH，
-
-先写texture（常量颜色），然后写个imageTexture，使用stbi_image.h头文件，地球纹理尝试，再写whittedIntegrator

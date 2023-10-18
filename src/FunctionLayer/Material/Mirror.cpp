@@ -7,5 +7,5 @@ std::shared_ptr<BSDF> Mirror_Material::computeBSDF(const Intersection &intersect
              tangent = intersection.tangent,
              bitangent = intersection.bitangent;
 
-    return std::make_shared<Specular_Reflection>(normal, tangent, bitangent);
+    return std::make_shared<Specular_Reflection>(normal, tangent, bitangent, color);
 }

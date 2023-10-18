@@ -2,8 +2,8 @@
 
 class Specular_Reflection : public BSDF{
 public:
-    Specular_Reflection(const Vector3f &_normal, const Vector3f &_tangent, const Vector3f &_bitangent)
-        : BSDF(_normal, _tangent, _bitangent) {}
+    Specular_Reflection(const Vector3f &_normal, const Vector3f &_tangent, const Vector3f &_bitangent, const Spectrum &_color)
+        : BSDF(_normal, _tangent, _bitangent), color(_color) {}
     
     //完全镜面反射直接采样到有效值的概率为0  ——  只有那一条光线有信息
     //sampleLight方法不是都会变成0了？
@@ -14,7 +14,9 @@ public:
     virtual BSDFSampleResult sampleShadingPoint(const Vector3f &wo, const Vector2f &sample) const override{
         Vector3f woLocal = normalize(toLocal(wo));
         Vector3f wiLocal(-woLocal[0], woLocal[1], -woLocal[2]);     //x z反转，y不变
-        return {Spectrum(1.f), toWorld(wiLocal), 1.f, BSDFType::Specular};      //出射光线唯一，因此pdf直接为1
+        return {color * Spectrum(1.f), toWorld(wiLocal), 1.f, BSDFType::Specular};      //出射光线唯一，因此pdf直接为1
     }
 
+private:
+    Spectrum color;     //材质本身的颜色
 };
