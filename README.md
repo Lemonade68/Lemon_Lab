@@ -86,5 +86,5 @@
 
 Mipmap相关事宜
 
-TODO：Sphere的旋转（应该是在构造函数添加即可），Cube，Triangle，Film，PathIntegrator，BVH，Blinn_Phong材质，Conductor/Dielectric(NDF)，JPG图片写入（stb_image_write.h），动态模糊（在写好AABB+BVH后写），实现Cornell Box
+TODO：Sphere的旋转（应该是在构造函数添加即可，不对，需要添加球的默认方向），**Cube**，Triangle，Film，**PathIntegrator**，BVH，Blinn_Phong材质，Conductor/Dielectric(NDF)，JPG图片写入（stb_image_write.h），动态模糊（在写好AABB+BVH后写），**实现Cornell Box**
 

@@ -5,9 +5,9 @@
 
 class Cube : public Shape{
 public:
-    Cube(const std::shared_ptr<Material> _material = std::make_shared<Matte_Material>(),
+    Cube(const Point3f &_boxMin = Point3f(-1.f, -1.f, -1.f), const Point3f &_boxMax = Point3f(1.f, 1.f, 1.f),
+         const std::shared_ptr<Material> _material = std::make_shared<Matte_Material>(),
          const std::shared_ptr<Light> = nullptr,
-         const Point3f &_boxMin = Point3f(-1.f, -1.f, -1.f), const Point3f &_boxMax = Point3f(1.f, 1.f, 1.f),
          const Vector3f &_translate = Vector3f(.0f),
          const Vector3f &_scale = Vector3f(1.f),
          const Vector3f &_axis = Vector3f(.0f, 1.f, .0f),
@@ -16,6 +16,8 @@ public:
     //TODO：使用JSON文件传入cube信息
 
     virtual bool rayIntersectShape(Ray &ray, Intersection &intersection) const override;
+
+    void fillIntersection(float t, int faceID, float u, float v, Intersection &intersection) const;
 
     virtual void debugPrint() const override{
         std::cout << "<Cube>\nboxMin: ";

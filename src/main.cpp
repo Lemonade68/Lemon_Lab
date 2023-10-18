@@ -18,6 +18,7 @@
 #include"FunctionLayer/Texture/ImageTexture.h"
 
 #include"FunctionLayer/Integrator/WhittedIntegrator.h"
+#include"FunctionLayer/Shape/Cube.h"
 
 #include<iostream>
 #include<stdio.h>
@@ -83,8 +84,8 @@ int main(){
     // Sphere sphere1(Point3f(-1.f, 0.f, .0f), 1.f, std::make_shared<Matte_Material>(std::make_shared<ConstantTexture<Spectrum>>(Spectrum(.5f, .1f, .1f))));       //红色小球
     // scene.addObject(std::make_shared<Sphere>(sphere1));
 
-    Sphere sphere2(Point3f(1.f, 0.f, .0f), 1.f, std::make_shared<Mirror_Material>(Spectrum(.6f)));
-    scene.addObject(std::make_shared<Sphere>(sphere2));
+    // Sphere sphere2(Point3f(1.f, 0.f, .0f), 1.f, std::make_shared<Mirror_Material>(Spectrum(.6f)));
+    // scene.addObject(std::make_shared<Sphere>(sphere2));
 
     // Sphere sphere3(Point3f(1.f, 0.f, .0f), 1.f);
     // scene.addObject(std::make_shared<Sphere>(sphere3));
@@ -92,14 +93,18 @@ int main(){
     // Parallelogram obj1(Point3f(-1.f, 0.f, 1.f), Vector3f(2.f, -1.f, .0f), Vector3f(.0f, .0f, -2.f));
     // scene.addObject(std::make_shared<Parallelogram>(obj1));
 
+    //立方体
+    Cube cube1(Point3f(-1.f), Point3f(1.f), std::make_shared<Matte_Material>(), nullptr, Vector3f(.0f), Vector3f(.5f), Vector3f(1.f, 1.f, .0f), 45.f);
+    scene.addObject(std::make_shared<Cube>(cube1));
+
     //图片纹理球/平面
-    int nx, ny, nrChannels;
-    //使用相对路径好像有点问题
-    unsigned char *data = stbi_load("C:/Users/Lemonade/Desktop/Lemon_Lab/src/ResourceLayer/Textures/earth.jpg", &nx, &ny, &nrChannels, 0);
-    if(!data)
-        std::cerr << "Failed to load image!" << std::endl;
-    Sphere sphere_image(Point3f(-1.f, .0f, .0f), 1.f, std::make_shared<Matte_Material>(std::make_shared<ImageTexture>(data, nx, ny)));
-    scene.addObject(std::make_shared<Sphere>(sphere_image));
+    // int nx, ny, nrChannels;
+    // //使用相对路径好像有点问题
+    // unsigned char *data = stbi_load("C:/Users/Lemonade/Desktop/Lemon_Lab/src/ResourceLayer/Textures/earth.jpg", &nx, &ny, &nrChannels, 0);
+    // if(!data)
+    //     std::cerr << "Failed to load image!" << std::endl;
+    // Sphere sphere_image(Point3f(-1.f, .0f, .0f), 1.f, std::make_shared<Matte_Material>(std::make_shared<ImageTexture>(data, nx, ny)));
+    // scene.addObject(std::make_shared<Sphere>(sphere_image));
     // Parallelogram para_image(Point3f(-1.f, .5f, 1.f), Vector3f(2.f, .0f, .0f), Vector3f(.0f, -1.f, .0f), nullptr, std::make_shared<Matte_Material>(std::make_shared<ImageTexture>(data, nx, ny)));
     // scene.addObject(std::make_shared<Parallelogram>(para_image));
 
