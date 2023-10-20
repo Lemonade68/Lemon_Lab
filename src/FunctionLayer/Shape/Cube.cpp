@@ -28,6 +28,7 @@ bool Cube::rayIntersectShape(Ray &ray, Intersection &intersection) const{
     float tEnter = rayLocal.tNear, tExit = rayLocal.tFar;
 
     //进行求交，原理同AABB的rayIntersect，算法可见games101中Ray tracing一章：t = (p_x - o_x)/d_x，yz轴同理
+    //* 这里如果光线的起点在立方体中（采样时可能发生），则会导致t0<0而t1>0，从而需要之后的先计算是否与远平面相交，再计算是否与近平面相交
     for (int i = 0; i < 3; ++i) {
         float invDir = 1.f / direction[i];
         float t0 = (boxMin[i] - origin[i]) * invDir,        //invDir的正负和分子的正负相同，结果一定为正
@@ -63,7 +64,7 @@ bool Cube::rayIntersectShape(Ray &ray, Intersection &intersection) const{
         }
         faceID = face_id;       //记录面的信息
 
-        //计算交点在面上的uv坐标，  **这个算法很巧妙，好好思考**   出自moer-lite
+        //计算交点在面上的uv坐标，  **这个算法很巧妙，好好思考其与xyz轴的叉乘关系**   出自moer-lite
         //例如：垂直于x轴的面计算出来的axis就是1和2，计算的就是y和z上的比例
         //对于每个面：计算的是到左下角（两个最小值）的对应两段长度对应的uv
         int axis = (face_id / 2 + 1) % 3;
@@ -73,7 +74,9 @@ bool Cube::rayIntersectShape(Ray &ray, Intersection &intersection) const{
     };
 
     bool hit = false;
-    //疑问：Moer-lite中先计算tFar的意义是什么？
+    // 疑问：Moer-lite中先计算tFar的意义是什么？(注释后结果确实不一样)
+    //* 原因：防止光线的起点在正方体中时，tEnter<0直接跳过下面的if，从而认为采样光线不与物体相交的问题
+    //* 思考见日志第11条
     if(ray.tNear < tExit && tExit < ray.tFar){
         Point3f hitpoint = origin + tExit * direction;
         int faceID;
@@ -84,6 +87,7 @@ bool Cube::rayIntersectShape(Ray &ray, Intersection &intersection) const{
         hit = true;
     }
 
+    //如果tEnter是真正的击中距离，overwrite上面的结果
     if(ray.tNear < tEnter && tEnter < ray.tFar){
         Point3f hitpoint = origin + tEnter * direction;
         int faceID;
@@ -119,7 +123,6 @@ void Cube::fillIntersection(float t, int faceID, float u, float v, Intersection 
     //  转换成世界坐标(初始化时已经缩放过了)
     hitpoint = transform.translate * transform.rotate * hitpoint;       //先旋转，后平移
     hitpoint /= hitpoint[3];
-
     intersection.position = Point3f(hitpoint[0], hitpoint[1], hitpoint[2]);
 
     //计算切线和副切线

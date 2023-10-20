@@ -20,6 +20,8 @@
 #include"FunctionLayer/Integrator/WhittedIntegrator.h"
 #include"FunctionLayer/Shape/Cube.h"
 
+#include"FunctionLayer/Integrator/PathIntegrator.h"
+
 #include<iostream>
 #include<stdio.h>
 #include<chrono>
@@ -32,7 +34,7 @@
 
 #define SCR_WIDTH 1200
 #define SCR_HEIGHT 800
-#define SPP 10
+#define SPP 5
 #define MAX_DEPTH 10
 
 #define PBSTR "||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||"
@@ -61,17 +63,51 @@ int main(){
 	// const double fuzz = 0.0;
 	float fov = 80.f;
 
-    auto camera = PinholeCamera(aspect_ratio, fov);                     //其他参数使用默认参数
+    // auto camera = PinholeCamera(aspect_ratio, fov);                     //其他参数使用默认参数
+    auto camera = PinholeCamera(aspect_ratio, 45, Point3f(.0f, .5f, 6.f),Point3f(.0f,.5f,.0f));     // cornell box使用
 
     auto sampler = std::make_shared<IndependentSampler>();
 
     // auto integrator = std::make_shared<NormalIntegrator>();
     // auto integrator = std::make_shared<DirectIntegrator_SampleBSDF>();  //对bsdf采样的直接积分器，光强调低一点会舒服不少
     // auto integrator = std::make_shared<DirectIntegrator_SampleLight>();  //对光源采样的直接积分器；目前会出现segmentation fault
-    auto integrator = std::make_shared<WhittedIntegrator>();
+    // auto integrator = std::make_shared<WhittedIntegrator>();
+    auto integrator = std::make_shared<PathIntegrator>(10);
 
     //添加物体的区域===================================================
     Scene scene;
+
+    // cornell box场景 ===========================
+    // 地面
+    Parallelogram obj1(Point3f(-1.5, -1, -1.5), Vector3f(0, 0, 3), Vector3f(3, 0, 0));  
+    scene.addObject(std::make_shared<Parallelogram>(obj1));
+
+    //头顶
+    Parallelogram obj2(Point3f(-1.5, 2, -1.5), Vector3f(3, 0, 0), Vector3f(0, 0, 3), nullptr, std::make_shared<Matte_Material>(std::make_shared<ConstantTexture<Spectrum>>(Spectrum(.9f))));
+    scene.addObject(std::make_shared<Parallelogram>(obj2));
+
+    //左面
+    Parallelogram obj3(Point3f(-1.5, -1, -1.5), Vector3f(0, 3, 0), Vector3f(0, 0, 3), nullptr, std::make_shared<Matte_Material>(std::make_shared<ConstantTexture<Spectrum>>(Spectrum(.7f,.3f,.3f))));
+    scene.addObject(std::make_shared<Parallelogram>(obj3));
+
+    //右面
+    Parallelogram obj4(Point3f(1.5, -1, -1.5), Vector3f(0, 3, 0), Vector3f(0, 0, 3), nullptr, std::make_shared<Matte_Material>(std::make_shared<ConstantTexture<Spectrum>>(Spectrum(.3f,.7f,.3f))));
+    scene.addObject(std::make_shared<Parallelogram>(obj4));
+
+    //后面
+    Parallelogram obj5(Point3f(1.5, -1, -1.5), Vector3f(0, 3, 0), Vector3f(-3, 0, 0));
+    scene.addObject(std::make_shared<Parallelogram>(obj5));
+
+    Cube cube1(Point3f(-1.f), Point3f(1.f), std::make_shared<Matte_Material>(std::make_shared<ConstantTexture<Spectrum>>(Spectrum(.5f))), nullptr, Vector3f(-0.5, -0.2, -0.6), Vector3f(0.45, 0.8, 0.45), Vector3f(0, 1, 0), .5f);
+    scene.addObject(std::make_shared<Cube>(cube1));
+
+    Cube cube2(Point3f(-1.f), Point3f(1.f), std::make_shared<Matte_Material>(std::make_shared<ConstantTexture<Spectrum>>(Spectrum(.5f))), nullptr, Vector3f(0.6, -0.6, 0.3), Vector3f(0.3, 0.4, 0.3), Vector3f(0, 1, 0), -.5f);
+    scene.addObject(std::make_shared<Cube>(cube2));
+
+    Parallelogram light1(Point3f(-0.3, 1.99, -0.3), Vector3f(0.6, 0, 0), Vector3f(0, 0, 0.6));
+    scene.addLight(std::make_shared<AreaLight>(Spectrum(45.f), std::make_shared<Parallelogram>(light1)));
+
+    //==========================================
 
     // Sphere sphere();     //这样写无法区分是声明的函数方法还是定义对象
 
@@ -94,8 +130,11 @@ int main(){
     // scene.addObject(std::make_shared<Parallelogram>(obj1));
 
     //立方体
-    Cube cube1(Point3f(-1.f), Point3f(1.f), std::make_shared<Matte_Material>(), nullptr, Vector3f(.0f), Vector3f(.5f), Vector3f(1.f, 1.f, .0f), 45.f);
-    scene.addObject(std::make_shared<Cube>(cube1));
+    // Cube cube1(Point3f(-1.f), Point3f(1.f), std::make_shared<Matte_Material>(), nullptr, Vector3f(-.5f,.0f,.0f), Vector3f(.5f), Vector3f(1.f, 1.f, .0f), 45.f);
+    // scene.addObject(std::make_shared<Cube>(cube1));
+
+    // Cube cube2(Point3f(-1.f), Point3f(1.f), std::make_shared<Mirror_Material>(Spectrum(.6f)), nullptr, Vector3f(1.f, .0f, .0f), Vector3f(.5f), Vector3f(1.f, 1.f, .0f), 70.f);
+    // scene.addObject(std::make_shared<Cube>(cube2));
 
     //图片纹理球/平面
     // int nx, ny, nrChannels;
@@ -109,28 +148,28 @@ int main(){
     // scene.addObject(std::make_shared<Parallelogram>(para_image));
 
     //平面  
-    Parallelogram paral1(Point3f(-80.f, -1.f, 80.f), Vector3f(160.f, .0f, .0f), Vector3f(.0f, 0.f, -160.f));
-    scene.addObject(std::make_shared<Parallelogram>(paral1));
+    // Parallelogram paral1(Point3f(-80.f, -1.f, 80.f), Vector3f(160.f, .0f, .0f), Vector3f(.0f, 0.f, -160.f));
+    // scene.addObject(std::make_shared<Parallelogram>(paral1));
 
     //头顶
-    Parallelogram light1(Point3f(-2.f, 2.f, 1.f), Vector3f(.0f, .0f, -2.f), Vector3f(4.f, .0f, .0f), std::make_shared<AreaLight>());
-    scene.addLight(std::make_shared<AreaLight>(std::make_shared<Parallelogram>(light1)));
+    // Parallelogram light1(Point3f(-2.f, 2.f, 1.f), Vector3f(.0f, .0f, -2.f), Vector3f(4.f, .0f, .0f));
+    // scene.addLight(std::make_shared<AreaLight>(Spectrum(5.f), std::make_shared<Parallelogram>(light1)));
 
     //右方
-    // Parallelogram light2(Point3f(2.f, 1.f, 1.f), Vector3f(.0f, .0f, -2.f), Vector3f(.0f, -2.f, .0f), std::make_shared<AreaLight>());
-    // scene.addLight(std::make_shared<AreaLight>(std::make_shared<Parallelogram>(light2)));
+    // Parallelogram light2(Point3f(2.f, 1.f, 1.f), Vector3f(.0f, .0f, -2.f), Vector3f(.0f, -2.f, .0f));
+    // scene.addLight(std::make_shared<AreaLight>(Spectrum(5.f), std::make_shared<Parallelogram>(light2)));
 
     //后方
-    Parallelogram light3(Point3f(2.f, 1.f, -2.f), Vector3f(-4.f, .0f, .0f), Vector3f(.0f, -2.f, .0f), std::make_shared<AreaLight>());
-    scene.addLight(std::make_shared<AreaLight>(std::make_shared<Parallelogram>(light3)));
+    // Parallelogram light3(Point3f(2.f, 1.f, -2.f), Vector3f(-4.f, .0f, .0f), Vector3f(.0f, -2.f, .0f));
+    // scene.addLight(std::make_shared<AreaLight>(Spectrum(5.f), std::make_shared<Parallelogram>(light3)));
 
     //左方
-    Parallelogram light4(Point3f(-2.f, 1.f, 1.f), Vector3f(.0f, .0f, -2.f), Vector3f(.0f, -2.f, .0f), std::make_shared<AreaLight>());
-    scene.addLight(std::make_shared<AreaLight>(std::make_shared<Parallelogram>(light4)));
+    // Parallelogram light4(Point3f(-2.f, 1.f, 1.f), Vector3f(.0f, .0f, -2.f), Vector3f(.0f, -2.f, .0f));
+    // scene.addLight(std::make_shared<AreaLight>(Spectrum(5.f), std::make_shared<Parallelogram>(light4)));
 
     //前方(补光使用)
-    Parallelogram light5(Point3f(-1.f, 0.f, 6.f), Vector3f(2.f, .0f, .0f), Vector3f(.0f, -1.f, .0f), std::make_shared<AreaLight>());
-    scene.addLight(std::make_shared<AreaLight>(std::make_shared<Parallelogram>(light5)));
+    // Parallelogram light5(Point3f(-1.f, 0.f, 6.f), Vector3f(2.f, .0f, .0f), Vector3f(.0f, -1.f, .0f));
+    // scene.addLight(std::make_shared<AreaLight>(Spectrum(5.f), std::make_shared<Parallelogram>(light5)));
 
     //场景debug打印信息
     // scene.debugPrintLight();

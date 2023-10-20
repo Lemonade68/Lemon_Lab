@@ -7,8 +7,8 @@
 class AreaLight : public Light{
 public:
     //指定光强和形状，默认为平行四边形(头顶的)
-    AreaLight(const std::shared_ptr<Shape> &ptr = std::make_shared<Parallelogram>(Point3f(-1.f, 3.f, 1.f), Vector3f(.0f, .0f, -2.f), Vector3f(2.f, .0f, .0f)),
-              const Spectrum &_energy = Spectrum(5.f));
+    AreaLight(const Spectrum &_energy = Spectrum(5.f),
+              const std::shared_ptr<Shape> &ptr = std::make_shared<Parallelogram>(Point3f(-1.f, 3.f, 1.f), Vector3f(.0f, .0f, -2.f), Vector3f(2.f, .0f, .0f)));
 
     //要形状干啥？  光源上采样时需要知道光源的形状
 

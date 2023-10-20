@@ -40,7 +40,8 @@ add_executable(Lemon_Lab
     src/FunctionLayer/Texture/Texture.cpp
     src/FunctionLayer/Texture/ImageTexture.cpp
     src/FunctionLayer/Integrator/WhittedIntegrator.cpp
-    src/FunctionLayer/Shape/Cube.cpp)
+    src/FunctionLayer/Shape/Cube.cpp
+    src/FunctionLayer/Integrator/PathIntegrator.cpp)
 
 target_include_directories(Lemon_Lab PUBLIC 
                                 ${PROJECT_SOURCE_DIR}/externals  

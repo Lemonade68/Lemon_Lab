@@ -33,7 +33,7 @@
     - [x] 光源设置未完成
     - [x] 存在沿着平行四边形两边无限延长的问题，添加解决方法后边的长度不影响大小，只有边的方向起作用（**改用自己的方法**）
   - [ ] triangle
-  - [ ] cube
+  - [x] cube
   
 - [ ] bounding box 
   - [ ] AABB
@@ -86,5 +86,5 @@
 
 Mipmap相关事宜
 
-TODO：Sphere的旋转（应该是在构造函数添加即可，不对，需要添加球的默认方向），**Cube**，Triangle，Film，**PathIntegrator**，BVH，Blinn_Phong材质，Conductor/Dielectric(NDF)，JPG图片写入（stb_image_write.h），动态模糊（在写好AABB+BVH后写），**实现Cornell Box**
+TODO：Sphere的旋转（应该是在构造函数添加即可，不对，需要添加球的默认方向），**Cube**，Triangle，Film，**PathIntegrator**，BVH，Blinn_Phong材质，Conductor/Dielectric(NDF)，JPG图片写入（stb_image_write.h），动态模糊（在写好AABB+BVH后写），**实现Cornell Box**，尝试导入gltf、fbx这种大场景模型，Checkerboard材质，环境光（EnvironmentLight、InfiniteLight等），**HDR图片格式输出**
 

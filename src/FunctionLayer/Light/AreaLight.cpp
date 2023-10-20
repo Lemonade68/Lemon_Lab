@@ -1,6 +1,6 @@
 #include"AreaLight.h"
 
-AreaLight::AreaLight(const std::shared_ptr<Shape> &ptr, const Spectrum &_energy) : Light(){
+AreaLight::AreaLight(const Spectrum &_energy, const std::shared_ptr<Shape> &ptr) : Light(){
     type = LightType::AreaLight;
     energy = _energy;
     shape = ptr;
