@@ -12,7 +12,7 @@ public:
            const std::shared_ptr<Material> &_material = std::make_shared<Matte_Material>(),
            const std::shared_ptr<Light> &_light = nullptr,
            const Vector3f &translate = Vector3f(.0f, .0f, .0f),
-           const Vector3f &scale = Vector3f(1.f, 1.f, 1.f)); // 球体暂时不考虑旋转
+           const Vector3f &scale = Vector3f(1.f, 1.f, 1.f)); // 球体暂时不考虑旋转与缩放（缩放直接更改半径）
 
     virtual bool rayIntersectShape(Ray &ray, Intersection &intersection) const override;
 

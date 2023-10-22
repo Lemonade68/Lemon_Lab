@@ -49,7 +49,9 @@
     - [x] sampleBSDF(球那里有点实现上的问题 —— 已解决)
     - [x] sampleLight
   - [x] whittedIntegrator（不限制反射上限的话可能会进入死循环，看日志）
-  - [ ] pathIntegrator（蒙特卡洛积分器）
+  - [x] pathIntegrator（蒙特卡洛积分器）
+    - [ ] 光强变大，需要HDR图片输出支持
+    - [ ] 目前仍有缺陷（有近似），带后续改进，详情见pathIntegrator.cpp
   - [ ] BDPT
   
 - [x] sampler
@@ -86,5 +88,7 @@
 
 Mipmap相关事宜
 
-TODO：Sphere的旋转（应该是在构造函数添加即可，不对，需要添加球的默认方向），**Cube**，Triangle，Film，**PathIntegrator**，BVH，Blinn_Phong材质，Conductor/Dielectric(NDF)，JPG图片写入（stb_image_write.h），动态模糊（在写好AABB+BVH后写），**实现Cornell Box**，尝试导入gltf、fbx这种大场景模型，Checkerboard材质，环境光（EnvironmentLight、InfiniteLight等），**HDR图片格式输出**
+TODO：Sphere的旋转（应该是在构造函数添加即可，不对，需要添加球的默认方向，Triangle，Film，**BVH**，Blinn_Phong材质，Conductor/Dielectric(PBR)，**JPG/HDR图片写入（stb_image_write.h）**，动态模糊（在写好AABB+BVH后写），**物体模型导入**，尝试导入gltf、fbx这种大场景模型，**Checkerboard材质**，环境光（EnvironmentLight、InfiniteLight等），球体的scale来实现缩放
+
+图片写入：Image类，写入
 

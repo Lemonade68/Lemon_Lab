@@ -240,7 +240,7 @@ public:
 
     //暂时不检查，当做知道下标为0或1
     int operator[](int a) const { return (a == 0) ? X : Y; }
-    int &operator[](int a) { return (a = 0) ? X : Y; }
+    int &operator[](int a) { return (a == 0) ? X : Y; }
 
     //后续需要再进行添加
 

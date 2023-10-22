@@ -4,7 +4,7 @@
 //此处使用循环的写法
 
 Spectrum PathIntegrator::li(Ray &ray, const Scene &scene, std::shared_ptr<Sampler> sampler) const{
-    Spectrum spectrum(.0f), weight(.2f);
+    Spectrum spectrum(.0f), weight(1.f);
     Spectrum background(.0f, .0f, .0f);         //没有hdr，只能这样来限制下
     int depth = 0;
 
@@ -27,7 +27,7 @@ Spectrum PathIntegrator::li(Ray &ray, const Scene &scene, std::shared_ptr<Sample
         auto intersection = intersectionOpt.value();
 
         //加上自身的光(如果是第一次打到光源，直接返回光源的energy)
-        //这里是防止过于亮，若第二次及以上弹射，漫反射物体的自发光暂不考虑
+        //这里是防止过于亮，若第二次及以上弹射，漫反射物体的自发光暂不考虑，只有镜面照射出的光源才考虑
         if(depth == 1 || SpecularBounce){       
             if (auto light = intersection.shape->light; light){
                 if(firstTime){
@@ -77,10 +77,10 @@ Spectrum PathIntegrator::li(Ray &ray, const Scene &scene, std::shared_ptr<Sample
             }
         }
 
-        //使用RR来随机限制次数
-        // if(depth > 3 && sampler->sampler1D() > 0.95f)
-        //     break;
-        // weight /= 0.95f;        //RR中的保证期望的操作
+        // 使用RR来随机限制次数
+        if(depth > 3 && sampler->sampler1D() > 0.95f)
+            break;
+        weight /= 0.95f;        //RR中的保证期望的操作
 
         //确定下一次的光线
         auto bsdf = intersection.shape->material->computeBSDF(intersection);
