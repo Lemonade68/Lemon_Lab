@@ -1,6 +1,7 @@
 #pragma once
 #include "Geometry.h"
 #include "FunctionLayer/Ray/Ray.h"
+#include "FunctionLayer/Acceleration/AABB.h"
 
 struct Transform{
 public:
@@ -18,6 +19,8 @@ public:
     Point3f toWorld(const Point3f &point) const;
 
     //TODO：对包围盒进行变化
+    //* 对包围盒进行变换
+    AABB toWorld(const AABB & box) const;
 
     //返回将世界空间下的ray转化为物体空间的ray（不改变原来的ray）
     Ray RayToLocal(const Ray &ray) const;

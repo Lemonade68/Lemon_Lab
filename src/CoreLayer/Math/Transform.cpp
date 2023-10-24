@@ -95,3 +95,16 @@ Ray Transform::RayToLocal(const Ray &ray) const{
     direction = Vector3f(d.x, d.y, d.z);
     return Ray(origin, direction, ray.tNear, ray.tFar);
 }
+
+AABB Transform::toWorld(const AABB &b) const {
+    AABB ret;
+    ret = ret.Union(toWorld(Point3f(b.pMin[0], b.pMin[1], b.pMin[2])));
+    ret = ret.Union(toWorld(Point3f(b.pMax[0], b.pMin[1], b.pMin[2])));
+    ret = ret.Union(toWorld(Point3f(b.pMin[0], b.pMax[1], b.pMin[2])));
+    ret = ret.Union(toWorld(Point3f(b.pMin[0], b.pMin[1], b.pMax[2])));
+    ret = ret.Union(toWorld(Point3f(b.pMin[0], b.pMax[1], b.pMax[2])));
+    ret = ret.Union(toWorld(Point3f(b.pMax[0], b.pMax[1], b.pMin[2])));
+    ret = ret.Union(toWorld(Point3f(b.pMax[0], b.pMin[1], b.pMax[2])));
+    ret = ret.Union(toWorld(Point3f(b.pMax[0], b.pMax[1], b.pMax[2])));
+    return ret;
+}

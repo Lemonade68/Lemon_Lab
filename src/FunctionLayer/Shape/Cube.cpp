@@ -8,10 +8,22 @@ Cube::Cube(const Point3f &_boxMin, const Point3f &_boxMax,
     boxMin = _boxMin;
     boxMax = _boxMax;
 
-    //TODO：包围盒初始化
+    //TODO：包围盒初始化(注意不能直接将最小和最大两个点传入，可能会旋转)   ***学习这里的算法
+    for (int i = 0; i < 8; ++i){
+        Point3f p;
+        //生成cube中的8个坐标(在局部空间中)
+        p[0] = (i & 0b100) ? boxMax[0] : boxMin[0];     //2进制的i第一位是否为1
+        p[1] = (i & 0b010) ? boxMax[1] : boxMin[1];     //第二位
+        p[2] = (i & 0b001) ? boxMax[2] : boxMin[2];     //第三位
+        
+        //转换到世界空间
+        p = transform.toWorld(p);
 
-    //注意：AABB的计算会比较方便，因此立方体的所有计算都在局部坐标系中实现
-    //这里只对立方体进行缩放操作，而在求交部分对光线使用translate和rotate
+        boundingBox.Expand(p);
+    }
+
+    // 注意：AABB的计算会比较方便，因此立方体的所有计算都在局部坐标系中实现
+    // 这里只对立方体进行缩放操作，而在求交部分对光线使用translate和rotate
     Matrix4f scale = transform.scalation(_scale);
     Vector4f min{boxMin[0], boxMin[1], boxMin[2], 1.f},
              max{boxMax[0], boxMax[1], boxMax[2], 1.f};     //第4个参数为1表示一个点

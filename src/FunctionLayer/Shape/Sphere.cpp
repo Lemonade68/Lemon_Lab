@@ -7,6 +7,8 @@ Sphere::Sphere(Point3f o, float r, const std::shared_ptr<Material> &_material, c
 
     center = transform.toWorld(center);     //变换到世界坐标
     //TODO：包围盒操作
+    //三条半径构成斜对角向量
+    boundingBox = AABB(center - Vector3f(radius), center + Vector3f(radius));
 }
 
 bool Sphere::rayIntersectShape(Ray &ray, Intersection &intersection) const{

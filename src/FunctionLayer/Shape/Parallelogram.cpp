@@ -8,11 +8,15 @@ Parallelogram::Parallelogram(const Point3f &p, const Vector3f &e1, const Vector3
     edge0 = transform.toWorld(e1);
     edge1 = transform.toWorld(e2);
 
-    // base.debugPrint();
-    // edge0.debugPrint();
-    // edge1.debugPrint();
     // TODO£º¼ÆËã°üÎ§ºÐ
+    Point3f vertices[4];
+    vertices[0] = base;
+    vertices[1] = base + edge0;
+    vertices[2] = base + edge1;
+    vertices[3] = vertices[2] + edge0;
 
+    for (int i = 0; i < 4; ++i)
+        boundingBox.Expand(vertices[i]);
 }
 
 bool Parallelogram::rayIntersectShape(Ray &ray, Intersection &intersection) const{

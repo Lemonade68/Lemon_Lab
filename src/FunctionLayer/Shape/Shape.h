@@ -7,6 +7,8 @@
 #include"FunctionLayer/Material/Matte.h"
 #include"FunctionLayer/Light/Light.h"
 
+#include"FunctionLayer/Acceleration/AABB.h"
+
 #include<optional>
 
 //如果这边在头文件中使用include来包含对应的头文件时，会形成头文件闭环，从而不能pragma 第二次，造成头文件无法展开
@@ -36,9 +38,12 @@ public:
 
     virtual void debugPrint() const = 0;    //打印物体信息
 
+    AABB getAABB() const { return boundingBox; }
+
 public:
     std::shared_ptr<Light> light;           //物体自身是否发光（多态，使用指针）
     std::shared_ptr<Material> material;     //物体材质
 
     // TODO:包围盒
+    AABB boundingBox;
 };

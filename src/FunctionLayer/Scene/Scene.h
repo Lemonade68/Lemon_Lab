@@ -6,15 +6,20 @@
 #include"FunctionLayer/Shape/Intersection.h"
 #include"FunctionLayer/Light/AreaLight.h"
 
+#include"FunctionLayer/Acceleration/Acceleration.h"      //暂时默认使用BVH加速
+
 #include<optional>
 #include<vector>
 #include<memory>
 
 
-//暂时未考虑加速结构
+//暂时未考虑加速结构(现已考虑)
 class Scene {
 public:
-    Scene() { light_num = 0; }
+    Scene() { 
+        light_num = 0;
+        acceleration = nullptr;
+    }
 
     Scene(std::vector<std::shared_ptr<Shape>> _shape_list, std::vector<std::shared_ptr<Light>> _light_list)
         : shape_list(_shape_list), light_list(_light_list), light_num(_light_list.size()) {}
@@ -40,8 +45,10 @@ public:
         ++light_num;
     }
 
+    //建立场景的加速结构
+    void buildSceneAcceleration();
 
-    //光线与场景求交
+    //光线与场景求交（添加加速结构后发生变化）
     std::optional<Intersection> rayIntersect(Ray &ray) const;
 
     //TODO：添加环境光
@@ -73,11 +80,16 @@ public:
         std::cout << "=================================================\n";
     }
 
+    void debugPrintAccleration(){
+        acceleration->debugPrint();
+    }
+
 private:
     std::vector<std::shared_ptr<Shape>> shape_list;
-
     std::vector<std::shared_ptr<Light>> light_list;     //光源列表
-    
+
+    std::shared_ptr<Acceleration> acceleration;         //加速结构
+
     int light_num;              //内置类型要是不显式初始化的话会产生随机值
 
     //TODO：考虑acceleration

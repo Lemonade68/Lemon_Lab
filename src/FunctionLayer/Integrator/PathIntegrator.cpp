@@ -8,7 +8,7 @@ Spectrum PathIntegrator::li(Ray &ray, const Scene &scene, std::shared_ptr<Sample
     Spectrum background(.0f, .0f, .0f);         //没有hdr，只能这样来限制下
     int depth = 0;
 
-    bool firstTime = true, SpecularBounce = false;
+    bool SpecularBounce = false;
 
     //进入循环，直到光线打到背景、弹射次数达到上限或者达到RR的条件时退出循环
     while(1){
@@ -26,19 +26,13 @@ Spectrum PathIntegrator::li(Ray &ray, const Scene &scene, std::shared_ptr<Sample
 
         auto intersection = intersectionOpt.value();
 
-        //加上自身的光(如果是第一次打到光源，直接返回光源的energy)
+        //加上自身的光
         //这里是防止过于亮，若第二次及以上弹射，漫反射物体的自发光暂不考虑，只有镜面照射出的光源才考虑
         if(depth == 1 || SpecularBounce){       
             if (auto light = intersection.shape->light; light){
-                if(firstTime){
-                    spectrum += light->evaluateEmission(intersection, -ray.direction);
-                    firstTime = false;
-                    break;
-                }
                 spectrum += weight * light->evaluateEmission(intersection, -ray.direction);
             }            
         }
-
 
         //加上环境光（后需添加）
         //...
