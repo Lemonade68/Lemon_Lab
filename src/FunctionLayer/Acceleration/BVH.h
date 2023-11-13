@@ -41,8 +41,8 @@ public:
 
     BVH(int leafMaxSize = 1) : bvhLeafMaxSize(leafMaxSize) {}
 
-    BVH(const std::vector<std::shared_ptr<Shape>> &_shapeList) 
-        : Acceleration(_shapeList) {}
+    BVH(const std::vector<std::shared_ptr<Shape>> &_shapeList, int leafMaxSize = 1) 
+        : Acceleration(_shapeList), bvhLeafMaxSize(leafMaxSize) {}
 
     virtual void build() override;
 

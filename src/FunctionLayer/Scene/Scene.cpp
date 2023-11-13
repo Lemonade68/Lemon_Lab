@@ -4,7 +4,7 @@
 
 //有了包围盒后新增：
 void Scene::buildSceneAcceleration(){
-    acceleration = std::make_shared<BVH>(shape_list);   //获取物体列表
+    acceleration = std::make_shared<BVH>(shape_list, 1);   //获取物体列表
     acceleration->build();      //构建BVH加速结构
 }
 

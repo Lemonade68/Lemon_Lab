@@ -7,7 +7,7 @@ class Cube : public Shape{
 public:
     Cube(const Point3f &_boxMin = Point3f(-1.f, -1.f, -1.f), const Point3f &_boxMax = Point3f(1.f, 1.f, 1.f),
          const std::shared_ptr<Material> _material = std::make_shared<Matte_Material>(),
-         const std::shared_ptr<Light> = nullptr,
+         const std::shared_ptr<Light> _light= nullptr,
          const Vector3f &_translate = Vector3f(.0f),
          const Vector3f &_scale = Vector3f(1.f),
          const Vector3f &_axis = Vector3f(.0f, 1.f, .0f),

@@ -22,6 +22,7 @@ public:
 
     virtual void debugPrint() const = 0;
 
-protected:
+    AABB boundingBox;       //整个加速结构的bounding box
+    
     std::vector<std::shared_ptr<Shape>> shapeList;      //加速结构包含物体列表
 };

@@ -65,6 +65,11 @@
         "random": "cpp",
         "chrono": "cpp",
         "forward_list": "cpp",
-        "sstream": "cpp"
+        "sstream": "cpp",
+        "array": "cpp",
+        "fstream": "cpp",
+        "map": "cpp",
+        "set": "cpp",
+        "xtree": "cpp"
     }
 }

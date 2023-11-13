@@ -337,6 +337,8 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClCompile Include="C:\Users\Lemonade\Desktop\Lemon_Lab\src\FunctionLayer\Acceleration\AABB.cpp" />
     <ClCompile Include="C:\Users\Lemonade\Desktop\Lemon_Lab\src\FunctionLayer\Acceleration\BVH.cpp" />
     <ClCompile Include="C:\Users\Lemonade\Desktop\Lemon_Lab\src\FunctionLayer\Acceleration\Acceleration.cpp" />
+    <ClCompile Include="C:\Users\Lemonade\Desktop\Lemon_Lab\src\FunctionLayer\Shape\Triangle.cpp" />
+    <ClCompile Include="C:\Users\Lemonade\Desktop\Lemon_Lab\src\ResourceLayer\Mesh.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="C:\Users\Lemonade\Desktop\Lemon_Lab\build\ZERO_CHECK.proj">

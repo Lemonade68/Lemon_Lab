@@ -23,14 +23,16 @@
 #include"FunctionLayer/Integrator/PathIntegrator.h"
 #include"ResourceLayer/Image.h"
 
+#include"FunctionLayer/Shape/Triangle.h"
+
 #include<iostream>
 #include<stdio.h>
 #include<chrono>
 #include<vector>
 #include<memory>
 
-// #define STB_IMAGE_IMPLEMENTATION
-// #include "stb/stb_image.h"
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb/stb_image.h"
 
 //写成hdr形式(在image中定义)
 // #define STB_IMAGE_WRITE_IMPLEMENTATION
@@ -39,7 +41,7 @@
 #define SCR_WIDTH 1200
 #define SCR_HEIGHT 800
 #define SPP 100
-#define MAX_DEPTH 10
+#define MAX_DEPTH 5
 
 #define PBSTR "||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||"
 #define PBWIDTH 60
@@ -86,7 +88,7 @@ int main(){
 
     // cornell box场景 ===========================
     //地面
-    Parallelogram obj1(Point3f(-1.5, -1, -1.5), Vector3f(0, 0, 3), Vector3f(3, 0, 0));  
+    Parallelogram obj1(Point3f(-1.5, -1, -1.5), Vector3f(0, 0, 3), Vector3f(3, 0, 0));
     scene.addObject(std::make_shared<Parallelogram>(obj1));
 
     //头顶
@@ -105,12 +107,32 @@ int main(){
     Parallelogram obj5(Point3f(1.5, -1, -1.5), Vector3f(0, 3, 0), Vector3f(-3, 0, 0));
     scene.addObject(std::make_shared<Parallelogram>(obj5));
 
-    Cube cube1(Point3f(-1.f), Point3f(1.f), std::make_shared<Matte_Material>(std::make_shared<ConstantTexture<Spectrum>>(Spectrum(.5f))), nullptr, Vector3f(-0.5, -0.2, -0.6), Vector3f(0.45, 0.8, 0.45), Vector3f(0, 1, 0), .5f);
-    // Cube cube1(Point3f(-1.f), Point3f(1.f), std::make_shared<Mirror_Material>(Spectrum(.6f)), nullptr, Vector3f(-0.5, -0.2, -0.6), Vector3f(0.45, 0.8, 0.45), Vector3f(0, 1, 0), .5f);
-    scene.addObject(std::make_shared<Cube>(cube1));
+    // Cube cube1(Point3f(-1.f), Point3f(1.f), std::make_shared<Matte_Material>(std::make_shared<ConstantTexture<Spectrum>>(Spectrum(.5f))), nullptr, Vector3f(-0.5, -0.2, -0.6), Vector3f(0.45, 0.8, 0.45), Vector3f(0, 1, 0), .5f);
+    // // Cube cube1(Point3f(-1.f), Point3f(1.f), std::make_shared<Mirror_Material>(Spectrum(.6f)), nullptr, Vector3f(-0.5, -0.2, -0.6), Vector3f(0.45, 0.8, 0.45), Vector3f(0, 1, 0), .5f);
+    // scene.addObject(std::make_shared<Cube>(cube1));
 
-    Cube cube2(Point3f(-1.f), Point3f(1.f), std::make_shared<Matte_Material>(std::make_shared<ConstantTexture<Spectrum>>(Spectrum(.5f))), nullptr, Vector3f(0.6, -0.6, 0.3), Vector3f(0.3, 0.4, 0.3), Vector3f(0, 1, 0), -.5f);
-    scene.addObject(std::make_shared<Cube>(cube2));
+    // Cube cube2(Point3f(-1.f), Point3f(1.f), std::make_shared<Matte_Material>(std::make_shared<ConstantTexture<Spectrum>>(Spectrum(.5f))), nullptr, Vector3f(0.6, -0.6, 0.3), Vector3f(0.3, 0.4, 0.3), Vector3f(0, 1, 0), -.5f);
+    // scene.addObject(std::make_shared<Cube>(cube2));
+
+    //模型导入
+    // std::string modelPath("C:/Users/Lemonade/Desktop/Lemon_Lab/src/ResourceLayer/Models/bunny/bunny.obj");
+    std::string modelPath("C:/Users/Lemonade/Desktop/Lemon_Lab/src/ResourceLayer/Models/utah_teapot/teapot.obj");        //一个obj文件中有两个mesh，模型太大了，缩放系数要.015才可以
+    // std::string modelPath("C:/Users/Lemonade/Desktop/Lemon_Lab/src/ResourceLayer/Models/viking_room/viking_room.obj");
+    // std::string modelPath("C:/Users/Lemonade/Desktop/Lemon_Lab/src/ResourceLayer/Models/dragon/dragon.obj");
+
+    // int nx, ny, nrChannels;
+    // // 使用相对路径好像有点问题
+    // unsigned char *data = stbi_load("C:/Users/Lemonade/Desktop/Lemon_Lab/src/ResourceLayer/models/viking_room/viking_room.png", &nx, &ny, &nrChannels, 0);
+    // if(!data)
+    //     std::cerr << "Failed to load image!" << std::endl;
+
+    int maxLeafSize = 1;
+    // TriangleMesh model(modelPath, maxLeafSize, std::make_shared<Matte_Material>(std::make_shared<ConstantTexture<Spectrum>>(Spectrum(1.f, .98f, .94f))));
+    // TriangleMesh model(modelPath, maxLeafSize, std::make_shared<Matte_Material>(std::make_shared<ConstantTexture<Spectrum>>(Spectrum(1.f, .98f, .94f))), nullptr, Vector3f(.2f, -1.f, .0f));
+    TriangleMesh model(modelPath, maxLeafSize, std::make_shared<Matte_Material>(std::make_shared<ConstantTexture<Spectrum>>(Spectrum(1.f, .98f, .94f))), nullptr, Vector3f(.0, -1.f, .0f), Vector3f(.015f));
+    // TriangleMesh model(modelPath, maxLeafSize, std::make_shared<Matte_Material>(std::make_shared<ConstantTexture<Spectrum>>(Spectrum(1.f, .98f, .94f))), nullptr, Vector3f(-.1f, -.45f, .0f), Vector3f(2.f), Vector3f(.0f, 1.f, .0f), 2.f * PI / 3.f);
+    // TriangleMesh model(modelPath, maxLeafSize, std::make_shared<Matte_Material>(std::make_shared<ImageTexture>(data, nx, ny)), nullptr, Vector3f(.0f, .0f, .0f), Vector3f(1.f), Vector3f(1.f, 1.f, .0f), -45.f);
+    scene.addObject(std::make_shared<TriangleMesh>(model));
 
     // Sphere sphere1(Point3f(.0f), .4f, std::make_shared<Matte_Material>(std::make_shared<ConstantTexture<Spectrum>>(Spectrum(.5f))), nullptr, Vector3f(0.6, -0.6, 0.3), Vector3f(.2f));
     // scene.addObject(std::make_shared<Sphere>(sphere1));
@@ -149,7 +171,7 @@ int main(){
 
     //图片纹理球/平面
     // int nx, ny, nrChannels;
-    // //使用相对路径好像有点问题
+    // // 使用相对路径好像有点问题
     // unsigned char *data = stbi_load("C:/Users/Lemonade/Desktop/Lemon_Lab/src/ResourceLayer/Textures/earth.jpg", &nx, &ny, &nrChannels, 0);
     // if(!data)
     //     std::cerr << "Failed to load image!" << std::endl;
@@ -158,13 +180,22 @@ int main(){
     // Parallelogram para_image(Point3f(-1.f, .5f, 1.f), Vector3f(2.f, .0f, .0f), Vector3f(.0f, -1.f, .0f), nullptr, std::make_shared<Matte_Material>(std::make_shared<ImageTexture>(data, nx, ny)));
     // scene.addObject(std::make_shared<Parallelogram>(para_image));
 
+
+    //模型导入
+    // std::string modelPath("C:/Users/Lemonade/Desktop/Lemon_Lab/src/ResourceLayer/Models/bunny/bunny.obj");
+    // int maxLeafSize = 10;
+    // TriangleMesh model(modelPath, maxLeafSize, std::make_shared<Matte_Material>(std::make_shared<ConstantTexture<Spectrum>>(Spectrum(.1f, .5f, .6f))), nullptr, Vector3f(.0f, -1.f, .0f));
+    // scene.addObject(std::make_shared<TriangleMesh>(model));
+
+
+
     //平面  
     // Parallelogram paral1(Point3f(-80.f, -1.f, 80.f), Vector3f(160.f, .0f, .0f), Vector3f(.0f, 0.f, -160.f));
     // scene.addObject(std::make_shared<Parallelogram>(paral1));
 
     //头顶
     // Parallelogram light1(Point3f(-2.f, 2.f, 1.f), Vector3f(.0f, .0f, -2.f), Vector3f(4.f, .0f, .0f));
-    // scene.addLight(std::make_shared<AreaLight>(Spectrum(10.f), std::make_shared<Parallelogram>(light1)));
+    // scene.addLight(std::make_shared<AreaLight>(Spectrum(1.f), std::make_shared<Parallelogram>(light1)));
 
     //右方
     // Parallelogram light2(Point3f(2.f, 1.f, 1.f), Vector3f(.0f, .0f, -2.f), Vector3f(.0f, -2.f, .0f));

@@ -70,6 +70,7 @@ bool BVH::rayIntersectBVH(BVHNode *root, Ray &ray, Intersection &intersection) c
 //这里有过root未生成成功
 void BVH::build(){
     buildBVH(0, shapeList.size() - 1, root);
+    boundingBox = root->box;        //设置整体的bounding box
 }
 
 bool BVH::rayIntersect(Ray &ray, Intersection &intersection) const{

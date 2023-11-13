@@ -73,6 +73,12 @@
     <ClCompile Include="C:\Users\Lemonade\Desktop\Lemon_Lab\src\FunctionLayer\Acceleration\Acceleration.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="C:\Users\Lemonade\Desktop\Lemon_Lab\src\FunctionLayer\Shape\Triangle.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Lemonade\Desktop\Lemon_Lab\src\ResourceLayer\Mesh.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="C:\Users\Lemonade\Desktop\Lemon_Lab\CMakeLists.txt" />

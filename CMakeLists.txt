@@ -45,7 +45,9 @@ add_executable(Lemon_Lab
     src/ResourceLayer/Image.cpp
     src/FunctionLayer/Acceleration/AABB.cpp
     src/FunctionLayer/Acceleration/BVH.cpp
-    src/FunctionLayer/Acceleration/Acceleration.cpp)
+    src/FunctionLayer/Acceleration/Acceleration.cpp
+    src/FunctionLayer/Shape/Triangle.cpp
+    src/ResourceLayer/Mesh.cpp)
 
 target_include_directories(Lemon_Lab PUBLIC 
                                 ${PROJECT_SOURCE_DIR}/externals  

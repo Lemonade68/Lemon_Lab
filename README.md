@@ -5,26 +5,20 @@
 参考：moer-lite; ray-tracing series; moer; mitsuba; pbrt
 
 - [x] main
-
 - [x] ray
-
 - [x] camera
   - [x] pinhole
   - [ ] thin lens
-
 - [ ] light
   - [x] AreaLight
   - [ ] EnvironmentLight
   - [ ] SpotLight
-
 - [ ] math(vec/matrix)     考虑其他库？
   - [x] glm库 (**注意矩阵是列主序，length()函数返回的是向量的元素个数，不是长度**)
   - [ ] fastmath？
-
 - [x] transform
   - [x] TODO：包围盒部分
   - [ ] 
-
 - [ ] shape
   - [x] 材质部分初始化
   - [x] Intersection
@@ -34,14 +28,11 @@
     - [x] 存在沿着平行四边形两边无限延长的问题，添加解决方法后边的长度不影响大小，只有边的方向起作用（**改用自己的方法**）
   - [ ] triangle
   - [x] cube
-  
 - [x] bounding box 
   - [x] AABB
-
 - [x] acceleration
   - [x] BVH
   - [ ] EmbreeBVH
-  
 - [ ] integrator
   - [x] 光线距离平方衰减
   - [x] normal (for testing)
@@ -53,11 +44,9 @@
     - [x] 光强变大，需要HDR图片输出支持
     - [ ] 目前仍有缺陷（有近似），带后续改进，详情见pathIntegrator.cpp
   - [ ] BDPT
-  
 - [x] sampler
   - [x] random
   - [x] IndependentSampler
-
 - [ ] material
   - [x] Matte(对应Lambert)
   - [x] Mirror(direct integrator sample light那里的f直接返回0，看后续是否需要改进)
@@ -70,28 +59,29 @@
     - [ ] Phong
     - [ ] Conductor
     - [ ] Dielectric
-  
 - [ ] texture
   - [x] constantTexture
   - [x] imageTexture
   - [ ] normalTexture
-
 - [ ] scene(目前使用的是std::vector\<std::shared_ptr\<Shape>> Shape_list 的Scene类)
   - [ ] 加速结构（后续改进为该结构的Scene）
-    - [ ] BVH
+    - [x] BVH
     - [ ] EmbreeBVH
     - [ ] Octree
-  
 - [ ] filter
-
 - [ ] medium
-
 - [ ] Json文件录入支持
+- [ ] 导入模型
+  - [x] 单个mesh模型导入+纹理
+  - [x] 多个mesh的obj模型导入
+  - [ ] gltf格式场景导入
+  - [ ] 模型的mtl文件导入以及材质的设置
+
 
 
 Mipmap相关事宜
 
-TODO：Sphere的旋转（应该是在构造函数添加即可，不对，需要添加球的默认方向，Triangle，Film，**AABB**，**BVH**，Blinn_Phong材质，Conductor/Dielectric(PBR)，**JPG/HDR图片写入（stb_image_write.h）**，动态模糊（在写好AABB+BVH后写），**物体模型导入**，尝试导入gltf、fbx这种大场景模型，**Checkerboard材质**，环境光（EnvironmentLight、InfiniteLight等），球体的scale来实现缩放
+TODO：Sphere的旋转（应该是在构造函数添加即可，不对，需要添加球的默认方向，**Triangle**，Film，Blinn_Phong材质，Conductor/Dielectric(PBR)，**JPG/HDR图片写入（stb_image_write.h）**，动态模糊（在写好AABB+BVH后写），**物体模型导入**，尝试导入gltf、fbx这种大场景模型，**Checkerboard材质**，环境光（EnvironmentLight、InfiniteLight等），球体的scale来实现缩放，多个mesh的obj的读入
 
 图片写入：Image类，写入
 

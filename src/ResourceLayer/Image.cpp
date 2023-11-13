@@ -3,8 +3,8 @@
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include <stb/stb_image_write.h>
 
-#define STB_IMAGE_IMPLEMENTATION
-#include <stb/stb_image.h>
+// #define STB_IMAGE_IMPLEMENTATION
+// #include <stb/stb_image.h>
 
 Vector3f Image::getValue(const Vector2i &xy) const{
     int x = Clamp(xy[0], 0, size[0] - 1);

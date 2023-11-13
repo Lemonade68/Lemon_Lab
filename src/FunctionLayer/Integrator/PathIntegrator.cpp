@@ -72,9 +72,9 @@ Spectrum PathIntegrator::li(Ray &ray, const Scene &scene, std::shared_ptr<Sample
         }
 
         // 使用RR来随机限制次数
-        if(depth > 3 && sampler->sampler1D() > 0.95f)
-            break;
-        weight /= 0.95f;        //RR中的保证期望的操作
+        // if(depth > 3 && sampler->sampler1D() > 0.95f)
+            // break;
+        // weight /= 0.95f;        //RR中的保证期望的操作
 
         //确定下一次的光线
         auto bsdf = intersection.shape->material->computeBSDF(intersection);
