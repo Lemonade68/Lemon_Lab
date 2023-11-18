@@ -50,7 +50,7 @@ Spectrum PathIntegrator::li(Ray &ray, const Scene &scene, std::shared_ptr<Sample
             if(!occlude.has_value()){
                 auto material = intersection.shape->material;
                 auto bsdf = material->computeBSDF(intersection);
-                auto f = bsdf->f(-ray.direction, shadowRay.direction);      //镜面直接f=0，当次的不考虑，直接考虑反射后的结果
+                auto f = bsdf->f(-ray.direction, shadowRay.direction);      //cos项在这里计算过了
                 lightSampleResult.pdf *= pdfLight;
                 convertPDF(lightSampleResult);
                 auto pdf = lightSampleResult.pdf;
@@ -82,6 +82,8 @@ Spectrum PathIntegrator::li(Ray &ray, const Scene &scene, std::shared_ptr<Sample
         
         //更新权重
         weight *= bsdfSampleResult.weight;
+        if(weight[0] < EPSILON && weight[1] < EPSILON && weight[2] < EPSILON)       //权重过小直接退出(舍弃掉pdf太小的光线)
+            break;
 
         //更新下一次的光线
         ray = Ray(intersection.position, bsdfSampleResult.wi);

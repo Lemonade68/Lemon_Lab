@@ -104,7 +104,7 @@ bool Triangle::rayIntersectShape(Ray &ray, Intersection &intersection) const{
 }
 
 void TriangleMesh::initInternalAcceleration() {
-    innerAcceleration = std::make_shared<BVH>(maxLeafSize);     //内部加速结构为叶子结点最大数为5的bvh
+    innerAcceleration = std::make_shared<BVH>(maxLeafSize);     //内部加速结构为叶子结点最大数为maxLeafSize的bvh
     int primCount = meshData->faceCount;
     for (int primID = 0; primID < primCount; ++primID){
         int vtx0Idx = meshData->faceBuffer[primID][0].vertexIndex;

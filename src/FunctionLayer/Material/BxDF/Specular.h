@@ -5,7 +5,7 @@ public:
     Specular_Reflection(const Vector3f &_normal, const Vector3f &_tangent, const Vector3f &_bitangent, const Spectrum &_color)
         : BSDF(_normal, _tangent, _bitangent), color(_color) {}
     
-    //完全镜面反射直接采样到有效值的概率为0  ——  只有那一条光线有信息
+    //完全镜面反射直接采样到有效值的概率为0  ——  只有那一条光线有信息(本次的贡献为零，继续添加下次的贡献)
     //sampleLight方法不是都会变成0了？
     virtual Spectrum f(const Vector3f &wo, const Vector3f &wi) const override{
         return Spectrum(.0f);

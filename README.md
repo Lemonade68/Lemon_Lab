@@ -52,8 +52,14 @@
   - [x] Mirror(direct integrator sample light那里的f直接返回0，看后续是否需要改进)
   - [ ] Blinn_Phong
   - [ ] conductor
+    - [ ] 目前roughness只使用了单一的float表示，后续改成vector2f，用于各向异性材料使用
   - [ ] dielectric
   - [ ] BXDF
+        - [ ] sampling方法（返回wi和pdf）
+      - [x] 均匀采样
+      - [ ] 重要性采样
+        - [x] cosine权重采样
+    - [ ] brdf采样
     - [x] Lambert
     - [x] Specular
     - [ ] Phong

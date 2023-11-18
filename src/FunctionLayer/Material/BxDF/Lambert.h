@@ -1,6 +1,7 @@
 #pragma once
 
 //Lambert漫反射模型与Oren-Nayar漫反射模型区别：https://zhuanlan.zhihu.com/p/500809166
+//Lambert漫反射模型为理想光滑平面
 
 #include"BSDF.h"
 #include"Sampling.h"
@@ -25,14 +26,14 @@ public:
     virtual BSDFSampleResult sampleShadingPoint(const Vector3f &wo, const Vector2f &sample) const override{
         //Lambert材质出射方向与入射方向无关，因此传入的wo可以不用
         
-        //Cosine权重采样
+        //Cosine权重采样（就是漫反射的重要性采样）
         Vector3f wi = squareToCosineHemisphere(sample);     //返回的是局部坐标下的
         float pdf = squareToCosineHemispherePdf(wi);
         
         //均匀采样
         // Vector3f wi = squareToUniformHemisphere(sample);
         // float pdf = squareToUniformHemispherePdf(wi);
-        
+
         return {albedo, toWorld(wi), pdf, BSDFType::Diffuse};
     }
 

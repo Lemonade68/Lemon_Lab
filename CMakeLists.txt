@@ -47,7 +47,9 @@ add_executable(Lemon_Lab
     src/FunctionLayer/Acceleration/BVH.cpp
     src/FunctionLayer/Acceleration/Acceleration.cpp
     src/FunctionLayer/Shape/Triangle.cpp
-    src/ResourceLayer/Mesh.cpp)
+    src/ResourceLayer/Mesh.cpp
+    src/FunctionLayer/Material/Conductor.cpp
+    src/FunctionLayer/Material/Dielectric.cpp)
 
 target_include_directories(Lemon_Lab PUBLIC 
                                 ${PROJECT_SOURCE_DIR}/externals  
