@@ -19,9 +19,9 @@ public:
         Vector3f normal{0.f, 1.f, 0.f};
 
         // 2. 根据公式计算 Fr, D, G
-        Vector3f Fr = getFr(dot(normal, wo_local));
+        Vector3f Fr = getFr(dot(wh_local, wo_local));
         float D = ndf->getD(wh_local, alpha);
-        float G = ndf->getG(wo_local, wi_local, alpha);
+        float G = ndf->getG(wo_local, normal, wh_local, alpha) * ndf->getG(wi_local, normal, wh_local, alpha);
 
         // 注: brdf中分母的cos(θi)项与渲染方程中的cos项相消，因此分母只有4cos(θo)
         return albedo * D * G * Fr / (4 * dot(normal, wo_local));
@@ -41,15 +41,17 @@ public:
         
         Vector3f woLocal = normalize(toLocal(wo));
         Vector3f whLocal = ndf->sampleWh(woLocal, alpha, sample);   //获取采样的whLocal
-        float pdf = ndf->getPDF_reflect_global(woLocal, whLocal, alpha);    //已经转换为宏观半球上的pdf
-        Vector3f wi = ndf->calcWiLocalReflect(woLocal, whLocal);    //通过出射光线和法线计算入射光线（镜面反射）
+        Vector3f wiLocal = ndf->calcWiLocalReflect(woLocal, whLocal);    //通过出射光线和法线计算入射光线（镜面反射）
+        float pdf = ndf->getPDF_reflect_global(wiLocal, whLocal, alpha);    //已经转换为宏观半球上的pdf
 
+        //pdf太小的话，在分母上时会导致结果非常大，从而带来问题
         //pdf太小直接不考虑，只采用pdf大的，将权重设置为0，然后在pathIntegrator中直接退出（暂时解决蓝色噪声问题，见日志）
         if(pdf < 1e-2f)     
-            return {Spectrum(.0f), toWorld(wi), pdf, BSDFType::Diffuse};
+            return {Spectrum(.0f), toWorld(wiLocal), pdf, BSDFType::Diffuse};
         
-        //这个权重怎么分配的？   参考的moer-lite
-        return {f(wo, toWorld(wi)) / pdf, toWorld(wi), pdf, BSDFType::Diffuse};     
+        //这个权重怎么分配的？
+        //见日志记录第22点（path integrator中权重的理解）
+        return {f(wo, toWorld(wiLocal)) / pdf, toWorld(wiLocal), pdf, BSDFType::Diffuse};     
     }
 
 private:

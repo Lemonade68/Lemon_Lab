@@ -4,7 +4,8 @@
 
 enum class BSDFType {
     Diffuse,
-    Specular
+    Specular,
+    Refract
 };
 
 struct BSDFSampleResult{
@@ -24,7 +25,7 @@ public:
     }
 
     //计算wi和wo对应的BSDF值(公式中的F项)
-    //即：wi产生的irradiance被该点吸收，计算从wo发射出去能量占的比例
+    //可被用来计算直接光照部分的f，也可以用来计算weight中上次光线的系数部分
     virtual Spectrum f(const Vector3f &wo, const Vector3f &wi) const = 0;
 
     //TODO：在BSDF上采样的方法

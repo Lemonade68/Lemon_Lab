@@ -5,9 +5,8 @@
 #include"FunctionLayer/Texture/ConstantTexture.h"
 
 Dielectric_Material::Dielectric_Material(const float _roughness, Vector3f _eta,
-                                       std::shared_ptr<NDF> _ndf, std::shared_ptr<Texture<Spectrum>> _albedo)
-    : roughness(_roughness), eta(_eta), ndf(_ndf), albedo(_albedo) { }
-
+                                         std::shared_ptr<NDF> _ndf, std::shared_ptr<Texture<Spectrum>> _albedo)
+    : roughness(_roughness), eta(_eta), ndf(_ndf), albedo(_albedo) { inv_eta = Vector3f(1.f / eta[0], 1.f / eta[1], 1.f / eta[2]); }
 
 std::shared_ptr<BSDF> Dielectric_Material::computeBSDF(const Intersection &intersection) const{
     //暂时未考虑法线贴图部分的问题
