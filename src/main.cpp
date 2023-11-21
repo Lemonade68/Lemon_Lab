@@ -197,8 +197,8 @@ int main(){
     bool debug = false;
 
     //ÊÇ·ñÊä³öÎªhdrÍ¼Æ¬
-    bool isHdr = false;
-    // bool isHdr = true;
+    // bool isHdr = false;
+    bool isHdr = true;
 
     if(!debug){
         auto start = std::chrono::system_clock::now();

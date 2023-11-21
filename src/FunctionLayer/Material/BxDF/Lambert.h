@@ -23,11 +23,11 @@ public:
     }
 
     //TODO：BSDF上采样
-    virtual BSDFSampleResult sampleShadingPoint(const Vector3f &wo, const Vector2f &sample) const override{
+    virtual BSDFSampleResult sampleShadingPoint(const Vector3f &wo, const std::shared_ptr<Sampler> &sampler) const override{
         //Lambert材质出射方向与入射方向无关，因此传入的wo可以不用
         
         //Cosine权重采样（就是漫反射的重要性采样）
-        Vector3f wi = squareToCosineHemisphere(sample);     //返回的是局部坐标下的
+        Vector3f wi = squareToCosineHemisphere(sampler->sampler2D());     //返回的是局部坐标下的
         float pdf = squareToCosineHemispherePdf(wi);
         
         //均匀采样

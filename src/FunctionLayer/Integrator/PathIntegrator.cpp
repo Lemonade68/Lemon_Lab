@@ -78,7 +78,7 @@ Spectrum PathIntegrator::li(Ray &ray, const Scene &scene, std::shared_ptr<Sample
 
         //确定下一次的光线
         auto bsdf = intersection.shape->material->computeBSDF(intersection);
-        auto bsdfSampleResult = bsdf->sampleShadingPoint(-ray.direction, sampler->sampler2D());
+        auto bsdfSampleResult = bsdf->sampleShadingPoint(-ray.direction, sampler);
         
         //更新权重
         weight *= bsdfSampleResult.weight;

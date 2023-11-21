@@ -11,7 +11,7 @@ public:
         return Spectrum(.0f);
     }
 
-    virtual BSDFSampleResult sampleShadingPoint(const Vector3f &wo, const Vector2f &sample) const override{
+    virtual BSDFSampleResult sampleShadingPoint(const Vector3f &wo, const std::shared_ptr<Sampler> &sampler) const override{
         Vector3f woLocal = normalize(toLocal(wo));
         Vector3f wiLocal(-woLocal[0], woLocal[1], -woLocal[2]);     //x z反转，y不变
         return {color * Spectrum(1.f), toWorld(wiLocal), 1.f, BSDFType::Specular};      //出射光线唯一，因此pdf直接为1

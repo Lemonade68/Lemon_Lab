@@ -7,8 +7,7 @@ public:
     GGX() noexcept = default;
     virtual ~GGX() noexcept = default;
 
-    virtual float getD(const Vector3f &whLocal, float alpha) const noexcept override{
-        Vector3f normal{.0f, 1.f, .0f};
+    virtual float getD(const Vector3f &whLocal, const Vector3f &normal, float alpha) const noexcept override{
         const float cos_theta = dot(normal, whLocal);
         if (cos_theta <= 0.0f)
             return 0.0f;
@@ -34,7 +33,7 @@ public:
 
     // ggx采样wh的方法：还是使用inversion方法进行采样
     // https://zhuanlan.zhihu.com/p/408360008 以及上面的渲染器
-    virtual Vector3f sampleWh(const Vector3f &woLocal, const float &alpha, const Vector2f &sample) const noexcept override {
+    virtual Vector3f sampleWh(const float &alpha, const Vector2f &sample) const noexcept override {
         const float phi = 2.0f * PI * sample[0],
                 cos_phi = cosf(phi),
                 sin_phi = sinf(phi),

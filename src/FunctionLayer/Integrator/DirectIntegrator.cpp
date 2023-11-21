@@ -24,7 +24,7 @@ Spectrum DirectIntegrator_SampleBSDF::li(Ray &ray, const Scene &scene, std::shar
     //光源的计算(直接采样BSDF的话是采样随机一个方向，判断是否打到光源，打到：加上，没打到：不管)
     auto material = intersection.shape->material;
     auto bsdf = material->computeBSDF(intersection);
-    auto bsdfSampleResult = bsdf->sampleShadingPoint(-ray.direction, sampler->sampler2D());     //考虑了材质
+    auto bsdfSampleResult = bsdf->sampleShadingPoint(-ray.direction, sampler);     //考虑了材质
 
     //TODO：判断是否直接击中光源——击中则直接返回？
 

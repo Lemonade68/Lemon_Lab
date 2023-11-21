@@ -18,7 +18,7 @@ public:
 private:
     std::shared_ptr<Texture<Spectrum>> albedo;      //颜色值
     std::shared_ptr<NDF> ndf;       //法线分布函数
-    Vector3f eta;                   //相对折射率，透射侧/入射侧
-    Vector3f inv_eta;               //相对折射率的倒数，入射侧/透射侧
+    Vector3f eta;                   //物体折射率/外界折射率
+    Vector3f inv_eta;               //外界折射率/物体折射率
     float roughness;                //材料的粗糙度（对应bsdf中的alpha）
 };

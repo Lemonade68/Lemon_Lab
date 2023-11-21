@@ -16,11 +16,11 @@ public:
         Vector3f wo_local = normalize(toLocal(wo));
         Vector3f wi_local = normalize(toLocal(wi));
         Vector3f wh_local = normalize(wo_local + wi_local);    //半程向量（微观法线）
-        Vector3f normal{0.f, 1.f, 0.f};
+        Vector3f normal{0.f, 1.f, 0.f};     //本地空间下的法线坐标
 
         // 2. 根据公式计算 Fr, D, G
         Vector3f Fr = getFr(dot(wh_local, wo_local));
-        float D = ndf->getD(wh_local, alpha);
+        float D = ndf->getD(wh_local, normal, alpha);
         float G = ndf->getG(wo_local, normal, wh_local, alpha) * ndf->getG(wi_local, normal, wh_local, alpha);
 
         // 注: brdf中分母的cos(θi)项与渲染方程中的cos项相消，因此分母只有4cos(θo)
@@ -35,14 +35,15 @@ public:
     }
 
     //TODO：使用inversion method来进行microfacet材质重要性采样
-    virtual BSDFSampleResult sampleShadingPoint(const Vector3f &wo, const Vector2f &sample) const override{
+    virtual BSDFSampleResult sampleShadingPoint(const Vector3f &wo, const std::shared_ptr<Sampler> &sampler) const override{
         // Vector3f wi = squareToCosineHemisphere(sample);
         // float pdf = squareToCosineHemispherePdf(wi);
-        
+        Vector3f normal{0.f, 1.f, 0.f};     //本地空间下的法线坐标
+
         Vector3f woLocal = normalize(toLocal(wo));
-        Vector3f whLocal = ndf->sampleWh(woLocal, alpha, sample);   //获取采样的whLocal
+        Vector3f whLocal = ndf->sampleWh(alpha, sampler->sampler2D());   //获取采样的whLocal
         Vector3f wiLocal = ndf->calcWiLocalReflect(woLocal, whLocal);    //通过出射光线和法线计算入射光线（镜面反射）
-        float pdf = ndf->getPDF_reflect_global(wiLocal, whLocal, alpha);    //已经转换为宏观半球上的pdf
+        float pdf = ndf->getPDF_reflect_global(wiLocal, whLocal, normal, alpha);    //已经转换为宏观半球上的pdf
 
         //pdf太小的话，在分母上时会导致结果非常大，从而带来问题
         //pdf太小直接不考虑，只采用pdf大的，将权重设置为0，然后在pathIntegrator中直接退出（暂时解决蓝色噪声问题，见日志）

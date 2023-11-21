@@ -1,6 +1,7 @@
 #pragma once
 #include"CoreLayer/ColorSpace/Spectrum.h"
 #include"FunctionLayer/Shape/Intersection.h"
+#include"FunctionLayer/Sampler/IndependentSampler.h"
 
 enum class BSDFType {
     Diffuse,
@@ -29,7 +30,7 @@ public:
     virtual Spectrum f(const Vector3f &wo, const Vector3f &wi) const = 0;
 
     //TODO：在BSDF上采样的方法
-    virtual BSDFSampleResult sampleShadingPoint(const Vector3f &wo, const Vector2f &sample) const = 0;
+    virtual BSDFSampleResult sampleShadingPoint(const Vector3f &wo, const std::shared_ptr<Sampler> &sampler) const = 0;
 
 public:
     //构成该点下的局部坐标系(这三是世界坐标系下的值)(应该是单位基向量)

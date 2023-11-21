@@ -25,7 +25,7 @@ Spectrum WhittedIntegrator::li(Ray &ray, const Scene &scene, std::shared_ptr<Sam
 
         auto material = intersection.shape->material;
         auto bsdf = material->computeBSDF(intersection);
-        auto bsdfSampleResult = bsdf->sampleShadingPoint(-ray.direction, sampler->sampler2D());
+        auto bsdfSampleResult = bsdf->sampleShadingPoint(-ray.direction, sampler);
 
         //如果是镜面材质：直接重新生成反射光线，直接进入下一次循环
         if(bsdfSampleResult.type == BSDFType::Specular){
