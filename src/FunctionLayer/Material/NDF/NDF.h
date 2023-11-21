@@ -30,9 +30,9 @@ public:
 
     float getPDF_refract_global(const Vector3f &woLocal, const Vector3f &wiLocal, const Vector3f &whLocal, const Vector3f &normal, const float &alpha, const Vector3f &inv_eta) const noexcept{
         float pdf = getD(whLocal, normal, alpha) * std::abs(whLocal[1]);
-        //折射pdf的雅可比行列式转换，具体见上面的链接
+        //折射pdf的雅可比行列式转换，具体见上面的链接（注意与材料里wi/wo相反，且wo的方向与材料中wi相反）
         pdf *= std::abs(dot(wiLocal, whLocal)) /
-               ((inv_eta[0] * dot(woLocal, whLocal) + dot(wiLocal, whLocal)) * (inv_eta[0] * dot(woLocal, whLocal) + dot(wiLocal, whLocal)));
+               (std::pow((inv_eta[0] * dot(-woLocal, whLocal) + dot(wiLocal, whLocal)), 2));
         return pdf;
     }
 

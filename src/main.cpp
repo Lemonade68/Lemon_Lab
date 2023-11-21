@@ -165,19 +165,19 @@ int main(){
     // Sphere sphere5(Point3f(.0f), .35f, std::make_shared<Conductor_Material>(.65f, Vector3f(0.15494, 0.11648, 0.13809), Vector3f(4.81810, 3.11562, 2.14240)), nullptr, Vector3f(1.8f, .8f, .0f));
     // scene.addObject(std::make_shared<Sphere>(sphere5));
 
-    Sphere sphere6(Point3f(.0f), .35f, std::make_shared<Dielectric_Material>(.05f, Vector3f(1.5f)),nullptr, Vector3f(-1.8f, -.2f, .0f));
+    Sphere sphere6(Point3f(.0f), .35f, std::make_shared<Dielectric_Material>(.05f, Vector3f(.5f)),nullptr, Vector3f(-1.8f, -.2f, .0f));
     scene.addObject(std::make_shared<Sphere>(sphere6));
 
-    Sphere sphere7(Point3f(.0f), .35f, std::make_shared<Dielectric_Material>(.2f, Vector3f(1.5f)), nullptr, Vector3f(-.9f, -.2f, .0f));
+    Sphere sphere7(Point3f(.0f), .35f, std::make_shared<Dielectric_Material>(.2f, Vector3f(.5f)), nullptr, Vector3f(-.9f, -.2f, .0f));
     scene.addObject(std::make_shared<Sphere>(sphere7));
 
-    Sphere sphere8(Point3f(.0f), .35f, std::make_shared<Dielectric_Material>(.4f, Vector3f(1.5f)), nullptr, Vector3f(.0f, -.2f, .0f));
+    Sphere sphere8(Point3f(.0f), .35f, std::make_shared<Dielectric_Material>(.4f, Vector3f(.5f)), nullptr, Vector3f(.0f, -.2f, .0f));
     scene.addObject(std::make_shared<Sphere>(sphere8));
 
-    Sphere sphere9(Point3f(.0f), .35f, std::make_shared<Dielectric_Material>(.55f, Vector3f(1.5f)), nullptr, Vector3f(.9f, -.2f, .0f));
+    Sphere sphere9(Point3f(.0f), .35f, std::make_shared<Dielectric_Material>(.55f, Vector3f(.5f)), nullptr, Vector3f(.9f, -.2f, .0f));
     scene.addObject(std::make_shared<Sphere>(sphere9));
 
-    Sphere sphere10(Point3f(.0f), .35f, std::make_shared<Dielectric_Material>(.75f, Vector3f(1.5f)), nullptr, Vector3f(1.8f, -.2f, .0f));
+    Sphere sphere10(Point3f(.0f), .35f, std::make_shared<Dielectric_Material>(.75f, Vector3f(.5f)), nullptr, Vector3f(1.8f, -.2f, .0f));
     scene.addObject(std::make_shared<Sphere>(sphere10));
 
     Parallelogram light1(Point3f(-0.6, 1.98, -0.6), Vector3f(1.2, 0, 0), Vector3f(0, 0, 1.2));
@@ -197,8 +197,8 @@ int main(){
     bool debug = false;
 
     //ÊÇ·ñÊä³öÎªhdrÍ¼Æ¬
-    // bool isHdr = false;
-    bool isHdr = true;
+    bool isHdr = false;
+    // bool isHdr = true;
 
     if(!debug){
         auto start = std::chrono::system_clock::now();

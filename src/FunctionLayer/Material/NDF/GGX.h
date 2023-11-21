@@ -32,6 +32,7 @@ public:
     }
 
     // ggx采样wh的方法：还是使用inversion方法进行采样
+    // 注意我的坐标系中是y朝上
     // https://zhuanlan.zhihu.com/p/408360008 以及上面的渲染器
     virtual Vector3f sampleWh(const float &alpha, const Vector2f &sample) const noexcept override {
         const float phi = 2.0f * PI * sample[0],
@@ -41,7 +42,7 @@ public:
         const float tan_theta_2 = alpha_2 * sample[1] / (1.0f - sample[1]),
                     cos_theta = 1.0f / sqrt(1.0f + tan_theta_2),
                     sin_theta = sqrt(1.0f - cos_theta * cos_theta);
-        Vector3f whLocal = Vector3f(sin_theta * cos_phi, sin_theta * sin_phi, cos_theta);
+        Vector3f whLocal = Vector3f(sin_theta * cos_phi, cos_theta, sin_theta * sin_phi);
         return whLocal;
     }
 };
