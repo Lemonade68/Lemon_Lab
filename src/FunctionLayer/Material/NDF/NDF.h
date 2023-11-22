@@ -32,7 +32,7 @@ public:
         float pdf = getD(whLocal, normal, alpha) * std::abs(whLocal[1]);
         //折射pdf的雅可比行列式转换，具体见上面的链接（注意与材料里wi/wo相反，且wo的方向与材料中wi相反）
         pdf *= std::abs(dot(wiLocal, whLocal)) /
-               (std::pow((inv_eta[0] * dot(-woLocal, whLocal) + dot(wiLocal, whLocal)), 2));
+               (std::pow((inv_eta[0] * dot(woLocal, whLocal) + dot(wiLocal, whLocal)), 2));
         return pdf;
     }
 

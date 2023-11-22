@@ -54,7 +54,7 @@ Spectrum PathIntegrator::li(Ray &ray, const Scene &scene, std::shared_ptr<Sample
                 lightSampleResult.pdf *= pdfLight;
                 convertPDF(lightSampleResult);
                 auto pdf = lightSampleResult.pdf;
-                spectrum += weight * lightSampleResult.energy * f / pdf;
+                spectrum += weight * (lightSampleResult.energy * f / pdf);
             }
             else if (auto anotherLight = occlude.value().shape->light; anotherLight){     //打到的是另一个光源
                 //暂时认为另一个光源重新采样一个点后，该点与shading point间没有障碍

@@ -72,6 +72,10 @@ public:
 
     bool isZero() const { return rgb.isZero(); }
 
+    SpectrumRGB abs() const{
+        return SpectrumRGB{std::abs(rgb.x()), std::abs(rgb.y()), std::abs(rgb.z())};
+    }
+
     void debugPrint() const {
         printf("[rgb](");
         for (int i = 0; i < 3; ++i) {

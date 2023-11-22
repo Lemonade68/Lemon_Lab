@@ -11,7 +11,7 @@ public:
 
     Dielectric_Material(const float _roughness, Vector3f _eta,
                        std::shared_ptr<NDF> _ndf = std::make_shared<GGX>(),
-                       std::shared_ptr<Texture<Spectrum>> _albedo = std::make_shared<ConstantTexture<Spectrum>>(Spectrum(.8f)));
+                       std::shared_ptr<Texture<Spectrum>> _albedo = std::make_shared<ConstantTexture<Spectrum>>(Spectrum(1.f)));
 
     virtual std::shared_ptr<BSDF> computeBSDF(const Intersection &intersection) const override;
 

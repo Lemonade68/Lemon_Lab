@@ -9,8 +9,8 @@ public:
 
     virtual float getD(const Vector3f &whLocal, const Vector3f &normal, float alpha) const noexcept override{
         const float cos_theta = dot(normal, whLocal);
-        if (cos_theta <= 0.0f)
-            return 0.0f;
+        // if (cos_theta <= 0.0f)
+            // return 0.0f;
         const float cos_theta_2 = cos_theta * cos_theta,
                     tan_theta_2 = (1.0f - cos_theta_2) / cos_theta_2,
                     cos_theta_3 = pow(cos_theta, 3),
@@ -21,8 +21,8 @@ public:
     // ²Î¿¼¸ÃËã·¨ https://github.com/zhiwei-c/Monte-Carlo-Path-Tracing/blob/main/src/utils/math.cuh#L184
     virtual float getG(const Vector3f &vLocal, const Vector3f &normal, const Vector3f &whLocal, float alpha) const noexcept override{
         const float cosTheta = dot(vLocal, normal);
-        if(cosTheta * dot(vLocal,whLocal) <= .0f)
-            return .0f;
+        // if(cosTheta * dot(vLocal,whLocal) <= .0f)
+        //     return .0f;
 
         const float cosTheta2 = cosTheta * cosTheta,
                     tanTheta2 = (1.f - cosTheta2) / cosTheta2,
