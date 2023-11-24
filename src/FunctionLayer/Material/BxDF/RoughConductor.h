@@ -24,7 +24,10 @@ public:
         float G = ndf->getG(wo_local, normal, wh_local, alpha) * ndf->getG(wi_local, normal, wh_local, alpha);
 
         // 注: brdf中分母的cos(θi)项与渲染方程中的cos项相消，因此分母只有4cos(θo)
-        return albedo * D * G * Fr / (4 * dot(normal, wo_local));
+        float divisor = 4 * dot(normal, wo_local);
+        if(divisor < EPSILON)
+            return {};
+        return albedo * D * G * Fr / divisor;
     }
 
     //Fr的计算与是conductor还是dielectric有关

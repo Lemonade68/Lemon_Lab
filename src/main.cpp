@@ -27,6 +27,8 @@
 #include"FunctionLayer/Material/Conductor.h"
 #include"FunctionLayer/Material/Dielectric.h"
 
+#include"FunctionLayer/Texture/CheckerTexture.h"
+
 
 #include<iostream>
 #include<stdio.h>
@@ -43,8 +45,8 @@
 
 #define SCR_WIDTH 1200
 #define SCR_HEIGHT 800
-#define SPP 50
-#define MAX_DEPTH 5
+#define SPP 10
+#define MAX_DEPTH 7
 
 #define PBSTR "||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||"
 #define PBWIDTH 60
@@ -95,7 +97,7 @@ int main(){
     scene.addObject(std::make_shared<Parallelogram>(obj1));
 
     //头顶
-    Parallelogram obj2(Point3f(-2.5f, 2.f, -1.5f), Vector3f(5.f, .0f, .0f), Vector3f(.0f, .0f, 3.f), nullptr, std::make_shared<Matte_Material>(std::make_shared<ConstantTexture<Spectrum>>(Spectrum(.8f))));
+    Parallelogram obj2(Point3f(-2.5f, 2.f, -1.5f), Vector3f(5.f, .0f, .0f), Vector3f(.0f, .0f, 3.f), nullptr, std::make_shared<Matte_Material>(std::make_shared<ConstantTexture<Spectrum>>(Spectrum(1.f))));
     scene.addObject(std::make_shared<Parallelogram>(obj2));
 
     //左面
@@ -107,7 +109,7 @@ int main(){
     scene.addObject(std::make_shared<Parallelogram>(obj4));
 
     //后面
-    Parallelogram obj5(Point3f(2.5f, -1.f, -1.5f), Vector3f(.0f, 3.f, .0f), Vector3f(-5.f, .0f, .0f));
+    Parallelogram obj5(Point3f(2.5f, -1.f, -1.5f), Vector3f(.0f, 3.f, .0f), Vector3f(-5.f, .0f, .0f),nullptr,std::make_shared<Matte_Material>(std::make_shared<CheckerTexture>()));
     scene.addObject(std::make_shared<Parallelogram>(obj5));
 
     // Cube cube1(Point3f(-1.f), Point3f(1.f), std::make_shared<Matte_Material>(std::make_shared<ConstantTexture<Spectrum>>(Spectrum(.5f))), nullptr, Vector3f(-0.5, -0.2, -0.6), Vector3f(0.45, 0.8, 0.45), Vector3f(0, 1, 0), .5f);
@@ -123,9 +125,9 @@ int main(){
     // std::string modelPath("C:/Users/Lemonade/Desktop/Lemon_Lab/src/ResourceLayer/Models/dragon/dragon.obj");
     // std::string ballPath1("C:/Users/Lemonade/Desktop/Lemon_Lab/src/ResourceLayer/Models/disney_bsdf/obj2.obj");
     // std::string ballPath2("C:/Users/Lemonade/Desktop/Lemon_Lab/src/ResourceLayer/Models/disney_bsdf/obj3.obj");
-    std::string bunnyPath("C:/Users/Lemonade/Desktop/Lemon_Lab/src/ResourceLayer/Models/bunny/bunny.obj");
+    // std::string bunnyPath("C:/Users/Lemonade/Desktop/Lemon_Lab/src/ResourceLayer/Models/bunny/bunny.obj");
     // std::string monkeyPath("C:/Users/Lemonade/Desktop/Lemon_Lab/src/ResourceLayer/Models/monkey/suzanne.obj");
-    std::string dragonPath("C:/Users/Lemonade/Desktop/Lemon_Lab/src/ResourceLayer/Models/dragon/dragon.obj");
+    // std::string dragonPath("C:/Users/Lemonade/Desktop/Lemon_Lab/src/ResourceLayer/Models/dragon/dragon.obj");
 
     // int nx, ny, nrChannels;
     // // 使用相对路径好像有点问题
@@ -142,13 +144,13 @@ int main(){
     // TriangleMesh model(modelPath, maxLeafSize, std::make_shared<Matte_Material>(std::make_shared<ConstantTexture<Spectrum>>(Spectrum(1.f, .98f, .94f))), nullptr, Vector3f(-.1f, -.45f, .0f), Vector3f(2.f), Vector3f(.0f, 1.f, .0f), 2.f * PI / 3.f);
     // TriangleMesh model(modelPath, maxLeafSize, std::make_shared<Matte_Material>(std::make_shared<ImageTexture>(data, nx, ny)), nullptr, Vector3f(.0f, .0f, .0f), Vector3f(1.f), Vector3f(1.f, 1.f, .0f), -45.f);
     // TriangleMesh bunny(bunnyPath, maxLeafSize, std::make_shared<Conductor_Material>(.005f, Vector3f(0.15494, 0.11648, 0.13809), Vector3f(4.81810, 3.11562, 2.14240)), nullptr, Vector3f(-.8f, -1.f, .0f));
-    TriangleMesh bunny(bunnyPath, maxLeafSize, std::make_shared<Dielectric_Material>(.2f, Vector3f(1.5f)), nullptr, Vector3f(-.8f, -1.f, .0f));
+    // TriangleMesh bunny(bunnyPath, maxLeafSize, std::make_shared<Dielectric_Material>(.002f, Vector3f(1.5f)), nullptr, Vector3f(-.8f, -1.f, .0f));
     // TriangleMesh monkey(monkeyPath, maxLeafSize, std::make_shared<Conductor_Material>(.3f, Vector3f(0.15494, 0.11648, 0.13809), Vector3f(4.81810, 3.11562, 2.14240)), nullptr, Vector3f(1.f, -.2f, .0f), Vector3f(.7f));
-    TriangleMesh dragon(dragonPath, maxLeafSize, std::make_shared<Conductor_Material>(.1f, Vector3f(0.15494, 0.11648, 0.13809), Vector3f(4.81810, 3.11562, 2.14240)), nullptr, Vector3f(1.f, -.45f, .2f), Vector3f(2.f), Vector3f(.0f, 1.f, .0f), -2.f * PI / 3.f);
+    // TriangleMesh dragon(dragonPath, maxLeafSize, std::make_shared<Conductor_Material>(.1f, Vector3f(0.15494, 0.11648, 0.13809), Vector3f(4.81810, 3.11562, 2.14240)), nullptr, Vector3f(1.f, -.45f, .2f), Vector3f(2.f), Vector3f(.0f, 1.f, .0f), -2.f * PI / 3.f);
 
-    scene.addObject(std::make_shared<TriangleMesh>(bunny));
+    // scene.addObject(std::make_shared<TriangleMesh>(bunny));
     // scene.addObject(std::make_shared<TriangleMesh>(monkey));
-    scene.addObject(std::make_shared<TriangleMesh>(dragon));
+    // scene.addObject(std::make_shared<TriangleMesh>(dragon));
     // scene.addObject(std::make_shared<TriangleMesh>(ball1));
     // scene.addObject(std::make_shared<TriangleMesh>(ball2));
     
@@ -170,11 +172,11 @@ int main(){
     // Sphere sphereA(Point3f(.0f), .35f, std::make_shared<Dielectric_Material>(.05f, Vector3f(1.5f)), nullptr, Vector3f(1.8f, -.5f, .5f));
     // scene.addObject(std::make_shared<Sphere>(sphereA));
 
-    // Sphere sphereB(Point3f(.0f), .35f, std::make_shared<Dielectric_Material>(.01f, Vector3f(1.5f)), nullptr, Vector3f(-.2f, -.7f, 1.f));
-    // scene.addObject(std::make_shared<Sphere>(sphereB));
+    Sphere sphereB(Point3f(.0f), .35f, std::make_shared<Dielectric_Material>(.01f, Vector3f(1.5f)), nullptr, Vector3f(-.2f, -.7f, 1.f));
+    scene.addObject(std::make_shared<Sphere>(sphereB));
 
-    // Sphere sphereC(Point3f(.0f), .35f, std::make_shared<Dielectric_Material>(.1f, Vector3f(1.5f)), nullptr, Vector3f(.0f, .8f, .5f));
-    // scene.addObject(std::make_shared<Sphere>(sphereC));
+    Sphere sphereC(Point3f(.0f), .35f, std::make_shared<Dielectric_Material>(.1f, Vector3f(1.5f)), nullptr, Vector3f(.0f, .8f, .5f));
+    scene.addObject(std::make_shared<Sphere>(sphereC));
 
     // float eta = 1.5f;
 
@@ -193,7 +195,7 @@ int main(){
     // Sphere sphere10(Point3f(.0f), .35f, std::make_shared<Dielectric_Material>(.4f, Vector3f(eta)), nullptr, Vector3f(1.8f, -.2f, .0f));
     // scene.addObject(std::make_shared<Sphere>(sphere10));
 
-    Parallelogram light1(Point3f(-0.6, 1.98, -0.6), Vector3f(1.2, 0, 0), Vector3f(0, 0, 1.2));
+    Parallelogram light1(Point3f(-0.6, 1.999, -0.6), Vector3f(1.2, 0, 0), Vector3f(0, 0, 1.2));
     scene.addLight(std::make_shared<AreaLight>(Spectrum(3.f), std::make_shared<Parallelogram>(light1)));
 
     // Parallelogram light2(Point3f(-0.6, -0.98, -0.6), Vector3f(1.2, 0, 0), Vector3f(0, 0, 1.2));
@@ -234,6 +236,10 @@ int main(){
                 if(isHdr)
                     hdrImage.setValue(Vector2i(x, y), s2v(li));
                 else{
+                    if(li[0] != li[0]) li[0] = .0f;
+                    if(li[1] != li[1]) li[1] = .0f;
+                    if(li[2] != li[2]) li[2] = .0f;
+
                     //注意限制在特定范围[0,1]内（hdr图片再说）
                     int ir = static_cast<int>(Clamp(li.x(), .0f, 1.f) * 255.99f);
                     int ig = static_cast<int>(Clamp(li.y(), .0f, 1.f) * 255.99f);

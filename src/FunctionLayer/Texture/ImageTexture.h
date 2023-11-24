@@ -15,7 +15,7 @@ public:
 
     ~ImageTexture() { delete data; }        //析构时记得删除指针对应内存
 
-    virtual Spectrum evaluate(const TextureCoord &texCoord) const override;
+    virtual Spectrum evaluate(const TextureCoord &texCoord, const Point3f &position) const override;
 
     virtual Spectrum evaluate(const Intersection &intersection) const override;
 

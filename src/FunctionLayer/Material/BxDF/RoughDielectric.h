@@ -68,16 +68,22 @@ public:
         if(isReflect){
             float G = ndf->getG(wo_local, n, wh_local, alpha) * ndf->getG(wi_local, n, wh_local, alpha);
             // 注: brdf中分母的cos(θi)项与渲染方程中的cos项相消，因此分母只有4cos(θo)
-            return albedo * D * G * Fr / (4 * dot(n, wo_local));
+            float divisor = 4 * dot(n, wo_local);
+            if(divisor < EPSILON)
+                return {};  //返回.0f
+            return albedo * D * G * Fr / divisor;
         }
         else{
             //找BTDF公式去   https://zhuanlan.zhihu.com/p/459557696
             //G这边传入的前三者是否需要在同一个空间内？（不需要，去公式里分析）
             float G = ndf->getG(wo_local, n, wh_local, alpha) * ndf->getG(wi_local, n, wh_local, alpha);
+            float divisor2 = std::pow(eta_inv[0] * dot(wh_local, wo_local) + dot(wh_local, wi_local), 2);
+            if(divisor2 < EPSILON)
+                return {};
             return albedo * (1.f - Fr) * G * D
                    * (std::abs(dot(wh_local, wo_local) * dot(wh_local, wi_local)))
                    / (std::abs(dot(wo_local, n) * dot(wi_local,n))) 
-                   / std::pow(eta_inv[0] * dot(wh_local, wo_local) + dot(wh_local, wi_local), 2)
+                   / divisor2
                    * dot(-n, wi_local) * eta_inv[0] * eta_inv[0];     //别忘了乘上cos项和变换立体角范围
         }
     }
@@ -132,7 +138,7 @@ public:
 
             float pdf = (1.f - Fr) * ndf->getPDF_refract_global(woLocal, wiLocal, whLocal, n, alpha, eta_inv);
 
-            if(pdf < 1e-2f)     
+            if(pdf < 1e-1f)     
                 return {Spectrum(.0f), toWorld(wiLocal), pdf, BSDFType::Refract};
 
             return {f(wo, toWorld(wiLocal)) / pdf, toWorld(wiLocal), pdf, BSDFType::Refract};

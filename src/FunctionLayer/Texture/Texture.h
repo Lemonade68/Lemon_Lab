@@ -33,7 +33,7 @@ public:
     //...
 
     //根据二维纹理坐标来获取颜色值
-    virtual TReturn evaluate(const TextureCoord &texCoord) const = 0;
+    virtual TReturn evaluate(const TextureCoord &texCoord, const Point3f &position) const = 0;
 
     //根据交点信息获取颜色值（其实就是通过mapping方法求出texCoord，再带到上面）
     virtual TReturn evaluate(const Intersection &intersection) const = 0;

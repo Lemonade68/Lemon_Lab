@@ -1,7 +1,7 @@
 #include"ImageTexture.h"
 
 //直接从纹理坐标获取图片纹理的信息
-Spectrum ImageTexture::evaluate(const TextureCoord &texCoord) const{
+Spectrum ImageTexture::evaluate(const TextureCoord &texCoord, const Point3f &position) const{
     if(data == nullptr)
         return Spectrum(1.f, .0f, .0f);     //返回纯红色，表示图片加载错误
 
@@ -26,5 +26,5 @@ Spectrum ImageTexture::evaluate(const TextureCoord &texCoord) const{
 
 Spectrum ImageTexture::evaluate(const Intersection &intersection) const{
     auto texCoord = mapping->map(intersection);
-    return evaluate(texCoord);
+    return evaluate(texCoord, intersection.position);
 }

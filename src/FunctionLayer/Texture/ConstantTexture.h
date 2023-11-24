@@ -10,7 +10,7 @@ public:
     ConstantTexture(const TReturn &_value) : value(_value) {}
 
     //Constant texture直接返回常量值即可
-    virtual TReturn evaluate(const TextureCoord &texCoord) const override{
+    virtual TReturn evaluate(const TextureCoord &texCoord, const Point3f &position) const override{
         return value;
     }
 
