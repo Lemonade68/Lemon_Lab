@@ -33,7 +33,7 @@ Cube::Cube(const Point3f &_boxMin, const Point3f &_boxMax,
     boxMax = {max[0], max[1], max[2]};
 }
 
-bool Cube::rayIntersectShape(Ray &ray, Intersection &intersection) const{
+bool Cube::rayIntersectShape(Ray &ray, int* primID, float *u, float *v) const {
     Ray rayLocal = transform.RayToLocal(ray);      //获取变到局部坐标系中的光线，从而可以直接和AABB进行求交(注意不能直接改变光线，后面的求交会出问题)
     auto origin = rayLocal.origin;
     auto direction = rayLocal.direction;
@@ -56,7 +56,7 @@ bool Cube::rayIntersectShape(Ray &ray, Intersection &intersection) const{
 
     //compute这个lambda函数通过交点信息来记录交点的面信息、在面上的偏移量
     //传[&boxMin, &boxMax]会说boxMin不是变量，原因：https://www.coder.work/article/31830
-    auto compute = [min = boxMin, max = boxMax](Point3f hitpoint, int &faceID, float &u, float &v){
+    auto compute = [min = boxMin, max = boxMax](Point3f hitpoint, int *primID, float *u, float *v){
         float minBias = FLT_MAX;        //记录最小偏移量
         int face_id = -1;               //记录打到的是哪个面
 
@@ -74,15 +74,15 @@ bool Cube::rayIntersectShape(Ray &ray, Intersection &intersection) const{
                 minBias = bias;
             }
         }
-        faceID = face_id;       //记录面的信息
+        primID = &face_id;       //记录面的信息
 
         //计算交点在面上的uv坐标，  **这个算法很巧妙，好好思考其与xyz轴的叉乘关系**   出自moer-lite
         //例如：垂直于x轴的面计算出来的axis就是1和2，计算的就是y和z上的比例
         //对于每个面：计算的是到左下角（两个最小值）的对应两段长度对应的uv
         int axis = (face_id / 2 + 1) % 3;
-        u = (float)(hitpoint[axis] - min[axis]) / (max[axis] - min[axis]);
+        *u = (float)(hitpoint[axis] - min[axis]) / (max[axis] - min[axis]);
         axis = (axis + 1) % 3;
-        v = (float)(hitpoint[axis] - min[axis]) / (max[axis] - min[axis]);
+        *v = (float)(hitpoint[axis] - min[axis]) / (max[axis] - min[axis]);
     };
 
     bool hit = false;
@@ -91,10 +91,7 @@ bool Cube::rayIntersectShape(Ray &ray, Intersection &intersection) const{
     //* 思考见日志第11条
     if(ray.tNear < tExit && tExit < ray.tFar){
         Point3f hitpoint = origin + tExit * direction;
-        int faceID;
-        float u, v;
-        compute(hitpoint, faceID, u, v);
-        fillIntersection(tExit, faceID, u, v, intersection);
+        compute(hitpoint, primID, u, v);
         ray.tFar = tExit;
         hit = true;
     }
@@ -102,32 +99,29 @@ bool Cube::rayIntersectShape(Ray &ray, Intersection &intersection) const{
     //如果tEnter是真正的击中距离，overwrite上面的结果
     if(ray.tNear < tEnter && tEnter < ray.tFar){
         Point3f hitpoint = origin + tEnter * direction;
-        int faceID;
-        float u, v;
-        compute(hitpoint, faceID, u, v);
-        fillIntersection(tEnter, faceID, u, v, intersection);
+        compute(hitpoint, primID, u, v);
         ray.tFar = tEnter;
         hit = true;
     }
     return hit;
 }
 
-void Cube::fillIntersection(float t, int faceID, float u, float v, Intersection &intersection) const{
-    intersection.shape = this;
-    intersection.t = t;
-    intersection.texCoord = Vector2f(u, v);
+void Cube::fillIntersection(float tFar, int primID, float u, float v, Intersection *intersection) const {
+    intersection->shape = this;
+    intersection->t = tFar;
+    intersection->texCoord = Vector2f(u, v);
 
     //将本地的法线转换为世界空间的法线
     Vector4f normal(.0f);
-    normal[faceID / 2] = (faceID % 2) ? 1 : -1;
+    normal[primID / 2] = (primID % 2) ? 1 : -1;
     normal = transform.rotate * normal;     //平移和缩放不改变法线方向
-    intersection.normal = normalize(Vector3f(normal[0], normal[1], normal[2]));
+    intersection->normal = normalize(Vector3f(normal[0], normal[1], normal[2]));
 
     //将本地交点坐标转换为世界空间的交点
     Vector4f hitpoint;
     //  计算本地坐标
-    hitpoint[faceID / 2] = (faceID % 2) ? boxMax[faceID / 2] : boxMin[faceID / 2];     //设置该平面垂直的轴对应的值
-    int axis = (faceID / 2 + 1) % 3;        //计算u对应的位置坐标
+    hitpoint[primID / 2] = (primID % 2) ? boxMax[primID / 2] : boxMin[primID / 2];     //设置该平面垂直的轴对应的值
+    int axis = (primID / 2 + 1) % 3;        //计算u对应的位置坐标
     hitpoint[axis] = boxMin[axis] + u * (boxMax[axis] - boxMin[axis]);
     axis = (axis + 1) % 3;                //计算v对应的位置坐标
     hitpoint[axis] = boxMin[axis] + v * (boxMax[axis] - boxMin[axis]);
@@ -135,15 +129,15 @@ void Cube::fillIntersection(float t, int faceID, float u, float v, Intersection 
     //  转换成世界坐标(初始化时已经缩放过了)
     hitpoint = transform.translate * transform.rotate * hitpoint;       //先旋转，后平移
     hitpoint /= hitpoint[3];
-    intersection.position = Point3f(hitpoint[0], hitpoint[1], hitpoint[2]);
+    intersection->position = Point3f(hitpoint[0], hitpoint[1], hitpoint[2]);
 
     //计算切线和副切线
     Vector3f tangent(1.f, .0f, .0f);
     Vector3f bitangent;
-    if(std::abs(dot(tangent,intersection.normal)) > 0.9f)   //距离过近，当做平行，做不了cross，换个数
+    if(std::abs(dot(tangent,intersection->normal)) > 0.9f)   //距离过近，当做平行，做不了cross，换个数
         tangent = Vector3f(.0f, 1.f, .0f);
-    bitangent = normalize(cross(tangent, intersection.normal));
-    tangent = normalize(cross(intersection.normal, bitangent));
-    intersection.bitangent = bitangent;
-    intersection.tangent = tangent;
+    bitangent = normalize(cross(tangent, intersection->normal));
+    tangent = normalize(cross(intersection->normal, bitangent));
+    intersection->bitangent = bitangent;
+    intersection->tangent = tangent;
 }

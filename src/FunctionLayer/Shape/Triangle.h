@@ -4,6 +4,7 @@
 #include"FunctionLayer/Light/Light.h"
 #include"ResourceLayer/Mesh.h"
 #include"FunctionLayer/Acceleration/BVH.h"
+#include"FunctionLayer/Acceleration/EmbreeBVH.h"
 
 class TriangleMesh;
 
@@ -13,7 +14,9 @@ public:
     Triangle(int _primID, int _vtx0Idx, int _vtx1Idx, int _vtx2Idx,
          const TriangleMesh *_mesh);
 
-    virtual bool rayIntersectShape(Ray &ray, Intersection &intersection) const override;
+    virtual bool rayIntersectShape(Ray &ray, int *primID, float *u, float *v) const override;
+
+    virtual void fillIntersection(float tFar, int primID, float u, float v, Intersection *intersection) const override;
 
     //暂时不使用三角形面作为光源，后续完善
     virtual void uniformSampleOnSurface(Vector2f sample, Intersection &result, float &pdf) const override{
@@ -24,7 +27,7 @@ public:
     virtual void debugPrint() const override { /*TODO*/ }
 
 private:
-    int primID;     //图元号
+    int primID;     //图元号（在mesh中）
     int vertex0Index, vertex1Index, vertex2Index;
     std::shared_ptr<MeshData> meshData;
 };
@@ -48,13 +51,13 @@ public:
         auto _mesh = MeshData::loadFromFile(filepath);
         meshData = _mesh;
         initInternalAcceleration();     //创建时构建内部加速结构
-        innerAcceleration->shapeList.reserve(meshData->faceCount);      //提前预留好位置
     }
 
     //如果能够在内部直接构建一个加速结构，然后这个函数被调用时直接使用内部的加速结构进行计算就好
-    virtual bool rayIntersectShape(Ray &ray, Intersection &intersection) const override{
-        return innerAcceleration->rayIntersect(ray, intersection);
-    }
+    //* 当使用embree加速时，该方法不会被调用
+    virtual bool rayIntersectShape(Ray &ray, int *primID, float *u, float *v) const override;
+
+    virtual void fillIntersection(float tFar, int primID, float u, float v, Intersection *intersection) const override;
 
     void initInternalAcceleration();        //模型内部的加速结构创建，同时创建整体的bounding box
 
@@ -64,6 +67,10 @@ public:
         //TODO：finish this
         return;
     }
+
+    //由于triangle mesh含有多个primitives且为内置类型，因此需要重新定义getEmbreeGeometry函数，
+    //且求交也由embree内部完成
+    virtual RTCGeometry getEmbreeGeometry(RTCDevice device) const override;
 
 private:
     int maxLeafSize;

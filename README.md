@@ -26,7 +26,8 @@
   - [x] parallelogram（可用作地面和光源）
     - [x] 光源设置未完成
     - [x] 存在沿着平行四边形两边无限延长的问题，添加解决方法后边的长度不影响大小，只有边的方向起作用（**改用自己的方法**）
-  - [ ] triangle
+  - [x] triangle
+    - [x] triangle mesh
   - [x] cube
 - [x] bounding box 
   - [x] AABB
@@ -52,22 +53,23 @@
   - [x] Mirror(direct integrator sample light那里的f直接返回0，看后续是否需要改进)
   - [ ] Blinn_Phong
   - [ ] conductor
-    - [ ] 目前roughness只使用了单一的float表示，后续改成vector2f，用于各向异性材料使用
+    - [x] 目前roughness只使用了单一的float表示，后续改成vector2f，用于各向异性材料使用
   - [ ] dielectric
-  - [ ] BXDF
+    - [x] roughDielectric，当alpha较大时噪点较多，再考虑为什么
+      - [ ] BXDF
         - [ ] sampling方法（返回wi和pdf）
       - [x] 均匀采样
       - [ ] 重要性采样
-        - [x] cosine权重采样
-    - [ ] brdf采样
-    - [x] Lambert
+    - [x] cosine权重采样（Lambert）
+    - [x] brdf采样
     - [x] Specular
     - [ ] Phong
-    - [ ] Conductor
-    - [ ] Dielectric
+    - [x] Conductor
+    - [x] Dielectric
 - [ ] texture
   - [x] constantTexture
   - [x] imageTexture
+  - [x] CheckerTexture
   - [ ] normalTexture
 - [ ] scene(目前使用的是std::vector\<std::shared_ptr\<Shape>> Shape_list 的Scene类)
   - [ ] 加速结构（后续改进为该结构的Scene）
@@ -87,7 +89,10 @@
 
 Mipmap相关事宜
 
-TODO：Sphere的旋转（应该是在构造函数添加即可，不对，需要添加球的默认方向，**Triangle**，Film，Blinn_Phong材质，Conductor/Dielectric(PBR)，**JPG/HDR图片写入（stb_image_write.h）**，动态模糊（在写好AABB+BVH后写），**物体模型导入**，尝试导入gltf、fbx这种大场景模型，**Checkerboard材质**，环境光（EnvironmentLight、InfiniteLight等），球体的scale来实现缩放，多个mesh的obj的读入
+TODO：Sphere的旋转（应该是在构造函数添加即可，不对，需要添加球的默认方向，Film，Blinn_Phong材质，Conductor/Dielectric(PBR)，**JPG/HDR图片写入（stb_image_write.h）**，动态模糊（在写好AABB+BVH后写），尝试导入gltf、fbx这种大场景模型，环境光（EnvironmentLight、InfiniteLight等），球体的scale来实现缩放，**球的采样（rt series第三本中有）**
 
 图片写入：Image类，写入
 
+
+
+Embree实现：intersection中直接添加primID，看是否可行；rayIntersectShape参数更改，uv的记录；triangle mesh的内部构造那边shapelist有问题

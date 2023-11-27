@@ -26,3 +26,4 @@ C:\Users\Lemonade\Desktop\Lemon_Lab\src\FunctionLayer\Shape\Triangle.cpp;C:\User
 C:\Users\Lemonade\Desktop\Lemon_Lab\src\ResourceLayer\Mesh.cpp;C:\Users\Lemonade\Desktop\Lemon_Lab\build\Lemon_Lab.dir\Release\Mesh.obj
 C:\Users\Lemonade\Desktop\Lemon_Lab\src\FunctionLayer\Material\Conductor.cpp;C:\Users\Lemonade\Desktop\Lemon_Lab\build\Lemon_Lab.dir\Release\Conductor.obj
 C:\Users\Lemonade\Desktop\Lemon_Lab\src\FunctionLayer\Material\Dielectric.cpp;C:\Users\Lemonade\Desktop\Lemon_Lab\build\Lemon_Lab.dir\Release\Dielectric.obj
+C:\Users\Lemonade\Desktop\Lemon_Lab\src\FunctionLayer\Acceleration\EmbreeBVH.cpp;C:\Users\Lemonade\Desktop\Lemon_Lab\build\Lemon_Lab.dir\Release\EmbreeBVH.obj

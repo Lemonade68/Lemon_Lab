@@ -46,7 +46,7 @@ public:
 
     virtual void build() override;
 
-    virtual bool rayIntersect(Ray &ray, Intersection &intersection) const override;
+    virtual bool rayIntersect(Ray &ray, int *geomID, int *primID, float *u, float *v) const override;    //与光线求交的接口
 
     virtual void debugPrint() const override{
         PrintBVHNode(root);
@@ -58,7 +58,7 @@ private:
 
     //两个BVH的工具函数
     void buildBVH(int l, int r, BVHNode *&root);
-    bool rayIntersectBVH(BVHNode *root, Ray &ray, Intersection &intersection) const;
+    bool rayIntersectBVH(BVHNode *root, Ray &ray, int *geomID, int *primID, float *u, float *v) const;
 
     //按照包围盒中心的坐标来排序的谓词函数
     static bool cmpx(std::shared_ptr<Shape> t1, std::shared_ptr<Shape> t2) {

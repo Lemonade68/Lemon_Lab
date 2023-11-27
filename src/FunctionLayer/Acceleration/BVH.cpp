@@ -40,15 +40,17 @@ void BVH::buildBVH(int l, int r, BVHNode *&root){
 }
 
 //求交BVH与光线是否相交的工具函数(注意要实际改变ray)
-bool BVH::rayIntersectBVH(BVHNode *root, Ray &ray, Intersection &intersection) const{
+bool BVH::rayIntersectBVH(BVHNode *root, Ray &ray, int *geomID, int *primID, float *u, float *v) const{
     //如果是叶子结点：遍历其中所有的物体，使用其与光线求交的方法，来返回求交值，以及intersection值
 
     if(root->ShapeNum != 0){
         bool hit_least_one = false;     //是否有物体与光线相交
         for (int i = root->firstShapeOffset; i <= root->firstShapeOffset + root->ShapeNum - 1; ++i){
-            bool hit = shapeList[i]->rayIntersectShape(ray, intersection);      //这里intersection会自动更新
-            if(hit)
+            bool hit = shapeList[i]->rayIntersectShape(ray, primID, u, v);      //这里intersection会自动更新
+            if(hit){
                 hit_least_one = true;
+                *geomID = i;
+            }
         }
         if(hit_least_one)
             return true;
@@ -59,8 +61,8 @@ bool BVH::rayIntersectBVH(BVHNode *root, Ray &ray, Intersection &intersection) c
     else{
         //如果光线与包围盒没有交点，则直接返回false；有则继续
         if(root->box.RayIntersect(ray)){
-            bool result1 = rayIntersectBVH(root->left, ray, intersection),
-                 result2 = rayIntersectBVH(root->right, ray, intersection);
+            bool result1 = rayIntersectBVH(root->left, ray, geomID, primID, u, v),
+                 result2 = rayIntersectBVH(root->right, ray, geomID, primID, u, v);
             return (result1 || result2);
         }
         return false;
@@ -73,6 +75,6 @@ void BVH::build(){
     boundingBox = root->box;        //设置整体的bounding box
 }
 
-bool BVH::rayIntersect(Ray &ray, Intersection &intersection) const{
-    return rayIntersectBVH(root, ray, intersection);
+bool BVH::rayIntersect(Ray &ray, int *geomID, int *primID, float *u, float *v) const {    //与光线求交的接口
+    return rayIntersectBVH(root, ray, geomID, primID, u, v);
 }

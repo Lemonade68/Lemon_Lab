@@ -14,11 +14,12 @@ public:
            const Vector3f &translate = Vector3f(.0f, .0f, .0f),
            const Vector3f &scale = Vector3f(1.f, 1.f, 1.f)); // 球体暂时不考虑旋转与缩放（缩放直接更改半径）
 
-    virtual bool rayIntersectShape(Ray &ray, Intersection &intersection) const override;
+    virtual bool rayIntersectShape(Ray &ray, int *primID, float *u, float *v) const override;
 
-    //获取p点位置处的纹理坐标
-    //问题：实现时默认是局部坐标，这里sphere的实现是在世界坐标下的      ——    传入法线可以解决(对)
-    void get_sphere_uv(const Vector3f &normal, Vector2f &texCoord) const;
+    virtual void fillIntersection(float tFar, int primID, float u, float v, Intersection *intersection) const override;
+
+    //计算重心坐标工具函数（其实就是phi和theta）
+    void Sphere::get_sphere_uv(const Vector3f &normal, float *u, float *v) const;
 
     virtual void debugPrint() const override{
         std::cout << "<Sphere>\ncenter: ";

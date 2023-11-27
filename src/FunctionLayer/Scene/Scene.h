@@ -13,11 +13,11 @@
 #include<memory>
 
 
-//暂时未考虑加速结构(现已考虑)
 class Scene {
 public:
     Scene() { 
         light_num = 0;
+        geomID = 0;
         acceleration = nullptr;
     }
 
@@ -26,6 +26,7 @@ public:
 
     //添加物体
     void addObject(const std::shared_ptr<Shape> &ptr){
+        ptr->geometryID = geomID++;
         shape_list.push_back(ptr);
     }
 
@@ -38,6 +39,7 @@ public:
             //学习下这种写法（基类没有但是要添加子类成员）
             auto shape = std::static_pointer_cast<AreaLight>(light)->shape;
             shape->light = light;
+            shape->geometryID = geomID++;
             shape_list.push_back(shape);
         }
         
@@ -91,6 +93,7 @@ private:
     std::shared_ptr<Acceleration> acceleration;         //加速结构
 
     int light_num;              //内置类型要是不显式初始化的话会产生随机值
+    int geomID;                 //用于设置Shape的geomID
 
     //TODO：考虑acceleration
 };

@@ -15,9 +15,9 @@ public:
 
     //TODO：使用JSON文件传入cube信息
 
-    virtual bool rayIntersectShape(Ray &ray, Intersection &intersection) const override;
+    virtual bool rayIntersectShape(Ray &ray, int* primID, float *u, float *v) const override;
 
-    void fillIntersection(float t, int faceID, float u, float v, Intersection &intersection) const;
+    virtual void fillIntersection(float tFar, int primID, float u, float v, Intersection *intersection) const override;
 
     virtual void debugPrint() const override{
         std::cout << "<Cube>\nboxMin: ";

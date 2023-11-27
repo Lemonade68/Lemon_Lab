@@ -1,34 +1,18 @@
 #include"Scene.h"
 #include"CoreLayer/Math/Function.h"
 #include"FunctionLayer/Acceleration/BVH.h"
+#include"FunctionLayer/Acceleration/EmbreeBVH.h"
 
 //有了包围盒后新增：
 void Scene::buildSceneAcceleration(){
-    acceleration = std::make_shared<BVH>(shape_list, 1);   //获取物体列表
+    // acceleration = std::make_shared<BVH>(shape_list, 1);   //获取物体列表
+    acceleration = std::make_shared<EmbreeBVH>(shape_list);   //获取物体列表
     acceleration->build();      //构建BVH加速结构
 }
 
+//有了加速结构后的写法
 std::optional<Intersection> Scene::rayIntersect(Ray &ray) const{
-    //这里是没有加速结构时的写法
-    // bool hit = false, result = false;
-    // Intersection intersection;
-    // for (auto it = shape_list.begin(); it != shape_list.end(); ++it){
-    //     result = (*it)->rayIntersectShape(ray, intersection);       //场景中物体与光线求交
-    //     if(result)
-    //         hit = result;
-    // }
-    // if(!hit)
-    //     return std::nullopt;
-    // return std::make_optional(intersection);
-
-
-    //下面是有了加速结构的写法
-    Intersection intersection;
-    bool hit = acceleration->rayIntersect(ray, intersection);
-
-    if(!hit)
-        return std::nullopt;
-    return std::make_optional(intersection);
+    return acceleration->rayIntersect(ray);
 }
 
 //这里出现过segmentation fault

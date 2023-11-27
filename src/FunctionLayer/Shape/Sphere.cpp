@@ -11,7 +11,7 @@ Sphere::Sphere(Point3f o, float r, const std::shared_ptr<Material> &_material, c
     boundingBox = AABB(center - Vector3f(radius), center + Vector3f(radius));
 }
 
-bool Sphere::rayIntersectShape(Ray &ray, Intersection &intersection) const{
+bool Sphere::rayIntersectShape(Ray &ray, int *primID, float *u, float *v) const{
     // Point3f origin = ray.origin;
     // Vector3f direction = normalize(ray.direction);
     // Vector3f o2c = center - origin;
@@ -38,25 +38,10 @@ bool Sphere::rayIntersectShape(Ray &ray, Intersection &intersection) const{
     // }
 
     // if(hit){
+    //     *primID = 0;
     //     Vector3f normal = normalize(ray.at(ray.tFar) - center);
-    //     intersection.normal = normal;               //交点处法线
-    //     intersection.t = ray.tFar;                  //交点处对应t
-    //     intersection.position = ray.at(ray.tFar);   //交点位置
-    //     intersection.shape = this;                  //指向该物体
-
-    //     //TODO计算纹理坐标
-    //     get_sphere_uv(normal, intersection.texCoord);   //再看对不对
-
-    //     Vector3f tangent(1.f, .0f, .0f);
-    //     Vector3f bitangent;
-    //     if(std::abs(dot(tangent, normal)) > .9f)
-    //         tangent = Vector3f(.0f, 1.f, .0f);                  //防止两者平行导致的无法进行叉积
-    //     bitangent = normalize(cross(tangent, normal));
-    //     tangent = normalize(cross(normal, bitangent));
-        
-    //     //忘记加上赋值给intesection了
-    //     intersection.bitangent = bitangent;
-    //     intersection.tangent = tangent;
+    //     //计算重心坐标（phi，theta）
+    //     get_sphere_uv(normal, u, v);   //再看对不对
     // }
     // return hit;
 
@@ -79,26 +64,8 @@ bool Sphere::rayIntersectShape(Ray &ray, Intersection &intersection) const{
 		if (temp < ray.tFar && temp > ray.tNear) {
             ray.tFar = temp;        //更新光线信息
             Vector3f normal = normalize(ray.at(ray.tFar) - center);
-            intersection.normal = normal;               //交点处法线
-            intersection.t = temp;                      //交点处对应t
-            intersection.position = ray.at(ray.tFar);   //交点位置
-            intersection.shape = this;                  //指向该物体
-            
-            //TODO计算纹理坐标
-            get_sphere_uv(normal, intersection.texCoord);   //再看对不对
-		
-            //添加切线和副切线
-            Vector3f tangent(1.f, .0f, .0f);
-            Vector3f bitangent;
-            if(std::abs(dot(tangent, normal)) > .9f)
-                tangent = Vector3f(.0f, 1.f, .0f);                  //防止两者平行导致的无法进行叉积
-            bitangent = normalize(cross(tangent, normal));
-            tangent = normalize(cross(normal, bitangent));
-            
-            //忘记加上赋值给intesection了
-            intersection.bitangent = bitangent;
-            intersection.tangent = tangent;
-
+            get_sphere_uv(normal, u, v);            //计算重心坐标（其实就是phi和theta）
+            *primID = 0;
             return true;
 		}
         
@@ -106,37 +73,43 @@ bool Sphere::rayIntersectShape(Ray &ray, Intersection &intersection) const{
 		if (temp < ray.tFar && temp > ray.tNear) {
 			ray.tFar = temp;        //更新光线信息
             Vector3f normal = normalize(ray.at(ray.tFar) - center);
-            intersection.normal = normal;               //交点处法线
-            intersection.t = temp;                      //交点处对应t
-            intersection.position = ray.at(ray.tFar);   //交点位置
-            intersection.shape = this;                  //指向该物体
-
-            //TODO计算纹理坐标
-            get_sphere_uv(normal, intersection.texCoord);   //再看对不对
-
-            //添加切线和副切线
-            Vector3f tangent(1.f, .0f, .0f);
-            Vector3f bitangent;
-            if(std::abs(dot(tangent, normal)) > .9f)
-                tangent = Vector3f(.0f, 1.f, .0f);                  //防止两者平行导致的无法进行叉积
-            bitangent = normalize(cross(tangent, normal));
-            tangent = normalize(cross(normal, bitangent));
-
-            //忘记加上赋值给intesection了
-            intersection.bitangent = bitangent;
-            intersection.tangent = tangent;
-            
-			return true;
+            get_sphere_uv(normal, u, v);
+            *primID = 0;
+            return true;
 		}
 	}
 	return false;
 }
 
 
-void Sphere::get_sphere_uv(const Vector3f &normal, Vector2f &texCoord) const{
+//其中，u就是phi，v就是theta
+void Sphere::fillIntersection(float tFar, int primID, float u, float v, Intersection *intersection) const {
+    intersection->shape = this;
+    intersection->t = tFar;
+    Vector3f normal = Vector3f{std::sin(v) * std::sin(u), std::cos(v), std::sin(v) * std::cos(u)};
+    intersection->normal = normal;
+    intersection->position = center + radius * normal;
+    intersection->texCoord = Vector2f{u * INV_PI * .5f, v * INV_PI};    //将phi和theta变为[0,1]的范围
+    
+    Vector3f tangent{1.f, 0.f, .0f};
+    Vector3f bitangent;
+    if (std::abs(dot(tangent, intersection->normal)) > .9f) {
+        tangent = Vector3f(.0f, 1.f, .0f);
+    }
+    bitangent = normalize(cross(tangent, intersection->normal));
+    tangent = normalize(cross(intersection->normal, bitangent));
+    intersection->tangent = tangent;
+    intersection->bitangent = bitangent;
+}
+
+
+
+//计算重心坐标
+void Sphere::get_sphere_uv(const Vector3f &normal, float *u, float *v) const{
     auto phi = atan2(normal.x(), normal.z());   //坐标轴：x朝右，z朝前，y朝上   phi范围：-pi - pi
 	auto theta = acos(normal.y());				//theta范围：0 - pi
-	//将uv投影到[0,1]的区间上
-	texCoord.x = (phi + PI) / PI * .5;		    //先变到0到2pi上，再除以2pi	
-	texCoord.y = theta / PI;
+
+    //记录u/v，其实就是phi和theta(?)
+    *u = phi;
+    *v = theta;
 }

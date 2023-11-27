@@ -7,8 +7,8 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 project(Lemon_Lab LANGUAGES CXX)
 
-# set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/target/lib)    # 设置默认存放静态库的位置
-# set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/target/bin)    # 设置默认存放动态库的位置(和exe放在一起，这样exe运行时可以找到)
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/target/lib)    # 设置默认存放静态库的位置
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/target/bin)    # 设置默认存放动态库的位置(和exe放在一起，这样exe运行时可以找到)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/target/bin)    # 可执行文件位置
 
 # add_subdirectory(./src/CoreLayer/Math)
@@ -49,11 +49,29 @@ add_executable(Lemon_Lab
     src/FunctionLayer/Shape/Triangle.cpp
     src/ResourceLayer/Mesh.cpp
     src/FunctionLayer/Material/Conductor.cpp
-    src/FunctionLayer/Material/Dielectric.cpp)
+    src/FunctionLayer/Material/Dielectric.cpp
+    src/FunctionLayer/Acceleration/EmbreeBVH.cpp)
 
 target_include_directories(Lemon_Lab PUBLIC 
                                 ${PROJECT_SOURCE_DIR}/externals  
-                                ${PROJECT_SOURCE_DIR}/src)
+                                ${PROJECT_SOURCE_DIR}/src
+                                ${PROJECT_SOURCE_DIR}/externals/embree3)
+
+                                
+set(LIBS_PATH ${PROJECT_SOURCE_DIR}/libs/win)
+set(EMBREE_DLL &{LIBS_PATH}/embree3.dll ${LIBS_PATH}/tbb12.dll)
+
+# 非系统/环境变量中的动态库，需要提前指定dll文件的位置
+target_link_directories(Lemon_Lab PUBLIC ${LIBS_PATH})      # 链接embree3.dll 和 tbb12.dll
+
+
+# 似乎是将.dll文件复制到.exe文件所在的地方，但是加上后会有错误，因此先手动添加
+# add_custom_command(TARGET Lemon_Lab POST_BUILD
+#     DEPENDS ${LIBS_PATH}/embree3.dll
+#     COMMAND ${CMAKE_COMMAND} -E copy_if_different
+#     ${EMBREE_DLL} $<TARGET_FILE_DIR:Lemon_Lab>)
+
+target_link_libraries(Lemon_Lab PUBLIC embree3)
 
 # 链接上glm库(将其变成库形式链接)
 # find_package(glm REQUIRED)

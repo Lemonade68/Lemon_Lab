@@ -15,7 +15,9 @@ public:
                   const Vector3f &axis = Vector3f(.0f, 1.f, 0.f),
                   float radian = .0f);
 
-    virtual bool rayIntersectShape(Ray &ray, Intersection &interscetion) const override;
+    virtual bool rayIntersectShape(Ray &ray, int *primID, float *u, float *v) const override;
+
+    virtual void fillIntersection(float tFar, int primID, float u, float v, Intersection *intersection) const override;
 
     //TODO：当成光源时的采样函数
     virtual void uniformSampleOnSurface(Vector2f sample, Intersection &intersection, float &pdf) const override;

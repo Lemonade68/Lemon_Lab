@@ -86,7 +86,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>C:\Users\Lemonade\Desktop\Lemon_Lab\externals;C:\Users\Lemonade\Desktop\Lemon_Lab\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Lemonade\Desktop\Lemon_Lab\externals;C:\Users\Lemonade\Desktop\Lemon_Lab\src;C:\Users\Lemonade\Desktop\Lemon_Lab\externals\embree3;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
@@ -103,10 +103,10 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_DEBUG;_WINDOWS;CMAKE_INTDIR=\"Debug\"</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Users\Lemonade\Desktop\Lemon_Lab\externals;C:\Users\Lemonade\Desktop\Lemon_Lab\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Lemonade\Desktop\Lemon_Lab\externals;C:\Users\Lemonade\Desktop\Lemon_Lab\src;C:\Users\Lemonade\Desktop\Lemon_Lab\externals\embree3;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>C:\Users\Lemonade\Desktop\Lemon_Lab\externals;C:\Users\Lemonade\Desktop\Lemon_Lab\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Lemonade\Desktop\Lemon_Lab\externals;C:\Users\Lemonade\Desktop\Lemon_Lab\src;C:\Users\Lemonade\Desktop\Lemon_Lab\externals\embree3;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -114,12 +114,12 @@
       <ProxyFileName>%(Filename)_p.c</ProxyFileName>
     </Midl>
     <Link>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>embree3.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:/Users/Lemonade/Desktop/Lemon_Lab/libs/win;C:/Users/Lemonade/Desktop/Lemon_Lab/libs/win/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-      <ImportLibrary>C:/Users/Lemonade/Desktop/Lemon_Lab/build/Debug/Lemon_Lab.lib</ImportLibrary>
+      <ImportLibrary>C:/Users/Lemonade/Desktop/Lemon_Lab/target/lib/Debug/Lemon_Lab.lib</ImportLibrary>
       <ProgramDataBaseFile>C:/Users/Lemonade/Desktop/Lemon_Lab/target/bin/Debug/Lemon_Lab.pdb</ProgramDataBaseFile>
       <SubSystem>Console</SubSystem>
     </Link>
@@ -129,7 +129,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>C:\Users\Lemonade\Desktop\Lemon_Lab\externals;C:\Users\Lemonade\Desktop\Lemon_Lab\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Lemonade\Desktop\Lemon_Lab\externals;C:\Users\Lemonade\Desktop\Lemon_Lab\src;C:\Users\Lemonade\Desktop\Lemon_Lab\externals\embree3;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <ExceptionHandling>Sync</ExceptionHandling>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
@@ -146,10 +146,10 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR=\"Release\"</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Users\Lemonade\Desktop\Lemon_Lab\externals;C:\Users\Lemonade\Desktop\Lemon_Lab\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Lemonade\Desktop\Lemon_Lab\externals;C:\Users\Lemonade\Desktop\Lemon_Lab\src;C:\Users\Lemonade\Desktop\Lemon_Lab\externals\embree3;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>C:\Users\Lemonade\Desktop\Lemon_Lab\externals;C:\Users\Lemonade\Desktop\Lemon_Lab\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Lemonade\Desktop\Lemon_Lab\externals;C:\Users\Lemonade\Desktop\Lemon_Lab\src;C:\Users\Lemonade\Desktop\Lemon_Lab\externals\embree3;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -157,12 +157,12 @@
       <ProxyFileName>%(Filename)_p.c</ProxyFileName>
     </Midl>
     <Link>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>embree3.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:/Users/Lemonade/Desktop/Lemon_Lab/libs/win;C:/Users/Lemonade/Desktop/Lemon_Lab/libs/win/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-      <ImportLibrary>C:/Users/Lemonade/Desktop/Lemon_Lab/build/Release/Lemon_Lab.lib</ImportLibrary>
+      <ImportLibrary>C:/Users/Lemonade/Desktop/Lemon_Lab/target/lib/Release/Lemon_Lab.lib</ImportLibrary>
       <ProgramDataBaseFile>C:/Users/Lemonade/Desktop/Lemon_Lab/target/bin/Release/Lemon_Lab.pdb</ProgramDataBaseFile>
       <SubSystem>Console</SubSystem>
     </Link>
@@ -172,7 +172,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>C:\Users\Lemonade\Desktop\Lemon_Lab\externals;C:\Users\Lemonade\Desktop\Lemon_Lab\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Lemonade\Desktop\Lemon_Lab\externals;C:\Users\Lemonade\Desktop\Lemon_Lab\src;C:\Users\Lemonade\Desktop\Lemon_Lab\externals\embree3;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <ExceptionHandling>Sync</ExceptionHandling>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
@@ -189,10 +189,10 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR=\"MinSizeRel\"</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Users\Lemonade\Desktop\Lemon_Lab\externals;C:\Users\Lemonade\Desktop\Lemon_Lab\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Lemonade\Desktop\Lemon_Lab\externals;C:\Users\Lemonade\Desktop\Lemon_Lab\src;C:\Users\Lemonade\Desktop\Lemon_Lab\externals\embree3;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>C:\Users\Lemonade\Desktop\Lemon_Lab\externals;C:\Users\Lemonade\Desktop\Lemon_Lab\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Lemonade\Desktop\Lemon_Lab\externals;C:\Users\Lemonade\Desktop\Lemon_Lab\src;C:\Users\Lemonade\Desktop\Lemon_Lab\externals\embree3;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -200,12 +200,12 @@
       <ProxyFileName>%(Filename)_p.c</ProxyFileName>
     </Midl>
     <Link>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>embree3.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:/Users/Lemonade/Desktop/Lemon_Lab/libs/win;C:/Users/Lemonade/Desktop/Lemon_Lab/libs/win/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-      <ImportLibrary>C:/Users/Lemonade/Desktop/Lemon_Lab/build/MinSizeRel/Lemon_Lab.lib</ImportLibrary>
+      <ImportLibrary>C:/Users/Lemonade/Desktop/Lemon_Lab/target/lib/MinSizeRel/Lemon_Lab.lib</ImportLibrary>
       <ProgramDataBaseFile>C:/Users/Lemonade/Desktop/Lemon_Lab/target/bin/MinSizeRel/Lemon_Lab.pdb</ProgramDataBaseFile>
       <SubSystem>Console</SubSystem>
     </Link>
@@ -215,7 +215,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>C:\Users\Lemonade\Desktop\Lemon_Lab\externals;C:\Users\Lemonade\Desktop\Lemon_Lab\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Lemonade\Desktop\Lemon_Lab\externals;C:\Users\Lemonade\Desktop\Lemon_Lab\src;C:\Users\Lemonade\Desktop\Lemon_Lab\externals\embree3;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <ExceptionHandling>Sync</ExceptionHandling>
@@ -231,10 +231,10 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR=\"RelWithDebInfo\"</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Users\Lemonade\Desktop\Lemon_Lab\externals;C:\Users\Lemonade\Desktop\Lemon_Lab\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Lemonade\Desktop\Lemon_Lab\externals;C:\Users\Lemonade\Desktop\Lemon_Lab\src;C:\Users\Lemonade\Desktop\Lemon_Lab\externals\embree3;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>C:\Users\Lemonade\Desktop\Lemon_Lab\externals;C:\Users\Lemonade\Desktop\Lemon_Lab\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Lemonade\Desktop\Lemon_Lab\externals;C:\Users\Lemonade\Desktop\Lemon_Lab\src;C:\Users\Lemonade\Desktop\Lemon_Lab\externals\embree3;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -242,12 +242,12 @@
       <ProxyFileName>%(Filename)_p.c</ProxyFileName>
     </Midl>
     <Link>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>embree3.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:/Users/Lemonade/Desktop/Lemon_Lab/libs/win;C:/Users/Lemonade/Desktop/Lemon_Lab/libs/win/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-      <ImportLibrary>C:/Users/Lemonade/Desktop/Lemon_Lab/build/RelWithDebInfo/Lemon_Lab.lib</ImportLibrary>
+      <ImportLibrary>C:/Users/Lemonade/Desktop/Lemon_Lab/target/lib/RelWithDebInfo/Lemon_Lab.lib</ImportLibrary>
       <ProgramDataBaseFile>C:/Users/Lemonade/Desktop/Lemon_Lab/target/bin/RelWithDebInfo/Lemon_Lab.pdb</ProgramDataBaseFile>
       <SubSystem>Console</SubSystem>
     </Link>
@@ -341,6 +341,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClCompile Include="C:\Users\Lemonade\Desktop\Lemon_Lab\src\ResourceLayer\Mesh.cpp" />
     <ClCompile Include="C:\Users\Lemonade\Desktop\Lemon_Lab\src\FunctionLayer\Material\Conductor.cpp" />
     <ClCompile Include="C:\Users\Lemonade\Desktop\Lemon_Lab\src\FunctionLayer\Material\Dielectric.cpp" />
+    <ClCompile Include="C:\Users\Lemonade\Desktop\Lemon_Lab\src\FunctionLayer\Acceleration\EmbreeBVH.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="C:\Users\Lemonade\Desktop\Lemon_Lab\build\ZERO_CHECK.proj">

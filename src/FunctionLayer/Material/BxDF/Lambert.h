@@ -27,14 +27,14 @@ public:
         //Lambert材质出射方向与入射方向无关，因此传入的wo可以不用
         
         //Cosine权重采样（就是漫反射的重要性采样）
-        Vector3f wi = squareToCosineHemisphere(sampler->sampler2D());     //返回的是局部坐标下的
-        float pdf = squareToCosineHemispherePdf(wi);
+        Vector3f wiLocal = squareToCosineHemisphere(sampler->sampler2D());     //返回的是局部坐标下的
+        float pdf = squareToCosineHemispherePdf(wiLocal);
         
         //均匀采样
         // Vector3f wi = squareToUniformHemisphere(sample);
         // float pdf = squareToUniformHemispherePdf(wi);
 
-        return {albedo, toWorld(wi), pdf, BSDFType::Diffuse};
+        return {f(wo,toWorld(wiLocal)) / pdf, toWorld(wiLocal), pdf, BSDFType::Diffuse};
     }
 
 private:

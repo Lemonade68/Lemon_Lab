@@ -19,7 +19,7 @@ Parallelogram::Parallelogram(const Point3f &p, const Vector3f &e1, const Vector3
         boundingBox.Expand(vertices[i]);
 }
 
-bool Parallelogram::rayIntersectShape(Ray &ray, Intersection &intersection) const{
+bool Parallelogram::rayIntersectShape(Ray &ray, int *primID, float *u, float *v) const{
     Point3f origin = ray.origin;
     Vector3f direction = ray.direction;
     Vector3f Paral_normal = normalize(cross(edge0, edge1));      //平行四边形法线
@@ -37,7 +37,7 @@ bool Parallelogram::rayIntersectShape(Ray &ray, Intersection &intersection) cons
     if(abs(denom) < 1e-6f)  //如果法向量和光方向正交，无交点
         return false;
     float t = dot(base - origin, Paral_normal) / denom;
-    if(t < 0)       //小于0说明光的方向不射向平面 
+    if(t < 0)               //小于0说明光的方向不射向平面 
         return false;
     //=================================================
 
@@ -68,22 +68,15 @@ bool Parallelogram::rayIntersectShape(Ray &ray, Intersection &intersection) cons
              n3 = normalize(cross(p2_p0, p2_h)),
              n4 = normalize(cross(p0_b, p0_h));
 
-    //精度问题
+    //精度问题(==见运算符重载定义)
     if((n1 == n2) && (n1 == n3) && (n1 == n4)){
         ray.tFar = t;
-        intersection.shape = this;
-        intersection.normal = Paral_normal;
-        intersection.position = hitpoint;
-        intersection.tangent = normalize(edge0);
-        intersection.bitangent = normalize(cross(intersection.tangent, intersection.normal));
-
         Vector3f e0_norm = normalize(edge0),
                  e1_norm = normalize(edge1),
                  hitpoint2base = hitpoint - base;
-        float u = dot(hitpoint2base, e0_norm) / edge0.length(),
-              v = dot(hitpoint2base, e1_norm) / edge1.length();
-        intersection.texCoord = Vector2f(u, v);     // 纹理坐标再说(待完善)
-
+        *u = dot(hitpoint2base, e0_norm) / edge0.length();
+        *v = dot(hitpoint2base, e1_norm) / edge1.length();
+        *primID = 0;
         return true;
     }
 
@@ -111,17 +104,25 @@ bool Parallelogram::rayIntersectShape(Ray &ray, Intersection &intersection) cons
 
     // if (0.f <= u_ && u_ <= 1.f && 0.f <= v_ && v_ <= 1.f) {
     //     ray.tFar = t;
-    //     intersection.shape = this;
-    //     intersection.normal = normalize(cross(edge0, edge1));
-    //     intersection.position = base + u_ * edge0 + v_ * edge1;
-    //     intersection.tangent = normalize(edge0);
-    //     intersection.bitangent = normalize(cross(intersection.tangent, intersection.normal));
-    //     intersection.texCoord = Vector2f(u_, v_);  //纹理坐标再说(待完善)
+    //     *primID = 0;
+    //     *u = u_;
+    //     *v = v_;
     //     return true;
     // }
 
     // return false;
 }
+
+void Parallelogram::fillIntersection(float tFar, int primID, float u, float v, Intersection *intersection) const {
+    intersection->shape = this;
+    intersection->t = tFar;
+    intersection->position = base + u * edge0 + v * edge1;
+    intersection->normal = normalize(cross(edge0, edge1));
+    intersection->texCoord = Vector2f{u, v};
+    intersection->tangent = normalize(edge0);
+    intersection->bitangent = normalize(cross(intersection->tangent, intersection->normal));
+}
+
 
 
 void Parallelogram::uniformSampleOnSurface(Vector2f sample, Intersection &intersection, float &pdf) const{
