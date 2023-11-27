@@ -74,7 +74,7 @@
 - [ ] scene(目前使用的是std::vector\<std::shared_ptr\<Shape>> Shape_list 的Scene类)
   - [ ] 加速结构（后续改进为该结构的Scene）
     - [x] BVH
-    - [ ] EmbreeBVH
+    - [x] EmbreeBVH
     - [ ] Octree
 - [ ] filter
 - [ ] medium
@@ -95,4 +95,4 @@ TODO：Sphere的旋转（应该是在构造函数添加即可，不对，需要�
 
 
 
-Embree实现：intersection中直接添加primID，看是否可行；rayIntersectShape参数更改，uv的记录；triangle mesh的内部构造那边shapelist有问题
+Embree实现：intersection中直接添加primID，看是否可行；rayIntersectShape参数更改，uv的记录；triangle mesh的内部构造那边shapelist有问题（直接使用Shape中的默认getRTCGeometry方法）
