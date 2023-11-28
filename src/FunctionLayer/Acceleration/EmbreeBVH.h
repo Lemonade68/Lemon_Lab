@@ -3,21 +3,29 @@
 #include"Acceleration.h"
 #include"embree3/rtcore.h"
 
+inline void errorFunction(void *userPtr, enum RTCError error, const char *str){
+    std::cerr << "error " << error << ": " << str << std::endl;
+}
+
 class EmbreeBVH : public Acceleration{
 public:
     EmbreeBVH(): Acceleration(){
         //初始化embree
         device = rtcNewDevice(nullptr);
+        rtcSetDeviceErrorFunction(device, errorFunction, NULL);
         scene = rtcNewScene(device);
     }
 
     EmbreeBVH(const std::vector<std::shared_ptr<Shape>> &_shapeList) : Acceleration(_shapeList) { 
         //初始化Embree
         device = rtcNewDevice(nullptr);
+        rtcSetDeviceErrorFunction(device, errorFunction, NULL);
         scene = rtcNewScene(device);
     }
 
     virtual ~EmbreeBVH() = default;
+
+
 
     virtual void build() override;
 

@@ -27,6 +27,8 @@ Triangle::Triangle(int _primID, int _vtx0Idx, int _vtx1Idx, int _vtx2Idx, const 
 
 //算法来源：Moer-lite      u,v为三角形的重心坐标中的两个数
 bool Triangle::rayIntersectShape(Ray &ray, int *primID, float *u, float *v) const {
+    // std::cerr << "1";        //使用embree时不会使用该函数（TriangleMesh中的geometry是内置三角形类型，不是user类型）
+
     Point3f origin = ray.origin;
     Vector3f direction = ray.direction;
 
@@ -78,6 +80,34 @@ void Triangle::fillIntersection(float tFar, int primID, float u, float v, Inters
 }
 
 
+// //单个三角形与光线求交算法
+// //见 https://github.com/embree/embree/blob/master/tutorials/minimal/minimal.cpp
+// RTCGeometry Triangle::getEmbreeGeometry(RTCDevice device) const {
+//     //由于Embree中自带三角形求交算法，因此这里不使用RTC_GEOMETRY_TYPE_USER
+//     RTCGeometry geometry = rtcNewGeometry(device, RTC_GEOMETRY_TYPE_TRIANGLE);
+
+//     float *vertices = (float *)rtcSetNewGeometryBuffer(geometry, RTC_BUFFER_TYPE_VERTEX,
+//                                                            0, RTC_FORMAT_FLOAT3, 3 * sizeof(float),
+//                                                            3);
+//     for (int i = 0; i < 3; ++i){
+//         Point3f vertex = transform.toWorld(meshData->vertexBuffer[i]);
+//         vertices[3 * i] = vertex[0];
+//         vertices[3 * i + 1] = vertex[1];
+//         vertices[3 * i + 2] = vertex[2];     
+//     }
+
+//     unsigned *indices = (unsigned *)rtcSetNewGeometryBuffer(geometry, RTC_BUFFER_TYPE_INDEX,
+//                                                                 0, RTC_FORMAT_UINT3, 3 * sizeof(unsigned),
+//                                                                 1);
+//     indices[0] = 0;
+//     indices[1] = 1;
+//     indices[2] = 2;
+
+//     rtcCommitGeometry(geometry);
+//     return geometry;
+// }
+
+
 //直接在内部的加速结构中进行查找
 //实际上当使用embree的时候，会使用内部的求交方法，这个方法不会被调用
 bool TriangleMesh::rayIntersectShape(Ray &ray, int *primID, float *u, float *v) const {
@@ -86,6 +116,7 @@ bool TriangleMesh::rayIntersectShape(Ray &ray, int *primID, float *u, float *v) 
 }
 
 
+//使用Embree时，接受获取的信息，填充到intersection中
 void TriangleMesh::fillIntersection(float tFar, int primID, float u, float v, Intersection *intersection) const{
     intersection->t = tFar;
     intersection->shape = this;
@@ -138,6 +169,8 @@ void TriangleMesh::fillIntersection(float tFar, int primID, float u, float v, In
 
 
 //这里暂时手动切换使用BVH还是EmbreeBVH
+//当使用Embree时，这个函数实际上没啥作用，因为整个模型是被当做内置的三角形类型进行求交的
+//这里的作用主要是给BVH与其他加速结构使用（哪怕外部使用的是embree，这里写成bvh也没问题）
 void TriangleMesh::initInternalAcceleration() {
     // innerAcceleration = std::make_shared<BVH>(maxLeafSize);     //内部加速结构为叶子结点最大数为maxLeafSize的bvh
     innerAcceleration = std::make_shared<EmbreeBVH>();
@@ -157,7 +190,7 @@ void TriangleMesh::initInternalAcceleration() {
 }
 
 
-//在使用TriangleMesh的embree时，直接使用embree内置的求交算法，不会使用自己的求交函数
+//在使用TriangleMesh的embree时，直接使用embree内置的求交算法，不会使用自己的求交函数（即Triangle和TriangleMesh的求交方法都不会用）
 RTCGeometry TriangleMesh::getEmbreeGeometry(RTCDevice device) const {
     //由于Embree中自带三角形求交算法，因此这里不使用RTC_GEOMETRY_TYPE_USER
     RTCGeometry geometry = rtcNewGeometry(device, RTC_GEOMETRY_TYPE_TRIANGLE);
@@ -165,22 +198,24 @@ RTCGeometry TriangleMesh::getEmbreeGeometry(RTCDevice device) const {
     float *vertexBuffer = (float *)rtcSetNewGeometryBuffer(geometry, RTC_BUFFER_TYPE_VERTEX,
                                                            0, RTC_FORMAT_FLOAT3, 3 * sizeof(float),
                                                            meshData->vertexCount);
+    //vertexBuffer是xyz坐标分开记录的
     for (int i = 0; i < meshData->vertexCount; ++i){
         Point3f vertex = transform.toWorld(meshData->vertexBuffer[i]);
-        vertexBuffer[3 * i] = vertex[0];
-        vertexBuffer[3 * i + 1] = vertex[1];
-        vertexBuffer[3 * i + 2] = vertex[2];     
+        vertexBuffer[3 * i] = vertex[0];        //x
+        vertexBuffer[3 * i + 1] = vertex[1];    //y
+        vertexBuffer[3 * i + 2] = vertex[2];    //z
     }
 
     unsigned *indexBuffer = (unsigned *)rtcSetNewGeometryBuffer(geometry, RTC_BUFFER_TYPE_INDEX,
                                                                 0, RTC_FORMAT_UINT3, 3 * sizeof(unsigned),
                                                                 meshData->faceCount);
+    //indexBuffer是逐顶点记录的
     for (int i = 0; i < meshData->faceCount; ++i) {
         indexBuffer[i * 3] = meshData->faceBuffer[i][0].vertexIndex;
         indexBuffer[i * 3 + 1] = meshData->faceBuffer[i][1].vertexIndex;
         indexBuffer[i * 3 + 2] = meshData->faceBuffer[i][2].vertexIndex;
     }
 
-    rtcCommitGeometry(geometry);
+    rtcCommitGeometry(geometry);    //setting up geometries后必须commit
     return geometry;
 }

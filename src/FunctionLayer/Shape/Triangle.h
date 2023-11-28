@@ -26,6 +26,10 @@ public:
 
     virtual void debugPrint() const override { /*TODO*/ }
 
+    //* 单个三角形求交算法
+    // virtual RTCGeometry getEmbreeGeometry(RTCDevice device) const override;
+
+
 private:
     int primID;     //图元号（在mesh中）
     int vertex0Index, vertex1Index, vertex2Index;
@@ -69,11 +73,12 @@ public:
     }
 
     //由于triangle mesh含有多个primitives且为内置类型，因此需要重新定义getEmbreeGeometry函数，
-    //且求交也由embree内部完成
+    //且求交也由embree内部完成，从而在使用embree时，其他所有三角形有关操作全部由Embree借助该函数提供的信息完成
+    //其他所有相关函数失效
     virtual RTCGeometry getEmbreeGeometry(RTCDevice device) const override;
 
 private:
-    int maxLeafSize;
+    int maxLeafSize;            //供BVH使用
     std::shared_ptr<Acceleration> innerAcceleration;      //默认使用bvh的内部加速结构
     std::shared_ptr<MeshData> meshData;
 };

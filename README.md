@@ -96,3 +96,5 @@ TODO：Sphere的旋转（应该是在构造函数添加即可，不对，需要�
 
 
 Embree实现：intersection中直接添加primID，看是否可行；rayIntersectShape参数更改，uv的记录；triangle mesh的内部构造那边shapelist有问题（直接使用Shape中的默认getRTCGeometry方法）
+
+再思考：是否可以直接用UserRayHit的intersection来接受相交信息？因为TriangleMesh似乎并不直接求交，而是声明了该几何体内部有哪些三角形
